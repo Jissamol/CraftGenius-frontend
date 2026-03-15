@@ -1,0 +1,267 @@
+.cust-home {
+    animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Hero */
+.cust-hero {
+    padding: 48px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    background: var(--accent-gradient) !important;
+    color: #fff;
+}
+
+.cust-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    margin: 0 0 10px;
+}
+
+.cust-hero p {
+    font-size: 16px;
+    opacity: 0.9;
+    margin: 0 0 20px;
+}
+
+.cust-hero .cust-btn-primary {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.cust-hero-art {
+    font-size: 64px;
+    flex-shrink: 0;
+}
+
+/* Section */
+.cust-home-section {
+    margin-bottom: 32px;
+}
+
+.cust-home-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.cust-home-section-header h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.cust-home-scroll-btns {
+    display: flex;
+    gap: 6px;
+}
+
+.cust-home-scroll-btns button {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: all 0.2s;
+}
+
+.cust-home-scroll-btns button:hover {
+    background: var(--hover-bg-strong);
+}
+
+.cust-home-scroll {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+}
+
+.cust-home-scroll::-webkit-scrollbar {
+    height: 4px;
+}
+
+.cust-home-scroll::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+}
+
+/* Product Card */
+.cust-home-card {
+    min-width: 240px;
+    width: 240px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.cust-home-card:hover {
+    transform: translateY(-6px);
+}
+
+.cust-home-card-img {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+    border-radius: 20px 20px 0 0;
+}
+
+.cust-home-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+}
+
+.cust-home-card:hover .cust-home-card-img img {
+    transform: scale(1.08);
+}
+
+.cust-home-card-placeholder {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    background: var(--hover-bg);
+}
+
+.cust-quick-add {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 6px 14px;
+    border-radius: 10px;
+    background: var(--accent-gradient);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.3s;
+}
+
+.cust-home-card:hover .cust-quick-add {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cust-home-card-body {
+    padding: 14px 16px;
+}
+
+.cust-home-card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cust-home-card-seller {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin: 0 0 8px;
+}
+
+.cust-home-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cust-home-card-price {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 15px;
+}
+
+.cust-home-card-rating {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.cust-home-empty {
+    color: var(--text-muted);
+    font-size: 14px;
+    padding: 40px;
+}
+
+@media (max-width: 768px) {
+    .cust-hero {
+        flex-direction: column;
+        padding: 32px 20px;
+        text-align: center;
+        margin-bottom: 24px;
+        border-radius: 16px;
+    }
+
+    .cust-hero h1 {
+        font-size: 26px;
+        line-height: 1.3;
+    }
+
+    .cust-hero p {
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+
+    .cust-hero-art {
+        margin-top: 20px;
+        font-size: 44px;
+    }
+
+    .cust-home-card {
+        min-width: 190px;
+        width: 190px;
+    }
+
+    .cust-home-section-header h3 {
+        font-size: 18px;
+    }
+
+    .cust-home-scroll {
+        gap: 12px;
+        padding-bottom: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cust-hero h1 {
+        font-size: 22px;
+    }
+
+    .cust-home-card {
+        min-width: 160px;
+        width: 160px;
+    }
+
+    .cust-home-card-img {
+        height: 140px;
+    }
+}

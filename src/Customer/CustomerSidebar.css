@@ -1,0 +1,111 @@
+.cust-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    background: var(--sidebar-bg);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 20px 14px;
+    z-index: 100;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cust-sidebar.collapsed {
+    width: 72px;
+}
+
+.cust-sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 14px 24px;
+}
+
+.cust-logo-icon {
+    font-size: 28px;
+}
+
+.cust-logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    white-space: nowrap;
+}
+
+.cust-sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cust-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.25s;
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.cust-nav-item:hover {
+    background: var(--hover-bg-strong);
+    color: var(--text-primary);
+}
+
+.cust-nav-item.active {
+    background: var(--accent-gradient);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+
+.cust-nav-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    width: 24px;
+    text-align: center;
+}
+
+.cust-nav-label {
+    white-space: nowrap;
+}
+
+.cust-logout {
+    margin-top: auto;
+}
+
+@media (max-width: 768px) {
+    .cust-sidebar {
+        left: 0;
+        transform: translateX(0);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
+        width: 280px;
+    }
+
+    .cust-sidebar.collapsed {
+        transform: translateX(-100%);
+    }
+
+    .cust-nav-item.active {
+        width: 100%;
+    }
+}

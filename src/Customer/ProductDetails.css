@@ -1,0 +1,347 @@
+.cust-pd {
+    animation: fadeInUp 0.5s ease;
+}
+
+.cust-pd-back {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 16px;
+    padding: 0;
+}
+
+/* Main */
+.cust-pd-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    padding: 30px;
+    margin-bottom: 24px;
+}
+
+
+.cust-pd-img-main {
+
+    border-radius: 16px;
+    overflow: hidden;
+    height: 400px;
+    background: var(--hover-bg);
+}
+
+.cust-pd-img-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+}
+
+.cust-pd-img-main:hover img {
+    transform: scale(1.05);
+}
+
+.cust-pd-img-placeholder {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+}
+
+.cust-pd-thumbs {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.cust-pd-thumb {
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+    opacity: 0.6;
+}
+
+.cust-pd-thumb.active,
+.cust-pd-thumb:hover {
+    border-color: var(--accent);
+    opacity: 1;
+}
+
+.cust-pd-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.cust-pd-category {
+
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 8px;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.cust-pd-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    margin: 0 0 6px;
+    color: var(--text-primary);
+}
+
+.cust-pd-seller {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0 0 10px;
+}
+
+.cust-pd-meta {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.cust-pd-price {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 6px;
+}
+
+.cust-pd-stock {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0 0 12px;
+}
+
+.cust-pd-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.cust-pd-tag {
+    padding: 4px 10px;
+    border-radius: 8px;
+    background: var(--hover-bg-strong);
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.cust-pd-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.cust-pd-qty {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.cust-pd-qty button {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: var(--hover-bg);
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--text-primary);
+}
+
+.cust-pd-qty button:hover {
+    background: var(--hover-bg-strong);
+}
+
+.cust-pd-qty span {
+    width: 40px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+/* Tabs */
+.cust-pd-tabs {
+    padding: 24px 30px;
+    margin-bottom: 24px;
+}
+
+.cust-pd-tab-header {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+}
+
+.cust-pd-tab-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 10px;
+    background: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.cust-pd-tab-btn.active {
+    background: var(--accent-gradient);
+    color: #fff;
+}
+
+.cust-pd-tab-content {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.cust-pd-desc {
+    margin: 0;
+}
+
+.cust-pd-no-reviews {
+    color: var(--text-muted);
+}
+
+.cust-pd-review-item {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.cust-pd-review-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.cust-pd-review-item p {
+    margin: 0;
+}
+
+.cust-pd-seller-reply {
+    margin-top: 8px;
+    padding: 10px 14px;
+    background: var(--hover-bg);
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+/* Similar */
+.cust-pd-similar {
+    margin-bottom: 24px;
+}
+
+.cust-pd-similar h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 16px;
+}
+
+.cust-pd-similar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.cust-pd-similar-card {
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.cust-pd-similar-card:hover {
+    transform: translateY(-4px);
+}
+
+.cust-pd-similar-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+.cust-pd-similar-body {
+    padding: 12px;
+}
+
+.cust-pd-similar-body h4 {
+    font-size: 14px;
+    margin: 0 0 4px;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cust-pd-similar-body span {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 15px;
+}
+
+@media (max-width: 768px) {
+    .cust-pd-main {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 16px;
+    }
+
+    .cust-pd-img-main {
+        height: 300px;
+    }
+
+    .cust-pd-title {
+        font-size: 24px;
+    }
+
+    .cust-pd-price {
+        font-size: 26px;
+    }
+
+    .cust-pd-tabs {
+        padding: 16px;
+    }
+
+    .cust-pd-tab-header {
+        overflow-x: auto;
+        padding-bottom: 8px;
+        gap: 4px;
+    }
+
+    .cust-pd-tab-btn {
+        padding: 6px 14px;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .cust-pd-similar-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+    }
+
+    .cust-pd-similar-card img {
+        height: 120px;
+    }
+}
