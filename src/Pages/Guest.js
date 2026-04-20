@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Sparkles, Menu, X, ArrowUpRight } from "lucide-react";
 import { FaInstagram, FaPinterestP } from "react-icons/fa";
 
@@ -42,6 +42,24 @@ const featuredItems = [
     tag: "One of a kind",
     image: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=900&q=90",
   },
+  {
+    id: 4,
+    name: "Hand-Carved Wooden Tray",
+    artisan: "Arjun Mistry",
+    location: "Saharanpur, UP",
+    price: "₹1,850",
+    tag: "Hand carved",
+    image: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=900&q=90",
+  },
+  {
+    id: 5,
+    name: "Indigo Block-Print Textile",
+    artisan: "Kavita Sharma",
+    location: "Bagru, Rajasthan",
+    price: "₹2,600",
+    tag: "Limited edition",
+    image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=900&q=90",
+  },
 ];
 
 const categories = [
@@ -54,13 +72,31 @@ const categories = [
 
 // ─── MARQUEE ─────────────────────────────────────────────────────────────────
 
+function Reveal({ children, className = "", delay = 0 }) {
+  const shouldReduceMotion = useReducedMotion();
+
+  return (
+    <motion.div
+      className={className}
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
+      whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 function Marquee() {
   const track = [...marqueeItems, ...marqueeItems];
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <div className="w-full overflow-hidden bg-[#1F1F1F] py-2.5">
       <motion.div
         className="flex whitespace-nowrap"
-        animate={{ x: ["0%", "-50%"] }}
+        animate={shouldReduceMotion ? { x: 0 } : { x: ["0%", "-50%"] }}
         transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
       >
         {track.map((item, i) => (
@@ -99,9 +135,9 @@ function Navbar() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8 text-xs font-semibold uppercase tracking-widest text-gray-500">
-            <button className="hover:text-[#1F1F1F] transition-colors">Shop</button>
-            <button className="hover:text-[#1F1F1F] transition-colors">Artisans</button>
-            <button className="hover:text-[#1F1F1F] transition-colors">About</button>
+            <a href="#featured" className="hover:text-[#1F1F1F] transition-colors">Shop</a>
+            <a href="#artisans" className="hover:text-[#1F1F1F] transition-colors">Artisans</a>
+            <a href="#about" className="hover:text-[#1F1F1F] transition-colors">About</a>
           </nav>
 
           {/* Actions */}
@@ -112,7 +148,12 @@ function Navbar() {
               </Link>
               
             </div>
-            <button className="md:hidden text-[#1F1F1F]" onClick={() => setOpen(true)}>
+            <button
+              className="md:hidden text-[#1F1F1F]"
+              onClick={() => setOpen(true)}
+              aria-label="Open navigation menu"
+              aria-expanded={open}
+            >
               <Menu className="w-5 h-5" />
             </button>
           </div>
@@ -120,9 +161,16 @@ function Navbar() {
       </div>
 
       {/* Mobile Drawer */}
-      {open && (
+      <AnimatePresence>
+        {open && (
         <div className="fixed inset-0 z-[60] flex">
-          <div className="flex-1 bg-black/30" onClick={() => setOpen(false)} />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="flex-1 bg-black/30"
+            onClick={() => setOpen(false)}
+          />
           <motion.div
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
@@ -130,13 +178,13 @@ function Navbar() {
             transition={{ type: "tween", duration: 0.25 }}
             className="w-72 bg-[#F7F6F2] h-full flex flex-col p-8"
           >
-            <button onClick={() => setOpen(false)} className="mb-10 self-end text-gray-500">
+            <button onClick={() => setOpen(false)} className="mb-10 self-end text-gray-500" aria-label="Close navigation menu">
               <X className="w-5 h-5" />
             </button>
             <nav className="flex flex-col gap-6 text-2xl font-black tracking-tight text-[#1F1F1F]" style={{ fontFamily: "'Georgia', serif" }}>
-              <button className="text-left">Shop</button>
-              <button className="text-left">Artisans</button>
-              <button className="text-left">About</button>
+              <a href="#featured" className="text-left" onClick={() => setOpen(false)}>Shop</a>
+              <a href="#artisans" className="text-left" onClick={() => setOpen(false)}>Artisans</a>
+              <a href="#about" className="text-left" onClick={() => setOpen(false)}>About</a>
             </nav>
             <div className="mt-auto flex flex-col gap-3">
               <Link to="/login" className="text-center border border-[#1F1F1F] py-3 text-sm font-semibold">Sign In</Link>
@@ -144,7 +192,8 @@ function Navbar() {
             </div>
           </motion.div>
         </div>
-      )}
+        )}
+      </AnimatePresence>
     </>
   );
 }
@@ -171,10 +220,12 @@ function Hero() {
             <p className="text-base text-gray-500 max-w-xs mb-10 leading-relaxed">
               Every piece on CraftGenius is handmade by a real person, in a real place, using a skill passed down for generations.
             </p>
-            <Link to="/register" className="inline-flex items-center gap-2 bg-[#1F1F1F] text-white text-sm font-bold px-7 py-3.5 hover:bg-[#3B2B25] transition-colors group">
+            <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} className="inline-flex">
+              <Link to="/register" className="inline-flex items-center gap-2 bg-[#1F1F1F] text-white text-sm font-bold px-7 py-3.5 hover:bg-[#3B2B25] transition-colors group">
               Start Exploring
               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </Link>
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
 
@@ -192,10 +243,15 @@ function Hero() {
             className="w-full h-full object-cover"
           />
           {/* Floating stat card */}
-          <div className="absolute bottom-6 left-6 bg-[#F7F6F2] px-5 py-4 shadow-xl">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.5 }}
+            className="absolute bottom-6 left-6 bg-[#F7F6F2] px-5 py-4 shadow-xl"
+          >
             <p className="text-3xl font-black text-[#1F1F1F]" style={{ fontFamily: "'Georgia', serif" }}>1,200+</p>
             <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mt-0.5">Verified Artisans</p>
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* ── Bottom Strip: accent cards */}
@@ -205,10 +261,15 @@ function Hero() {
             { val: "28", label: "States covered" },
             { val: "100%", label: "Handmade guarantee" },
           ].map((s) => (
-            <div key={s.val} className="border border-gray-200 bg-white px-5 py-5">
+            <motion.div
+              key={s.val}
+              whileHover={{ y: -4, borderColor: "#C9B49A" }}
+              transition={{ duration: 0.2 }}
+              className="border border-gray-200 bg-white px-5 py-5"
+            >
               <p className="text-2xl font-black text-[#1F1F1F]" style={{ fontFamily: "'Georgia', serif" }}>{s.val}</p>
               <p className="text-xs text-gray-500 mt-1 uppercase tracking-widest font-medium">{s.label}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -220,8 +281,8 @@ function Hero() {
 
 function FeaturedPicks() {
   return (
-    <section className="py-24 px-5 lg:px-10 max-w-screen-2xl mx-auto">
-      <div className="flex items-baseline justify-between mb-12">
+    <section id="featured" className="py-24 px-5 lg:px-10 max-w-screen-2xl mx-auto scroll-mt-20">
+      <Reveal className="flex items-baseline justify-between mb-12">
         <div>
           <h2 className="text-3xl font-black text-[#1F1F1F]" style={{ fontFamily: "'Georgia', serif" }}>
             Featured Picks
@@ -231,7 +292,7 @@ function FeaturedPicks() {
         <Link to="/login" className="text-xs font-bold uppercase tracking-widest text-[#1F1F1F] border-b border-[#1F1F1F] pb-0.5 hover:text-[#6B5A4B] hover:border-[#6B5A4B] transition-colors">
           See all
         </Link>
-      </div>
+      </Reveal>
 
       {/* Asymmetric 3-column mosaic */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -260,7 +321,7 @@ function FeaturedPicks() {
           </div>
         </motion.div>
 
-        {/* Two smaller items on the right */}
+        {/* Supporting pieces in a balanced two-row grid */}
         {featuredItems.slice(1).map((item, i) => (
           <motion.div
             key={item.id}
@@ -353,7 +414,7 @@ function Categories() {
 
 function ArtisanBanner() {
   return (
-    <section className="w-full bg-[#1F1F1F] overflow-hidden">
+    <section id="artisans" className="w-full bg-[#1F1F1F] overflow-hidden scroll-mt-20">
       <div className="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-2">
         {/* Image */}
         <div className="relative overflow-hidden" style={{ minHeight: 400 }}>
@@ -386,7 +447,7 @@ function ArtisanBanner() {
 
 function Footer() {
   return (
-    <footer className="bg-[#F7F6F2] border-t border-gray-200">
+    <footer id="about" className="bg-[#F7F6F2] border-t border-gray-200 scroll-mt-20">
       <div className="max-w-screen-2xl mx-auto px-5 lg:px-10 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
         {/* Brand */}
         <div className="col-span-2">
@@ -438,7 +499,7 @@ function Footer() {
 
 export default function Guest() {
   return (
-    <div className="min-h-screen bg-[#F7F6F2] text-[#1F1F1F] overflow-x-hidden">
+    <div className="min-h-screen my-6 mx-4 md:mx-8 lg:mx-12 bg-[#F7F6F2] text-[#1F1F1F] overflow-x-hidden">
       <Marquee />
       <Navbar />
       <Hero />
