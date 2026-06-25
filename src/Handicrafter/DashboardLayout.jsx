@@ -18,7 +18,7 @@ function DashboardLayout() {
     };
 
     return (
-        <div className={`flex h-screen overflow-hidden font-sans ${darkMode ? 'bg-gray-950' : 'bg-[#F8F9FC]'}`}>
+        <div className={`flex h-screen overflow-hidden font-sans ${darkMode ? 'bg-gray-950' : 'bg-[#F5F3EF]'}`}>
 
             {/* Mobile overlay */}
             {mobileSidebarOpen && (
