@@ -5,7 +5,7 @@ import {
     XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
 
-const COLORS = ['#6c5ce7', '#a29bfe', '#fd79a8', '#00b894', '#0984e3', '#e17055', '#f39c12', '#27ae60'];
+const COLORS = ['#8a6a55', '#c9a98f', '#9a6870', '#6f8790', '#5f8068', '#a56b4f', '#927b62', '#756f68'];
 
 function Analytics() {
     const [data, setData] = useState(null);
@@ -51,8 +51,8 @@ function Analytics() {
                         <AreaChart data={data.revenue_data} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
                             <defs>
                                 <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#6c5ce7" stopOpacity={0.3} />
-                                    <stop offset="95%" stopColor="#6c5ce7" stopOpacity={0} />
+                                    <stop offset="5%" stopColor="#8a6a55" stopOpacity={0.3} />
+                                    <stop offset="95%" stopColor="#8a6a55" stopOpacity={0} />
                                 </linearGradient>
                             </defs>
                             <CartesianGrid strokeDasharray="3 3" stroke="var(--admin-border)" />
@@ -61,7 +61,7 @@ function Analytics() {
                             />
                             <YAxis tick={{ fill: 'var(--admin-text-secondary)', fontSize: 11 }} />
                             <Tooltip contentStyle={{ background: 'var(--admin-surface-solid)', border: '1px solid var(--admin-border)', borderRadius: 12 }} />
-                            <Area type="monotone" dataKey="revenue" stroke="#6c5ce7" fill="url(#revenueGrad)" strokeWidth={2} name="Revenue (₹)" />
+                            <Area type="monotone" dataKey="revenue" stroke="#8a6a55" fill="url(#revenueGrad)" strokeWidth={2} name="Revenue (₹)" />
                         </AreaChart>
                     </ResponsiveContainer>
                 </div>
@@ -77,7 +77,7 @@ function Analytics() {
                             />
                             <YAxis tick={{ fill: 'var(--admin-text-secondary)', fontSize: 11 }} />
                             <Tooltip contentStyle={{ background: 'var(--admin-surface-solid)', border: '1px solid var(--admin-border)', borderRadius: 12 }} />
-                            <Bar dataKey="count" fill="#a29bfe" radius={[6, 6, 0, 0]} name="Orders" />
+                            <Bar dataKey="count" fill="#c9a98f" radius={[3, 3, 0, 0]} name="Orders" />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
@@ -95,7 +95,7 @@ function Analytics() {
                             />
                             <YAxis tick={{ fill: 'var(--admin-text-secondary)', fontSize: 11 }} />
                             <Tooltip contentStyle={{ background: 'var(--admin-surface-solid)', border: '1px solid var(--admin-border)', borderRadius: 12 }} />
-                            <Line type="monotone" dataKey="count" stroke="#00b894" strokeWidth={2.5} dot={{ r: 4, fill: '#00b894' }} name="New Users" />
+                            <Line type="monotone" dataKey="count" stroke="#6f8790" strokeWidth={2.5} dot={{ r: 4, fill: '#6f8790' }} name="New Users" />
                         </LineChart>
                     </ResponsiveContainer>
                 </div>

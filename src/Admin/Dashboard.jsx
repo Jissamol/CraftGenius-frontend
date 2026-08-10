@@ -19,14 +19,14 @@ function Dashboard() {
     if (!stats) return <div className="admin-loading">Failed to load dashboard data.</div>;
 
     const statCards = [
-        { label: 'Total Users', value: stats.total_users, icon: Users, color: '#6c5ce7' },
+        { label: 'Total Users', value: stats.total_users, icon: Users, color: '#8a6a55' },
         { label: 'Customers', value: stats.total_customers, icon: ShoppingBag, color: '#00b894' },
-        { label: 'Handicrafters', value: stats.total_handicrafters, icon: Palette, color: '#e17055' },
+        { label: 'Handicrafters', value: stats.total_handicrafters, icon: Palette, color: '#a56b4f' },
         { label: 'Pending Approvals', value: stats.pending_approvals, icon: Clock, color: '#f39c12' },
-        { label: 'Total Products', value: stats.total_products, icon: Package, color: '#0984e3' },
-        { label: 'Total Orders', value: stats.total_orders, icon: ShoppingCart, color: '#a29bfe' },
-        { label: 'Revenue', value: `₹${stats.total_revenue.toLocaleString()}`, icon: IndianRupee, color: '#27ae60' },
-        { label: 'Commission Earned', value: `₹${stats.total_commission.toLocaleString()}`, icon: Gem, color: '#fd79a8' },
+        { label: 'Total Products', value: stats.total_products, icon: Package, color: '#6f8790' },
+        { label: 'Total Orders', value: stats.total_orders, icon: ShoppingCart, color: '#927b62' },
+        { label: 'Revenue', value: `₹${stats.total_revenue.toLocaleString()}`, icon: IndianRupee, color: '#5f8068' },
+        { label: 'Commission Earned', value: `₹${stats.total_commission.toLocaleString()}`, icon: Gem, color: '#9a6870' },
     ];
 
     return (
@@ -102,8 +102,8 @@ function Dashboard() {
                                     color: 'var(--admin-text)'
                                 }}
                             />
-                            <Bar dataKey="order_count" fill="#6c5ce7" radius={[6, 6, 0, 0]} name="Orders" />
-                            <Bar dataKey="product_count" fill="#a29bfe" radius={[6, 6, 0, 0]} name="Products" />
+                            <Bar dataKey="order_count" fill="#8a6a55" radius={[3, 3, 0, 0]} name="Orders" />
+                            <Bar dataKey="product_count" fill="#c9a98f" radius={[3, 3, 0, 0]} name="Products" />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
