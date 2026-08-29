@@ -1,0 +1,180 @@
+.admin-dashboard {}
+
+.admin-dashboard-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0 0 4px;
+}
+
+.admin-dashboard-header p {
+    color: var(--admin-text-secondary);
+    margin: 0 0 24px;
+    font-size: 15px;
+}
+
+/* Stat Card */
+.admin-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.stat-card-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-card-label {
+    font-size: 13px;
+    color: var(--admin-text-secondary);
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.stat-card-value {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--admin-text);
+    letter-spacing: -0.5px;
+}
+
+.stat-card-alert {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--admin-danger);
+    color: white;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+/* Fraud Alert */
+.fraud-alert-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(231, 76, 60, 0.08) !important;
+    border-color: rgba(231, 76, 60, 0.2) !important;
+    margin-bottom: 24px;
+}
+
+.fraud-icon {
+    font-size: 32px;
+}
+
+.fraud-alert-card strong {
+    color: var(--admin-danger);
+    font-size: 16px;
+}
+
+.fraud-alert-card p {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: var(--admin-text-secondary);
+}
+
+/* Charts Row */
+.dashboard-charts-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.dashboard-chart-card h3 {
+    margin: 0 0 16px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* Recent Orders */
+.recent-orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.recent-order-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: var(--admin-primary-light);
+    transition: transform 0.2s;
+}
+
+.recent-order-row:hover {
+    transform: translateX(4px);
+}
+
+.recent-order-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.recent-order-info strong {
+    font-size: 13px;
+    color: var(--admin-text);
+}
+
+.recent-order-info span {
+    font-size: 12px;
+    color: var(--admin-text-secondary);
+}
+
+.recent-order-amount {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--admin-success);
+}
+
+.admin-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    font-size: 16px;
+    color: var(--admin-text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .dashboard-charts-row {
+        grid-template-columns: 1fr;
+    }
+}
