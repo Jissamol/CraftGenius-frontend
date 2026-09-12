@@ -144,7 +144,7 @@ function Overview() {
     <div className="flex flex-col items-center justify-center py-20 text-center">
       <AlertCircle size={32} className="text-red-500 mb-3" />
       <p className="text-gray-600 mb-4">{error}</p>
-      <button onClick={fetchAll} className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+      <button onClick={fetchAll} className="px-4 py-2 bg-[#8A6A55] text-white rounded-lg text-sm font-medium hover:bg-[#6B5140] transition-colors">
         Try Again
       </button>
     </div>
@@ -222,7 +222,7 @@ function Overview() {
         </div>
         <button
           onClick={() => navigate('/handicrafter/add-product')}
-          className="hidden sm:flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition-colors shadow-sm"
+          className="hidden sm:flex items-center gap-2 px-4 py-2 bg-[#8A6A55] text-white text-sm font-medium rounded-lg hover:bg-[#6B5140] transition-colors shadow-sm"
         >
           <Plus size={16} /> Add Product
         </button>
@@ -268,7 +268,7 @@ function Overview() {
           <p className="text-xs text-gray-500 mb-6">Progress towards ₹{revenueTarget.toLocaleString()} goal</p>
 
           <div className="flex-1 flex items-center justify-center relative">
-            <CircularProgress pct={revenuePct} size={140} stroke={12} color="#4f46e5" />
+            <CircularProgress pct={revenuePct} size={140} stroke={12} color="#8A6A55" />
             <div className="absolute flex flex-col items-center">
               <span className="text-2xl font-semibold text-gray-900">
                 {revenuePct}%
@@ -298,7 +298,7 @@ function Overview() {
             <h3 className="font-semibold text-gray-900 text-sm">Top Products</h3>
             <button
               onClick={() => navigate('/handicrafter/products')}
-              className="text-gray-400 hover:text-indigo-600 transition-colors"
+              className="text-gray-400 hover:text-[#8A6A55] transition-colors"
             >
               <ArrowRight size={16} />
             </button>
@@ -330,7 +330,7 @@ function Overview() {
                     </div>
                     <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-indigo-500 rounded-full transition-all duration-700"
+                        className="h-full bg-[#8A6A55] rounded-full transition-all duration-700"
                         style={{ width: `${pct}%` }}
                       />
                     </div>
@@ -458,8 +458,8 @@ function Overview() {
                 <AreaChart data={salesChartData} margin={{ top: 10, right: 0, left: -25, bottom: 0 }}>
                   <defs>
                     <linearGradient id="salesGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%"  stopColor="#4f46e5" stopOpacity={0.2} />
-                      <stop offset="95%" stopColor="#4f46e5" stopOpacity={0} />
+                      <stop offset="5%"  stopColor="#8A6A55" stopOpacity={0.2} />
+                      <stop offset="95%" stopColor="#8A6A55" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" vertical={false} />
@@ -479,11 +479,11 @@ function Overview() {
                     type="monotone"
                     dataKey="revenue"
                     name="revenue"
-                    stroke="#4f46e5"
+                    stroke="#8A6A55"
                     strokeWidth={2}
                     fill="url(#salesGrad)"
                     dot={false}
-                    activeDot={{ r: 4, fill: '#4f46e5', strokeWidth: 0 }}
+                    activeDot={{ r: 4, fill: '#8A6A55', strokeWidth: 0 }}
                   />
                 </AreaChart>
               </ResponsiveContainer>
