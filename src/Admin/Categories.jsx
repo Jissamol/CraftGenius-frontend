@@ -29,13 +29,13 @@ function Categories() {
 
     const openAdd = () => {
         setEditCat(null);
-        setForm({ name: '', slug: '' });
+        setForm({ name: '' });
         setShowModal(true);
     };
 
     const openEdit = (cat) => {
         setEditCat(cat);
-        setForm({ name: cat.name, slug: cat.slug });
+        setForm({ name: cat.name });
         setShowModal(true);
     };
 
@@ -44,7 +44,7 @@ function Categories() {
             showToast('Name is required', 'error');
             return;
         }
-        const slug = form.slug || form.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+        const slug = editCat?.slug || form.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
         const data = { name: form.name, slug };
 
         const request = editCat
@@ -115,7 +115,7 @@ function Categories() {
                                 <thead>
                                     <tr className="bg-gray-50 border-b border-gray-200 text-gray-500">
                                         <th className="px-6 py-3 font-medium">Category Name</th>
-                                        <th className="px-6 py-3 font-medium">URL Slug</th>
+                                        <th className="px-6 py-3 font-medium">Created</th>
                                         <th className="px-6 py-3 font-medium">Products</th>
                                         <th className="px-6 py-3 font-medium text-right">Actions</th>
                                     </tr>
@@ -132,7 +132,11 @@ function Categories() {
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <span className="text-gray-500 font-mono text-xs bg-gray-100 px-2 py-1 rounded">/{cat.slug}</span>
+                                                {new Date(cat.created_at).toLocaleDateString('en-IN', {
+                                                    day: '2-digit',
+                                                    month: 'short',
+                                                    year: 'numeric',
+                                                })}
                                             </td>
                                             <td className="px-6 py-4 text-gray-600">
                                                 {cat.product_count} items
@@ -199,19 +203,9 @@ function Categories() {
                                         autoFocus
                                     />
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        URL Slug <span className="text-gray-400 font-normal">(optional)</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={form.slug}
-                                        onChange={e => setForm({ ...form, slug: e.target.value })}
-                                        placeholder="handmade-pottery"
-                                        className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors font-mono"
-                                    />
-                                    <p className="text-xs text-gray-500 mt-1.5">Leave blank to auto-generate from the name.</p>
-                                </div>
+                                <p className="text-xs text-gray-500">
+                                    A category address is generated automatically from the name.
+                                </p>
                             </div>
 
                             <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end gap-3">

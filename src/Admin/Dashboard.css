@@ -132,12 +132,13 @@
     gap: 14px;
     padding: 10px 14px;
     border-radius: 12px;
-    background: var(--admin-primary-light);
+    background: #faf7f3;
     transition: transform 0.2s;
 }
 
 .recent-order-row:hover {
-    transform: translateX(4px);
+    background: var(--admin-primary-light);
+    transform: translateX(2px);
 }
 
 .recent-order-info {
