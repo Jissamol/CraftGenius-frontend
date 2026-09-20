@@ -1,6 +1,78 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import api from "../services/api";
+import { motion, AnimatePresence } from "framer-motion";
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// DESIGN TOKENS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const COLORS = {
+  beige: "#E9DED1",
+  softBrown: "#8A6A55",
+  cream: "#F7F6F2",
+  taupe: "#C7B8AA",
+  darkBrown: "#2A201C",
+  inputBg: "#FDFBF8",
+  inputBorder: "#E4DDD5",
+  inputFocus: "#8A6A55",
+};
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// ANIMATIONS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] } },
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+  },
+};
+
+const cardVariant = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] } },
+};
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// ICONS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function CameraIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+      <circle cx="12" cy="13" r="4"></circle>
+    </svg>
+  );
+}
+
+function EyeIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+
+function EyeOffIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
+      <line x1="1" y1="1" x2="23" y2="23" />
+    </svg>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// REGISTER COMPONENT
+// ═══════════════════════════════════════════════════════════════════════════════
 
 function Register() {
   const navigate = useNavigate();
@@ -8,12 +80,15 @@ function Register() {
     name: "",
     email: "",
     password: "",
+    address: "",
+    phone_number: "",
     role: "CUSTOMER",
   });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [profilePic, setProfilePic] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
     setFormData({
@@ -22,31 +97,43 @@ function Register() {
     });
   };
 
+  const handlePicChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setProfilePic(e.target.files[0]);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
     setIsLoading(true);
-  
+
     try {
+      const data = new FormData();
+      data.append("name", formData.name);
+      data.append("email", formData.email);
+      data.append("password", formData.password);
+      data.append("role", formData.role);
+      
+      if (formData.address) data.append("address", formData.address);
+      if (formData.phone_number) data.append("phone_number", formData.phone_number);
+      if (profilePic) data.append("profile_picture", profilePic);
+
       const response = await fetch("http://localhost:8000/api/register/", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: data,
       });
-  
-      const data = await response.json();
-  
-      if (response.ok) {
-        setSuccess(data.message || "Registration successful! Please login.");
 
+      const responseData = await response.json();
+
+      if (response.ok) {
+        setSuccess(responseData.message || "Welcome! Your account has been created.");
         setTimeout(() => {
           navigate("/login");
         }, 2000);
       } else {
-        setError(data.message || "Registration failed. Please try again.");
+        setError(responseData.message || "Registration failed. Please try again.");
       }
     } catch (err) {
       setError("Network error. Please check your connection.");
@@ -54,685 +141,412 @@ function Register() {
       setIsLoading(false);
     }
   };
-  
-  return (
-    <div className="register-container">
-      {/* Background Overlay */}
-      <div className="absolute inset-0 bg-black/30 z-0"></div>
 
-      {/* Register Card */}
-      <div className="register-card">
-        <div className="card-content">
+  return (
+    <div
+      style={{
+        position: "relative",
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontFamily: "'DM Sans', sans-serif",
+        padding: "40px 20px",
+        overflow: "hidden",
+      }}
+    >
+      {/* ── FULL SCREEN BACKGROUND ── */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <motion.img
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 10, ease: "easeOut" }}
+          src="https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=1920&q=80"
+          alt="Artisan background"
+          style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.9) contrast(1.05)" }}
+        />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(42,32,28,0.7) 0%, rgba(42,32,28,0.3) 100%)", backdropFilter: "blur(4px)" }} />
+      </div>
+
+      {/* ── CENTERED CARD ── */}
+      <motion.div
+        variants={cardVariant}
+        initial="hidden"
+        animate="visible"
+        style={{
+          position: "relative",
+          zIndex: 10,
+          background: "rgba(255,255,255,0.92)",
+          backdropFilter: "blur(40px)",
+          WebkitBackdropFilter: "blur(40px)",
+          border: "1px solid rgba(255,255,255,0.6)",
+          width: "100%",
+          maxWidth: "480px",
+          borderRadius: "32px",
+          padding: "48px 40px",
+          boxShadow: "0 25px 80px rgba(59,43,37,0.12), 0 8px 32px rgba(59,43,37,0.06), inset 0 1px 0 rgba(255,255,255,0.5)",
+        }}
+      >
+        <motion.div variants={staggerContainer} initial="hidden" animate="visible">
+          
           {/* Header */}
-          <div className="register-header">
-            <Link to="/login" className="back-link">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M15 10H5m0 0l4 4m-4-4l4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              Back
+          <motion.div variants={fadeUp} style={{ textAlign: "center", marginBottom: "32px" }}>
+            <Link to="/" style={{ textDecoration: "none", display: "inline-block", marginBottom: "20px" }}>
+              <div
+                style={{
+                  width: "48px",
+                  height: "48px",
+                  borderRadius: "14px",
+                  background: COLORS.darkBrown,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "white",
+                  fontFamily: "'Playfair Display', 'Georgia', serif",
+                  fontWeight: 700,
+                  fontSize: "22px",
+                  fontStyle: "italic",
+                  margin: "0 auto",
+                }}
+              >
+                C
+              </div>
             </Link>
-            <h1 className="register-title">
+            <h1
+              style={{
+                fontFamily: "'Georgia', serif",
+                fontSize: "32px",
+                fontWeight: 600,
+                color: COLORS.darkBrown,
+                marginBottom: "8px",
+                lineHeight: 1.2,
+              }}
+            >
               Create Account
             </h1>
-            <p className="register-subtitle">
-              Join CraftGenius and start your creative journey
-            </p>
-          </div>
+            <p style={{ fontSize: "14px", color: COLORS.taupe }}>Join our artisan marketplace</p>
+          </motion.div>
 
-          {/* Success/Error Messages */}
-          {error && (
-            <div className="alert alert-error">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM10 6v4m0 4h.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              {error}
-            </div>
-          )}
+          {/* Alerts */}
+          <AnimatePresence>
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                animate={{ opacity: 1, height: "auto", marginBottom: 20 }}
+                exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+                style={{ overflow: "hidden" }}
+              >
+                <div style={{ padding: "12px 16px", borderRadius: "12px", background: "#FEF2F2", color: "#B91C1C", fontSize: "13px", fontWeight: 500, border: "1px solid #FECACA" }}>
+                  {error}
+                </div>
+              </motion.div>
+            )}
+            {success && (
+              <motion.div
+                initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                animate={{ opacity: 1, height: "auto", marginBottom: 20 }}
+                exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+                style={{ overflow: "hidden" }}
+              >
+                <div style={{ padding: "12px 16px", borderRadius: "12px", background: "#F0FDF4", color: "#16A34A", fontSize: "13px", fontWeight: 500, border: "1px solid #BBF7D0" }}>
+                  {success}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          {success && (
-            <div className="alert alert-success">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-5l6-6m0 0l-3-3m3 3l-3 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              {success}
-            </div>
-          )}
+          {/* Form */}
+          <form onSubmit={handleSubmit}>
+            {/* Input: Name */}
+            <motion.div variants={fadeUp} style={{ marginBottom: "16px" }}>
+              <label style={{ display: "block", fontSize: "13px", fontWeight: 600, color: COLORS.darkBrown, marginBottom: "6px" }}>Full Name</label>
+              <input
+                name="name"
+                type="text"
+                placeholder="John Doe"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                disabled={isLoading}
+                style={{
+                  width: "100%",
+                  padding: "14px 16px",
+                  borderRadius: "12px",
+                  border: `1.5px solid ${COLORS.inputBorder}`,
+                  background: COLORS.inputBg,
+                  fontSize: "15px",
+                  color: COLORS.darkBrown,
+                  outline: "none",
+                  transition: "all 0.2s ease",
+                  fontFamily: "inherit",
+                }}
+                onFocus={(e) => { e.target.style.borderColor = COLORS.inputFocus; e.target.style.background = "white"; }}
+                onBlur={(e) => { e.target.style.borderColor = COLORS.inputBorder; e.target.style.background = COLORS.inputBg; }}
+              />
+            </motion.div>
 
-          {/* Register Form */}
-          <form onSubmit={handleSubmit} className="register-form">
-            {/* Full Name */}
-            <div className="form-group">
-              <label htmlFor="name" className="form-label">
-            
-              </label>
-              <div className="input-wrapper">
-                <svg className="input-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M10 10a4 4 0 100-8 4 4 0 000 8zm-7 7a7 7 0 1114 0H3z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+            {/* Input: Email */}
+            <motion.div variants={fadeUp} style={{ marginBottom: "16px" }}>
+              <label style={{ display: "block", fontSize: "13px", fontWeight: 600, color: COLORS.darkBrown, marginBottom: "6px" }}>Email Address</label>
+              <input
+                name="email"
+                type="email"
+                placeholder="johndoe@example.com"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                disabled={isLoading}
+                style={{
+                  width: "100%",
+                  padding: "14px 16px",
+                  borderRadius: "12px",
+                  border: `1.5px solid ${COLORS.inputBorder}`,
+                  background: COLORS.inputBg,
+                  fontSize: "15px",
+                  color: COLORS.darkBrown,
+                  outline: "none",
+                  transition: "all 0.2s ease",
+                  fontFamily: "inherit",
+                }}
+                onFocus={(e) => { e.target.style.borderColor = COLORS.inputFocus; e.target.style.background = "white"; }}
+                onBlur={(e) => { e.target.style.borderColor = COLORS.inputBorder; e.target.style.background = COLORS.inputBg; }}
+              />
+            </motion.div>
+
+            {/* Split Row: Phone & Profile Pic */}
+            <div style={{ display: "flex", gap: "16px", marginBottom: "16px" }}>
+              {/* Input: Phone */}
+              <motion.div variants={fadeUp} style={{ flex: 1 }}>
+                <label style={{ display: "block", fontSize: "13px", fontWeight: 600, color: COLORS.darkBrown, marginBottom: "6px" }}>Phone Number</label>
                 <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  className="form-input"
-                  placeholder="Enter your full name"
-                  value={formData.name}
+                  name="phone_number"
+                  type="tel"
+                  placeholder="+1 (555) 000-0000"
+                  value={formData.phone_number}
                   onChange={handleChange}
                   required
                   disabled={isLoading}
+                  style={{
+                    width: "100%",
+                    padding: "14px 16px",
+                    borderRadius: "12px",
+                    border: `1.5px solid ${COLORS.inputBorder}`,
+                    background: COLORS.inputBg,
+                    fontSize: "15px",
+                    color: COLORS.darkBrown,
+                    outline: "none",
+                    transition: "all 0.2s ease",
+                    fontFamily: "inherit",
+                  }}
+                  onFocus={(e) => { e.target.style.borderColor = COLORS.inputFocus; e.target.style.background = "white"; }}
+                  onBlur={(e) => { e.target.style.borderColor = COLORS.inputBorder; e.target.style.background = COLORS.inputBg; }}
                 />
-              </div>
+              </motion.div>
+
+              {/* Input: Profile Picture (Optional) */}
+              <motion.div variants={fadeUp} style={{ flex: 1 }}>
+                <label style={{ display: "block", fontSize: "13px", fontWeight: 600, color: COLORS.darkBrown, marginBottom: "6px" }}>Profile Picture <span style={{color: COLORS.taupe, fontWeight: 400}}>(Optional)</span></label>
+                <div style={{ position: "relative" }}>
+                  <input
+                    name="profile_picture"
+                    type="file"
+                    accept="image/*"
+                    onChange={handlePicChange}
+                    disabled={isLoading}
+                    style={{
+                      width: "100%",
+                      padding: "11px 16px",
+                      borderRadius: "12px",
+                      border: `1.5px dashed ${COLORS.inputBorder}`,
+                      background: COLORS.inputBg,
+                      fontSize: "12px",
+                      color: COLORS.taupe,
+                      outline: "none",
+                      transition: "all 0.2s ease",
+                      fontFamily: "inherit",
+                      cursor: "pointer",
+                    }}
+                    onFocus={(e) => { e.target.style.borderColor = COLORS.inputFocus; }}
+                    onBlur={(e) => { e.target.style.borderColor = COLORS.inputBorder; }}
+                  />
+                  {!profilePic && (
+                    <div style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", pointerEvents: "none", color: COLORS.taupe }}>
+                      <CameraIcon />
+                    </div>
+                  )}
+                </div>
+              </motion.div>
             </div>
 
-            {/* Email */}
-            <div className="form-group">
-              <label htmlFor="email" className="form-label">
-              </label>
-              <div className="input-wrapper">
-                <svg className="input-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M3 6l7 5 7-5M3 6v8a2 2 0 002 2h10a2 2 0 002-2V6M3 6a2 2 0 012-2h10a2 2 0 012 2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  className="form-input"
-                  placeholder="you@example.com"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-            </div>
+            {/* Input: Address */}
+            <motion.div variants={fadeUp} style={{ marginBottom: "16px" }}>
+              <label style={{ display: "block", fontSize: "13px", fontWeight: 600, color: COLORS.darkBrown, marginBottom: "6px" }}>Address</label>
+              <textarea
+                name="address"
+                placeholder="Enter your full address..."
+                value={formData.address}
+                onChange={handleChange}
+                required
+                disabled={isLoading}
+                rows={2}
+                style={{
+                  width: "100%",
+                  padding: "14px 16px",
+                  borderRadius: "12px",
+                  border: `1.5px solid ${COLORS.inputBorder}`,
+                  background: COLORS.inputBg,
+                  fontSize: "15px",
+                  color: COLORS.darkBrown,
+                  outline: "none",
+                  transition: "all 0.2s ease",
+                  fontFamily: "inherit",
+                  resize: "none",
+                }}
+                onFocus={(e) => { e.target.style.borderColor = COLORS.inputFocus; e.target.style.background = "white"; }}
+                onBlur={(e) => { e.target.style.borderColor = COLORS.inputBorder; e.target.style.background = COLORS.inputBg; }}
+              />
+            </motion.div>
 
-            {/* Password */}
-            <div className="form-group">
-              <label htmlFor="password" className="form-label">
-              </label>
-              <div className="input-wrapper">
-                <svg className="input-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M5 10V7a5 5 0 0110 0v3m-9 0h8a2 2 0 012 2v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5a2 2 0 012-2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+            {/* Input: Password */}
+            <motion.div variants={fadeUp} style={{ marginBottom: "24px" }}>
+              <label style={{ display: "block", fontSize: "13px", fontWeight: 600, color: COLORS.darkBrown, marginBottom: "6px" }}>Password</label>
+              <div style={{ position: "relative" }}>
                 <input
-                  type={showPassword ? "text" : "password"}
-                  id="password"
                   name="password"
-                  className="form-input"
-                  placeholder="Create a strong password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
                   value={formData.password}
                   onChange={handleChange}
                   required
                   disabled={isLoading}
                   minLength="6"
+                  style={{
+                    width: "100%",
+                    padding: "14px 48px 14px 16px",
+                    borderRadius: "12px",
+                    border: `1.5px solid ${COLORS.inputBorder}`,
+                    background: COLORS.inputBg,
+                    fontSize: "15px",
+                    color: COLORS.darkBrown,
+                    outline: "none",
+                    transition: "all 0.2s ease",
+                    fontFamily: "inherit",
+                    letterSpacing: showPassword ? "normal" : "0.15em",
+                  }}
+                  onFocus={(e) => { e.target.style.borderColor = COLORS.inputFocus; e.target.style.background = "white"; }}
+                  onBlur={(e) => { e.target.style.borderColor = COLORS.inputBorder; e.target.style.background = COLORS.inputBg; }}
                 />
                 <button
                   type="button"
-                  className="toggle-password"
                   onClick={() => setShowPassword(!showPassword)}
-                  disabled={isLoading}
+                  style={{
+                    position: "absolute",
+                    right: "12px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    color: COLORS.taupe,
+                  }}
                 >
-                  {showPassword ? (
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path d="M3.98 8.223A10.477 10.477 0 001.934 10C3.226 13.338 6.244 15.5 10 15.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0110 5.5c3.756 0 6.773 2.162 8.066 5.5a10.477 10.477 0 01-1.555 2.424M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  ) : (
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path d="M10 5.5C6.244 5.5 3.226 7.662 1.934 11c1.292 3.338 4.31 5.5 8.066 5.5s6.773-2.162 8.066-5.5C16.773 7.662 13.756 5.5 10 5.5z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M10 13a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  )}
+                  {showPassword ? <EyeOffIcon /> : <EyeIcon />}
                 </button>
               </div>
-              <p className="input-hint">Must be at least 6 characters</p>
-            </div>
+            </motion.div>
 
-            {/* Role Selection */}
-            <div className="form-group">
-              <label className="form-label">
-                Register As
-              </label>
-              <div className="role-selection">
-                <label className={`role-card ${formData.role === "CUSTOMER" ? "selected" : ""}`}>
-                  <input
-                    type="radio"
-                    name="role"
-                    value="CUSTOMER"
-                    checked={formData.role === "CUSTOMER"}
-                    onChange={handleChange}
-                    className="role-input"
-                    disabled={isLoading}
-                  />
-                  <div className="role-content">
-                    <div className="role-icon">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </div>
-                    <div className="role-text">
-                      <h3 className="role-title">Customer</h3>
-                      <p className="role-description">Learn and explore handicrafts</p>
-                    </div>
-                  </div>
-                  <div className="role-checkmark">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path d="M16 6L7.5 14.5 4 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </div>
-                </label>
-
-                <label className={`role-card ${formData.role === "HANDICRAFTER" ? "selected" : ""}`}>
-                  <input
-                    type="radio"
-                    name="role"
-                    value="HANDICRAFTER"
-                    checked={formData.role === "HANDICRAFTER"}
-                    onChange={handleChange}
-                    className="role-input"
-                    disabled={isLoading}
-                  />
-                  <div className="role-content">
-                    <div className="role-icon">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </div>
-                    <div className="role-text">
-                      <h3 className="role-title">Handicrafter</h3>
-                      <p className="role-description">Share your craft expertise</p>
-                    </div>
-                  </div>
-                  <div className="role-checkmark">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path d="M16 6L7.5 14.5 4 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </div>
-                </label>
+            {/* Role Switcher */}
+            <motion.div variants={fadeUp} style={{ marginBottom: "32px" }}>
+              <label style={{ display: "block", fontSize: "13px", fontWeight: 600, color: COLORS.darkBrown, marginBottom: "8px" }}>I am joining as a:</label>
+              <div style={{ display: "flex", gap: "8px", background: COLORS.inputBg, padding: "4px", borderRadius: "14px", border: `1px solid ${COLORS.inputBorder}` }}>
+                
+                <div
+                  onClick={() => !isLoading && setFormData({ ...formData, role: "CUSTOMER" })}
+                  style={{
+                    flex: 1,
+                    textAlign: "center",
+                    padding: "12px",
+                    borderRadius: "10px",
+                    cursor: isLoading ? "not-allowed" : "pointer",
+                    background: formData.role === "CUSTOMER" ? "white" : "transparent",
+                    boxShadow: formData.role === "CUSTOMER" ? "0 2px 8px rgba(0,0,0,0.06)" : "none",
+                    transition: "all 0.2s ease",
+                  }}
+                >
+                  <span style={{ fontSize: "14px", fontWeight: formData.role === "CUSTOMER" ? 700 : 500, color: formData.role === "CUSTOMER" ? COLORS.darkBrown : COLORS.taupe }}>
+                    Customer
+                  </span>
+                </div>
+                
+                <div
+                  onClick={() => !isLoading && setFormData({ ...formData, role: "HANDICRAFTER" })}
+                  style={{
+                    flex: 1,
+                    textAlign: "center",
+                    padding: "12px",
+                    borderRadius: "10px",
+                    cursor: isLoading ? "not-allowed" : "pointer",
+                    background: formData.role === "HANDICRAFTER" ? "white" : "transparent",
+                    boxShadow: formData.role === "HANDICRAFTER" ? "0 2px 8px rgba(0,0,0,0.06)" : "none",
+                    transition: "all 0.2s ease",
+                  }}
+                >
+                  <span style={{ fontSize: "14px", fontWeight: formData.role === "HANDICRAFTER" ? 700 : 500, color: formData.role === "HANDICRAFTER" ? COLORS.darkBrown : COLORS.taupe }}>
+                    Artisan
+                  </span>
+                </div>
               </div>
-              {formData.role === "HANDICRAFTER" && (
-                <p className="input-hint" style={{ color: "#f59e0b" }}>
-                  ⚠️ Handicrafter accounts require admin approval before access
-                </p>
-              )}
-            </div>
+            </motion.div>
 
             {/* Submit Button */}
-            <button 
-              type="submit" 
-              className="submit-button"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <span className="spinner"></span>
-                  Creating Account...
-                </>
-              ) : (
-                <>
-                  Create Account
-                  <svg className="button-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </>
-              )}
-            </button>
+            <motion.div variants={fadeUp}>
+              <motion.button
+                type="submit"
+                disabled={isLoading}
+                whileHover={!isLoading ? { scale: 1.02 } : {}}
+                whileTap={!isLoading ? { scale: 0.98 } : {}}
+                style={{
+                  width: "100%",
+                  padding: "16px",
+                  borderRadius: "12px",
+                  border: "none",
+                  background: COLORS.darkBrown,
+                  color: "white",
+                  fontSize: "15px",
+                  fontWeight: 600,
+                  cursor: isLoading ? "not-allowed" : "pointer",
+                  opacity: isLoading ? 0.7 : 1,
+                  transition: "all 0.3s ease",
+                  fontFamily: "inherit",
+                  boxShadow: "0 8px 24px rgba(42,32,28,0.2)",
+                }}
+              >
+                {isLoading ? "Processing..." : "Create Account"}
+              </motion.button>
+            </motion.div>
           </form>
 
-          {/* Footer */}
-          <div className="register-footer">
-            <p className="footer-text">
-              Already have an account?{" "}
-              <Link to="/login" className="footer-link">
-                Sign in
-              </Link>
-            </p>
-          </div>
-        </div>
-      </div>
+          {/* Login Link */}
+          <motion.div variants={fadeUp} style={{ marginTop: "24px", textAlign: "center" }}>
+            <span style={{ fontSize: "13px", color: COLORS.taupe }}>Already have an account? </span>
+            <Link
+              to="/login"
+              style={{
+                fontSize: "13px",
+                fontWeight: 700,
+                color: COLORS.softBrown,
+                textDecoration: "none",
+                transition: "color 0.2s ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = COLORS.darkBrown)}
+              onMouseLeave={(e) => (e.currentTarget.style.color = COLORS.softBrown)}
+            >
+              Sign in
+            </Link>
+          </motion.div>
 
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap');
-
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-
-        .register-container {
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 40px 20px;
-          background: url('https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1920&q=80') center/cover no-repeat fixed;
-          font-family: 'DM Sans', sans-serif;
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .register-container::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: rgba(255, 255, 255, 0.2);
-          backdrop-filter: blur(8px);
-          z-index: 1;
-        }
-
-        /* Register Card */
-        .register-card {
-          position: relative;
-          z-index: 10;
-          width: 100%;
-          max-width: 520px;
-          background: rgba(255, 255, 255, 0.95);
-          backdrop-filter: blur(20px);
-          border-radius: 30px;
-          border: 1px solid rgba(255, 255, 255, 0.8);
-          box-shadow: 0 20px 80px rgba(0, 0, 0, 0.1);
-          animation: slideUp 0.8s ease-out;
-        }
-
-        .card-content {
-          padding: 50px 40px;
-        }
-
-        /* Header */
-        .register-header {
-          text-align: center;
-          margin-bottom: 35px;
-          animation: fadeIn 1s ease-out 0.3s both;
-        }
-
-        .back-link {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          color: #666;
-          text-decoration: none;
-          font-size: 14px;
-          font-weight: 500;
-          margin-bottom: 25px;
-          transition: all 0.3s ease;
-        }
-
-        .back-link:hover {
-          color: #667eea;
-          transform: translateX(-5px);
-        }
-
-        .register-title {
-          font-family: 'Playfair Display', serif;
-          font-size: 42px;
-          font-weight: 700;
-          color: #1a1a1a;
-          margin-bottom: 12px;
-          background: linear-gradient(135deg, #1a1a1a 0%, #667eea 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-
-        .register-subtitle {
-          font-size: 16px;
-          color: #666;
-          font-weight: 400;
-        }
-
-        /* Alerts */
-        .alert {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 14px 18px;
-          border-radius: 12px;
-          font-size: 14px;
-          font-weight: 500;
-          margin-bottom: 24px;
-          animation: slideDown 0.5s ease-out;
-        }
-
-        .alert-error {
-          background: #fef2f2;
-          color: #dc2626;
-          border: 1px solid #fecaca;
-        }
-
-        .alert-success {
-          background: #f0fdf4;
-          color: #16a34a;
-          border: 1px solid #bbf7d0;
-        }
-
-        /* Form */
-        .register-form {
-          animation: fadeIn 1s ease-out 0.5s both;
-        }
-
-        .form-group {
-          margin-bottom: 22px;
-        }
-
-        .form-label {
-          display: block;
-          font-size: 14px;
-          font-weight: 600;
-          color: #1a1a1a;
-          margin-bottom: 8px;
-        }
-
-        .input-wrapper {
-          position: relative;
-          display: flex;
-          align-items: center;
-        }
-
-        .input-icon {
-          position: absolute;
-          left: 16px;
-          color: #999;
-          pointer-events: none;
-          transition: color 0.3s ease;
-        }
-
-        .form-input {
-          width: 100%;
-          padding: 14px 16px 14px 48px;
-          font-size: 15px;
-          font-family: 'DM Sans', sans-serif;
-          color: #1a1a1a;
-          background: white;
-          border: 2px solid #e5e5e5;
-          border-radius: 12px;
-          outline: none;
-          transition: all 0.3s ease;
-        }
-
-        .form-input:focus {
-          border-color: #667eea;
-          box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
-        }
-
-        .form-input:focus ~ .input-icon,
-        .input-wrapper:focus-within .input-icon {
-          color: #667eea;
-        }
-
-        .form-input:disabled {
-          background: #f9f9f9;
-          cursor: not-allowed;
-          opacity: 0.7;
-        }
-
-        .form-input::placeholder {
-          color: #999;
-        }
-
-        .toggle-password {
-          position: absolute;
-          right: 16px;
-          background: none;
-          border: none;
-          color: #999;
-          cursor: pointer;
-          padding: 4px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: color 0.3s ease;
-        }
-
-        .toggle-password:hover:not(:disabled) {
-          color: #667eea;
-        }
-
-        .toggle-password:disabled {
-          cursor: not-allowed;
-          opacity: 0.5;
-        }
-
-        .input-hint {
-          font-size: 13px;
-          color: #999;
-          margin-top: 6px;
-          display: block;
-        }
-
-        /* Role Selection */
-        .role-selection {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 12px;
-          margin-top: 8px;
-        }
-
-        .role-card {
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          padding: 18px;
-          background: white;
-          border: 2px solid #e5e5e5;
-          border-radius: 12px;
-          cursor: pointer;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .role-card:hover {
-          border-color: #667eea;
-          transform: translateY(-2px);
-          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .role-card.selected {
-          border-color: #667eea;
-          background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-          box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
-        }
-
-        .role-input {
-          position: absolute;
-          opacity: 0;
-          pointer-events: none;
-        }
-
-        .role-content {
-          display: flex;
-          align-items: flex-start;
-          gap: 12px;
-        }
-
-        .role-icon {
-          width: 40px;
-          height: 40px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          border-radius: 10px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          flex-shrink: 0;
-        }
-
-        .role-text {
-          flex: 1;
-        }
-
-        .role-title {
-          font-size: 15px;
-          font-weight: 700;
-          color: #1a1a1a;
-          margin-bottom: 4px;
-        }
-
-        .role-description {
-          font-size: 13px;
-          color: #666;
-          line-height: 1.4;
-        }
-
-        .role-checkmark {
-          position: absolute;
-          top: 12px;
-          right: 12px;
-          width: 24px;
-          height: 24px;
-          background: #667eea;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          opacity: 0;
-          transform: scale(0);
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .role-card.selected .role-checkmark {
-          opacity: 1;
-          transform: scale(1);
-        }
-
-        /* Submit Button */
-        .submit-button {
-          width: 100%;
-          padding: 16px;
-          margin-top: 28px;
-          font-size: 16px;
-          font-weight: 600;
-          font-family: 'DM Sans', sans-serif;
-          color: white;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          border: none;
-          border-radius: 12px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 10px;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-        }
-
-        .submit-button:hover:not(:disabled) {
-          transform: translateY(-2px);
-          box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
-        }
-
-        .submit-button:active:not(:disabled) {
-          transform: translateY(0);
-        }
-
-        .submit-button:disabled {
-          cursor: not-allowed;
-          opacity: 0.7;
-        }
-
-        .button-arrow {
-          transition: transform 0.3s ease;
-        }
-
-        .submit-button:hover:not(:disabled) .button-arrow {
-          transform: translateX(5px);
-        }
-
-        .spinner {
-          width: 18px;
-          height: 18px;
-          border: 2px solid rgba(255, 255, 255, 0.3);
-          border-top-color: white;
-          border-radius: 50%;
-          animation: spin 0.8s linear infinite;
-        }
-
-        /* Footer */
-        .register-footer {
-          text-align: center;
-          margin-top: 28px;
-          animation: fadeIn 1s ease-out 0.7s both;
-        }
-
-        .footer-text {
-          font-size: 14px;
-          color: #666;
-        }
-
-        .footer-link {
-          color: #667eea;
-          text-decoration: none;
-          font-weight: 600;
-          transition: color 0.3s ease;
-        }
-
-        .footer-link:hover {
-          color: #764ba2;
-        }
-
-        /* Animations */
-        @keyframes slideUp {
-          from {
-            opacity: 0;
-            transform: translateY(40px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            transform: translateY(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-
-        @keyframes float {
-          0%, 100% {
-            transform: translate(0, 0);
-          }
-          33% {
-            transform: translate(30px, -30px);
-          }
-          66% {
-            transform: translate(-20px, 20px);
-          }
-        }
-
-        @keyframes spin {
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        /* Responsive */
-        @media (max-width: 640px) {
-          .card-content {
-            padding: 40px 30px;
-          }
-
-          .register-title {
-            font-size: 36px;
-          }
-
-          .role-selection {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }
