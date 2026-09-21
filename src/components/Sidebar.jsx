@@ -49,7 +49,7 @@ function Sidebar({ collapsed, mobileOpen, onToggle, onMobileClose }) {
           onClick={() => navigate('/handicrafter/dashboard')}
           className="flex items-center gap-2.5 min-w-0"
         >
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-purple-700 flex items-center justify-center flex-shrink-0 shadow-sm">
+          <div className="w-8 h-8 rounded-lg bg-[#1F1F1F] flex items-center justify-center flex-shrink-0 shadow-sm">
             <Palette size={16} className="text-white" />
           </div>
           {!collapsed && (
@@ -99,8 +99,8 @@ function Sidebar({ collapsed, mobileOpen, onToggle, onMobileClose }) {
                     transition-all duration-200 group
                     ${collapsed ? 'justify-center' : ''}
                     ${active
-                      ? 'bg-violet-600 text-white shadow-md shadow-violet-200'
-                      : 'text-gray-500 hover:bg-violet-50 hover:text-violet-700'
+                      ? 'bg-[#8A6A55] text-white shadow-md shadow-[#8A6A55]/20'
+                      : 'text-gray-500 hover:bg-[#F3ECE6] hover:text-[#6B5140]'
                     }
                   `}
                 >
@@ -113,7 +113,7 @@ function Sidebar({ collapsed, mobileOpen, onToggle, onMobileClose }) {
                   )}
                   {/* Active indicator dot when collapsed */}
                   {collapsed && active && (
-                    <span className="absolute right-1 w-1.5 h-1.5 bg-violet-400 rounded-full" />
+                    <span className="absolute right-1 w-1.5 h-1.5 bg-[#C9B49A] rounded-full" />
                   )}
                 </button>
               </li>

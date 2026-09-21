@@ -1,18 +1,18 @@
 /* ========== Admin Theme Variables ========== */
 :root {
-    --admin-bg: #f0f2f5;
-    --admin-surface: rgba(255, 255, 255, 0.72);
+    --admin-bg: #f5f3ef;
+    --admin-surface: #ffffff;
     --admin-surface-solid: #ffffff;
-    --admin-text: #1a1a2e;
-    --admin-text-secondary: #6b7280;
-    --admin-border: rgba(0, 0, 0, 0.08);
-    --admin-primary: #6c5ce7;
-    --admin-primary-light: rgba(108, 92, 231, 0.12);
-    --admin-gradient: linear-gradient(135deg, #6c5ce7, #a29bfe);
-    --admin-sidebar-bg: rgba(255, 255, 255, 0.85);
-    --admin-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-    --admin-glass-blur: 16px;
-    --admin-radius: 20px;
+    --admin-text: #252320;
+    --admin-text-secondary: #756f68;
+    --admin-border: #e6e0d8;
+    --admin-primary: #8a6a55;
+    --admin-primary-light: #f3ece6;
+    --admin-gradient: linear-gradient(135deg, #8a6a55, #6b5140);
+    --admin-sidebar-bg: #fbfaf8;
+    --admin-shadow: 0 8px 24px rgba(52, 43, 35, 0.06);
+    --admin-glass-blur: 0px;
+    --admin-radius: 12px;
     --admin-danger: #e74c3c;
     --admin-success: #27ae60;
     --admin-warning: #f39c12;
@@ -20,16 +20,16 @@
 }
 
 .admin-layout.dark {
-    --admin-bg: #0f0f1a;
-    --admin-surface: rgba(30, 30, 50, 0.75);
-    --admin-surface-solid: #1a1a2e;
-    --admin-text: #e8e8f0;
+    --admin-bg: #1d1b19;
+    --admin-surface: #272421;
+    --admin-surface-solid: #272421;
+    --admin-text: #f4efe9;
     --admin-text-secondary: #9ca3af;
-    --admin-border: rgba(255, 255, 255, 0.08);
-    --admin-primary: #a29bfe;
-    --admin-primary-light: rgba(162, 155, 254, 0.15);
-    --admin-sidebar-bg: rgba(20, 20, 35, 0.88);
-    --admin-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --admin-border: #403a35;
+    --admin-primary: #c9a98f;
+    --admin-primary-light: #3b3028;
+    --admin-sidebar-bg: #211f1c;
+    --admin-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
 }
 
 /* ========== Global Layout ========== */
@@ -44,15 +44,9 @@
     transition: background 0.3s ease;
 }
 
-/* ========== Background Blobs ========== */
+/* Decorative blobs are intentionally disabled for a calmer admin workspace. */
 .admin-bg-blob {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.25;
-    pointer-events: none;
-    z-index: 0;
-    animation: adminBlobFloat 18s ease-in-out infinite alternate;
+    display: none;
 }
 
 .blob-1 {
@@ -135,20 +129,14 @@
 .admin-logo-text {
     font-size: 22px;
     font-weight: 800;
-    background: var(--admin-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--admin-text);
     letter-spacing: -0.5px;
 }
 
 .admin-logo-icon {
     font-size: 20px;
     font-weight: 800;
-    background: var(--admin-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--admin-text);
 }
 
 .admin-collapse-btn {
@@ -202,7 +190,7 @@
     gap: 14px;
     padding: 12px 14px;
     margin-bottom: 4px;
-    border-radius: 14px;
+    border-radius: 8px;
     color: var(--admin-text-secondary);
     text-decoration: none;
     font-size: 14px;
@@ -218,13 +206,13 @@
 .admin-nav-item:hover {
     background: var(--admin-primary-light);
     color: var(--admin-primary);
-    transform: translateX(3px);
+    transform: translateX(2px);
 }
 
 .admin-nav-item.active {
-    background: var(--admin-gradient);
+    background: var(--admin-primary);
     color: white;
-    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.35);
+    box-shadow: 0 4px 12px rgba(138, 106, 85, 0.2);
 }
 
 .admin-nav-icon {
@@ -297,7 +285,7 @@
 .admin-notif-btn {
     background: var(--admin-surface);
     border: 1px solid var(--admin-border);
-    border-radius: 12px;
+    border-radius: 8px;
     width: 42px;
     height: 42px;
     display: flex;
@@ -312,7 +300,7 @@
 .admin-theme-toggle:hover,
 .admin-notif-btn:hover {
     background: var(--admin-primary-light);
-    transform: scale(1.08);
+    transform: translateY(-1px);
 }
 
 .admin-notif-badge {
@@ -341,7 +329,7 @@
     align-items: center;
     gap: 10px;
     padding: 6px 14px 6px 6px;
-    border-radius: 14px;
+    border-radius: 10px;
     background: var(--admin-surface);
     border: 1px solid var(--admin-border);
     cursor: pointer;
@@ -356,7 +344,7 @@
     width: 36px;
     height: 36px;
     border-radius: 12px;
-    background: var(--admin-gradient);
+    background: var(--admin-primary);
     color: white;
     display: flex;
     align-items: center;

@@ -51,7 +51,7 @@ function Navbar({ onMenuToggle }) {
 
       {/* Search bar */}
       <div className={`hidden md:flex items-center gap-2 bg-gray-50 border rounded-lg px-3 py-1.5 transition-all duration-200 ${
-        searchFocused ? 'border-indigo-400 ring-2 ring-indigo-50 bg-white' : 'border-gray-200'
+          searchFocused ? 'border-[#8A6A55] ring-2 ring-[#E8DDD4] bg-white' : 'border-gray-200'
       }`}>
         <Search size={14} className="text-gray-400 flex-shrink-0" />
         <input
@@ -82,20 +82,20 @@ function Navbar({ onMenuToggle }) {
         >
           <Bell size={16} />
           {/* Unread dot */}
-          <span className="absolute top-2 right-2 w-2 h-2 bg-indigo-500 rounded-full border-2 border-white" />
+          <span className="absolute top-2 right-2 w-2 h-2 bg-[#8A6A55] rounded-full border-2 border-white" />
         </button>
 
         {notifOpen && (
           <div className="absolute right-0 top-12 w-80 bg-white rounded-xl shadow-lg border border-gray-200 z-50 overflow-hidden">
             <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
               <span className="text-sm font-semibold text-gray-900">Notifications</span>
-              <span className="text-[10px] bg-indigo-50 text-indigo-700 font-bold px-2 py-0.5 rounded">2 New</span>
+              <span className="text-[10px] bg-[#F3ECE6] text-[#6B5140] font-bold px-2 py-0.5 rounded">2 New</span>
             </div>
             <div className="p-2 space-y-1">
               {[
                 { icon: ShoppingCart, color: 'text-emerald-500', bg: 'bg-emerald-50', text: 'New order received (#1042)', time: 'Just now' },
                 { icon: Star, color: 'text-amber-500', bg: 'bg-amber-50', text: '5-star review on Leather Journal', time: '2 hours ago' },
-                { icon: Package, color: 'text-indigo-500', bg: 'bg-indigo-50', text: 'Order #1041 marked as shipped', time: '5 hours ago' },
+                { icon: Package, color: 'text-[#8A6A55]', bg: 'bg-[#F3ECE6]', text: 'Order #1041 marked as shipped', time: '5 hours ago' },
               ].map((n, i) => (
                 <div key={i} className="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
                   <div className={`w-8 h-8 rounded flex items-center justify-center flex-shrink-0 ${n.bg}`}>
@@ -109,7 +109,7 @@ function Navbar({ onMenuToggle }) {
               ))}
             </div>
             <div className="px-4 py-3 border-t border-gray-100 bg-gray-50">
-              <button className="text-xs font-semibold text-indigo-600 hover:text-indigo-700 transition-colors w-full text-center">
+              <button className="text-xs font-semibold text-[#8A6A55] hover:text-[#6B5140] transition-colors w-full text-center">
                 View all notifications
               </button>
             </div>
@@ -123,7 +123,7 @@ function Navbar({ onMenuToggle }) {
           onClick={() => { setProfileOpen(p => !p); setNotifOpen(false); }}
           className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors"
         >
-          <div className="w-7 h-7 rounded bg-indigo-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+          <div className="w-7 h-7 rounded bg-[#1F1F1F] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
             {initials}
           </div>
           <span className="hidden sm:block text-sm font-medium text-gray-700">{userName.split(' ')[0]}</span>
