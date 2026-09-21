@@ -16,7 +16,7 @@ const HomeNavbar = ({ cartCount }) => {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="sticky top-4 z-50 w-full mb-8"
+      className="relative w-full mb-8"
     >
       <div className="mx-auto bg-white/70 backdrop-blur-xl border border-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-full px-6 py-3 flex items-center justify-between">
         
