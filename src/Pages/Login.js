@@ -356,67 +356,7 @@ function Login() {
             )}
           </AnimatePresence>
 
-          {/* Google Sign-In */}
-          <motion.div variants={itemVariants}>
-            <motion.button
-              whileHover={{ scale: 1.01, y: -1 }}
-              whileTap={{ scale: 0.99 }}
-              type="button"
-              style={{
-                width: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "10px",
-                padding: "13px 20px",
-                borderRadius: "14px",
-                border: `1.5px solid ${COLORS.inputBorder}`,
-                background: "white",
-                fontSize: "14px",
-                fontWeight: 600,
-                color: COLORS.darkBrown,
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-                fontFamily: "inherit",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = COLORS.softBrown;
-                e.currentTarget.style.boxShadow = "0 4px 12px rgba(138,106,85,0.1)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = COLORS.inputBorder;
-                e.currentTarget.style.boxShadow = "none";
-              }}
-            >
-              <GoogleIcon />
-              Sign in with Google
-            </motion.button>
-          </motion.div>
 
-          {/* Divider */}
-          <motion.div
-            variants={itemVariants}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "16px",
-              margin: "24px 0",
-            }}
-          >
-            <div style={{ flex: 1, height: "1px", background: COLORS.inputBorder }} />
-            <span
-              style={{
-                fontSize: "12px",
-                fontWeight: 600,
-                color: COLORS.taupe,
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-              }}
-            >
-              OR
-            </span>
-            <div style={{ flex: 1, height: "1px", background: COLORS.inputBorder }} />
-          </motion.div>
 
           <form onSubmit={handleSubmit}>
             {/* Email */}

@@ -49,7 +49,7 @@ const featuredItems = [
     location: "Saharanpur, UP",
     price: "₹1,850",
     tag: "Hand carved",
-    image: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=900&q=90",
+    image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=900&q=90",
   },
   {
     id: 5,
@@ -203,75 +203,86 @@ function Navbar() {
 
 function Hero() {
   return (
-    <section className="w-full bg-[#F7F6F2] pt-6 px-5 lg:px-10 pb-0 max-w-screen-2xl mx-auto">
-      <div className="grid grid-cols-12 grid-rows-[auto] gap-3">
-
-        {/* ── Big Headline Block */}
-        <div className="col-span-12 lg:col-span-5 flex flex-col justify-end pb-8 pt-12 lg:pt-20 relative z-10">
+    <section className="w-full bg-[#F7F6F2] pt-12 pb-24 px-5 lg:px-10 max-w-screen-2xl mx-auto overflow-hidden">
+      <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+        
+        {/* ── Left Content */}
+        <div className="flex-1 w-full flex flex-col justify-center relative z-10">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-            <p className="text-xs font-bold uppercase tracking-[0.25em] text-gray-400 mb-5">
-              India's finest handcraft marketplace
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#6B5A4B] mb-6 flex items-center gap-3">
+              <span className="w-8 h-[2px] bg-[#6B5A4B]"></span>
+              India's finest marketplace
             </p>
-            <h1 className="text-[clamp(3rem,8vw,6rem)] font-black leading-[0.9] tracking-tight text-[#1F1F1F] mb-8" style={{ fontFamily: "'Georgia', serif" }}>
-              Art<br/>
-              Made<br/>
+            <h1 className="text-[clamp(3.5rem,6vw,6rem)] font-black leading-[1.0] tracking-tight text-[#1F1F1F] mb-6" style={{ fontFamily: "'Georgia', serif" }}>
+              Art <br />
+              Made <br />
               <span className="italic font-normal text-[#6B5A4B]">by Hand.</span>
             </h1>
-            <p className="text-base text-gray-500 max-w-xs mb-10 leading-relaxed">
+            <p className="text-base text-gray-500 max-w-md mb-10 leading-relaxed">
               Every piece on CraftGenius is handmade by a real person, in a real place, using a skill passed down for generations.
             </p>
-            <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }} className="inline-flex">
-              <Link to="/register" className="inline-flex items-center gap-2 bg-[#1F1F1F] text-white text-sm font-bold px-7 py-3.5 hover:bg-[#3B2B25] transition-colors group">
-              Start Exploring
-              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            <div className="flex flex-wrap items-center gap-6">
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <Link to="/register" className="inline-flex items-center gap-2 bg-[#1F1F1F] text-white text-sm font-bold px-8 py-4 rounded-full shadow-lg shadow-black/10 hover:bg-[#3B2B25] transition-all group">
+                  Start Exploring
+                  <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                </Link>
+              </motion.div>
+              <Link to="/about" className="text-sm font-bold text-[#1F1F1F] underline decoration-2 decoration-[#EDE6DC] hover:decoration-[#6B5A4B] underline-offset-4 transition-colors">
+                Our Story
               </Link>
-            </motion.div>
+            </div>
+            
+            {/* Stats incorporated into left column */}
+            <div className="mt-16 grid grid-cols-3 gap-6 border-t border-gray-200 pt-8">
+              {[
+                { val: "50k+", label: "Pieces sold" },
+                { val: "28", label: "States" },
+                { val: "100%", label: "Handmade" },
+              ].map((s) => (
+                <div key={s.val}>
+                  <p className="text-3xl font-black text-[#1F1F1F]" style={{ fontFamily: "'Georgia', serif" }}>{s.val}</p>
+                  <p className="text-[10px] text-gray-500 mt-2 uppercase tracking-widest font-bold">{s.label}</p>
+                </div>
+              ))}
+            </div>
           </motion.div>
         </div>
 
-        {/* ── Large Hero Image */}
+        {/* ── Right Image Section */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.97 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.15 }}
-          className="col-span-12 lg:col-span-7 relative overflow-hidden"
-          style={{ height: "clamp(340px, 55vh, 680px)" }}
+          transition={{ duration: 1, delay: 0.2 }}
+          className="flex-1 w-full relative"
         >
-          <img
-            src="https://images.unsplash.com/photo-1524634126442-357e0eac3c14?w=1400&q=90"
-            alt="Artisan at work"
-            className="w-full h-full object-cover"
-          />
+          {/* Main Arched Image */}
+          <div className="relative w-full aspect-[4/5] max-h-[700px] rounded-t-[12rem] rounded-b-3xl overflow-hidden shadow-2xl border-4 border-white">
+            <img
+              src="https://images.unsplash.com/photo-1524634126442-357e0eac3c14?w=1400&q=90"
+              alt="Artisan at work"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          
           {/* Floating stat card */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.8, duration: 0.5 }}
-            className="absolute bottom-6 left-6 bg-[#F7F6F2] px-5 py-4 shadow-xl"
+            className="absolute -bottom-6 -left-6 lg:bottom-12 lg:-left-12 bg-white/95 backdrop-blur-xl px-8 py-6 shadow-2xl rounded-3xl border border-white/40"
           >
-            <p className="text-3xl font-black text-[#1F1F1F]" style={{ fontFamily: "'Georgia', serif" }}>1,200+</p>
-            <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mt-0.5">Verified Artisans</p>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-[#EDE6DC] flex items-center justify-center text-[#6B5A4B]">
+                <Sparkles className="w-5 h-5" />
+              </div>
+              <div>
+                <p className="text-3xl font-black text-[#1F1F1F]" style={{ fontFamily: "'Georgia', serif" }}>1,200+</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#6B5A4B] mt-1">Verified Artisans</p>
+              </div>
+            </div>
           </motion.div>
         </motion.div>
-
-        {/* ── Bottom Strip: accent cards */}
-        <div className="col-span-12 grid grid-cols-3 gap-3 mt-0">
-          {[
-            { val: "50,000+", label: "Pieces sold" },
-            { val: "28", label: "States covered" },
-            { val: "100%", label: "Handmade guarantee" },
-          ].map((s) => (
-            <motion.div
-              key={s.val}
-              whileHover={{ y: -4, borderColor: "#C9B49A" }}
-              transition={{ duration: 0.2 }}
-              className="border border-gray-200 bg-white px-5 py-5"
-            >
-              <p className="text-2xl font-black text-[#1F1F1F]" style={{ fontFamily: "'Georgia', serif" }}>{s.val}</p>
-              <p className="text-xs text-gray-500 mt-1 uppercase tracking-widest font-medium">{s.label}</p>
-            </motion.div>
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -302,22 +313,22 @@ function FeaturedPicks() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="md:row-span-2 group cursor-pointer"
+          className="md:row-span-2 group cursor-pointer bg-white p-4 rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 flex flex-col"
         >
-          <div className="overflow-hidden" style={{ height: "clamp(380px,60vh,700px)" }}>
+          <div className="overflow-hidden rounded-2xl" style={{ height: "clamp(380px,60vh,700px)" }}>
             <img
               src={featuredItems[0].image}
               alt={featuredItems[0].name}
-              className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+              className="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-700 ease-out"
             />
           </div>
-          <div className="mt-4 flex justify-between items-start">
+          <div className="mt-6 flex justify-between items-start px-2">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-[#6B5A4B] bg-[#EDE6DC] px-2 py-0.5 mr-2">{featuredItems[0].tag}</span>
-              <h3 className="text-xl font-bold text-[#1F1F1F] mt-2">{featuredItems[0].name}</h3>
-              <p className="text-sm text-gray-500 italic mt-0.5">{featuredItems[0].artisan} — {featuredItems[0].location}</p>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-[#6B5A4B] bg-[#F7F6F2] px-3 py-1.5 rounded-full mr-2">{featuredItems[0].tag}</span>
+              <h3 className="text-2xl font-bold text-[#1F1F1F] mt-3">{featuredItems[0].name}</h3>
+              <p className="text-sm text-gray-500 font-medium mt-1.5">{featuredItems[0].artisan} <span className="mx-1.5 text-gray-300">•</span> {featuredItems[0].location}</p>
             </div>
-            <span className="text-xl font-bold text-[#1F1F1F] ml-4 shrink-0">{featuredItems[0].price}</span>
+            <span className="text-xl font-bold text-[#1F1F1F] ml-4 shrink-0 bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100">{featuredItems[0].price}</span>
           </div>
         </motion.div>
 
@@ -329,22 +340,22 @@ function FeaturedPicks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: (i + 1) * 0.12 }}
-            className="group cursor-pointer"
+            className="group cursor-pointer bg-white p-3.5 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 flex flex-col"
           >
-            <div className="overflow-hidden" style={{ height: "clamp(200px,28vh,340px)" }}>
+            <div className="overflow-hidden rounded-2xl" style={{ height: "clamp(200px,28vh,340px)" }}>
               <img
                 src={item.image}
                 alt={item.name}
-                className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                className="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-700 ease-out"
               />
             </div>
-            <div className="mt-4 flex justify-between items-start">
+            <div className="mt-5 flex justify-between items-start px-2 flex-grow">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-[#6B5A4B] bg-[#EDE6DC] px-2 py-0.5">{item.tag}</span>
-                <h3 className="text-lg font-bold text-[#1F1F1F] mt-2">{item.name}</h3>
-                <p className="text-sm text-gray-500 italic mt-0.5">{item.artisan}</p>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#6B5A4B] bg-[#F7F6F2] px-3 py-1.5 rounded-full">{item.tag}</span>
+                <h3 className="text-lg font-bold text-[#1F1F1F] mt-3">{item.name}</h3>
+                <p className="text-sm text-gray-500 font-medium mt-1.5">{item.artisan}</p>
               </div>
-              <span className="text-lg font-bold text-[#1F1F1F] ml-4 shrink-0">{item.price}</span>
+              <span className="text-lg font-bold text-[#1F1F1F] ml-4 shrink-0 bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100">{item.price}</span>
             </div>
           </motion.div>
         ))}
@@ -372,37 +383,60 @@ function Categories() {
 
   return (
     <section className="py-24 bg-[#F7F6F2]">
-      <div className="px-5 lg:px-10 max-w-screen-2xl mx-auto mb-10 flex items-baseline justify-between">
-        <h2 className="text-3xl font-black text-[#1F1F1F]" style={{ fontFamily: "'Georgia', serif" }}>
-          Shop by Craft
-        </h2>
-        <p className="text-sm text-gray-500">Scroll →</p>
+      <div className="px-5 lg:px-10 max-w-screen-2xl mx-auto mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#6B5A4B] mb-3">Explore Collections</p>
+          <h2 className="text-4xl md:text-5xl font-black text-[#1F1F1F]" style={{ fontFamily: "'Georgia', serif" }}>
+            Shop by Craft
+          </h2>
+        </div>
+        <div className="flex items-center gap-2 hidden md:flex">
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Swipe to explore</p>
+          <motion.div
+            animate={{ x: [0, 5, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+          >
+            <span className="text-gray-400">→</span>
+          </motion.div>
+        </div>
       </div>
 
       {/* Horizontally scrollable row on mobile, grid on desktop */}
       <div
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto pb-4 px-5 lg:px-10 scrollbar-none lg:grid lg:grid-cols-5 lg:overflow-visible"
+        className="flex gap-6 overflow-x-auto pb-8 px-5 lg:px-10 scrollbar-none lg:grid lg:grid-cols-5 lg:overflow-visible"
         style={{ scrollSnapType: "x mandatory" }}
       >
         {categories.map((cat, i) => (
           <motion.div
             key={cat.name}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.08 }}
-            className="group cursor-pointer shrink-0 w-52 lg:w-auto"
+            transition={{ duration: 0.6, delay: i * 0.1 }}
+            className="relative group cursor-pointer shrink-0 w-64 lg:w-auto overflow-hidden rounded-[2rem] shadow-sm hover:shadow-2xl transition-all duration-500"
             style={{ scrollSnapAlign: "start" }}
           >
-            <div className="overflow-hidden aspect-[3/4]">
+            {/* Image container */}
+            <div className="aspect-[3/4] w-full bg-gray-200">
               <img
                 src={cat.image}
                 alt={cat.name}
-                className="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-700 ease-out"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
               />
             </div>
-            <p className="mt-3 text-sm font-bold uppercase tracking-widest text-[#1F1F1F]">{cat.name}</p>
+            
+            {/* Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500"></div>
+
+            {/* Text & Icon Content */}
+            <div className="absolute inset-x-0 bottom-0 p-6 flex flex-col justify-end translate-y-3 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+              <h3 className="text-lg lg:text-xl font-bold uppercase tracking-widest text-white mb-1">{cat.name}</h3>
+              <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-75">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#EDE6DC]">Explore</span>
+                <ArrowUpRight className="w-3 h-3 text-[#EDE6DC]" />
+              </div>
+            </div>
           </motion.div>
         ))}
       </div>
@@ -414,30 +448,40 @@ function Categories() {
 
 function ArtisanBanner() {
   return (
-    <section id="artisans" className="w-full bg-[#1F1F1F] overflow-hidden scroll-mt-20">
-      <div className="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-2">
-        {/* Image */}
-        <div className="relative overflow-hidden" style={{ minHeight: 400 }}>
-          <img
-            src="https://images.unsplash.com/photo-1621600411688-4be93cd68504?w=900&q=85"
-            alt="Artisan crafting"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-        </div>
+    <section id="artisans" className="w-full bg-[#F7F6F2] py-24 px-5 lg:px-10 scroll-mt-20">
+      <div className="max-w-screen-2xl mx-auto bg-[#EDE6DC] rounded-[3rem] overflow-hidden shadow-sm flex flex-col md:flex-row">
+        
         {/* Text */}
-        <div className="flex flex-col justify-center px-10 py-16 lg:px-20">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-gray-400 mb-4">Artisan Spotlight</p>
-          <h2 className="text-4xl lg:text-5xl font-black text-white leading-tight mb-6" style={{ fontFamily: "'Georgia', serif" }}>
-            Sell what you<br /><span className="italic font-normal text-[#C9B49A]">create.</span>
+        <div className="flex-1 flex flex-col justify-center px-10 py-16 lg:px-24">
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#6B5A4B] mb-4 flex items-center gap-3">
+            <span className="w-8 h-[2px] bg-[#6B5A4B]"></span>
+            Artisan Spotlight
+          </p>
+          <h2 className="text-5xl lg:text-6xl font-black text-[#1F1F1F] leading-[1.05] mb-6" style={{ fontFamily: "'Georgia', serif" }}>
+            Sell what you<br /><span className="italic font-normal text-[#6B5A4B]">create.</span>
           </h2>
-          <p className="text-gray-400 mb-10 leading-relaxed max-w-sm">
+          <p className="text-[#1F1F1F]/75 mb-10 leading-relaxed max-w-md text-lg">
             Join over 1,200 artisans already selling on CraftGenius. Zero listing fees. Direct payments. Real buyers who value real craft.
           </p>
-          <Link to="/register" className="self-start inline-flex items-center gap-2 border border-white text-white text-sm font-bold px-7 py-3.5 hover:bg-white hover:text-[#1F1F1F] transition-colors group">
-            Become a Seller
-            <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-          </Link>
+          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="self-start">
+            <Link to="/register" className="inline-flex items-center gap-2 bg-[#1F1F1F] text-white text-sm font-bold px-8 py-4 rounded-full shadow-lg shadow-black/10 hover:bg-[#3B2B25] transition-all group">
+              Become a Seller
+              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </Link>
+          </motion.div>
         </div>
+
+        {/* Image */}
+        <div className="flex-1 relative min-h-[400px] lg:min-h-[600px] p-6 lg:p-10 flex items-center justify-center">
+          <div className="w-full h-full rounded-[2.5rem] overflow-hidden shadow-2xl">
+            <img
+              src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=900&q=85"
+              alt="Artisan painting"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+
       </div>
     </section>
   );
@@ -499,7 +543,7 @@ function Footer() {
 
 export default function Guest() {
   return (
-    <div className="min-h-screen my-6 mx-4 md:mx-8 lg:mx-12 bg-[#F7F6F2] text-[#1F1F1F] overflow-x-hidden">
+    <div className="min-h-screen my-6 mx-4 md:mx-8 lg:mx-12 bg-[#F7F6F2] text-[#1F1F1F]">
       <Marquee />
       <Navbar />
       <Hero />
