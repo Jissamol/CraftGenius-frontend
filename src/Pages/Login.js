@@ -104,6 +104,15 @@ function EyeOffIcon() {
   );
 }
 
+function ArrowLeftIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+  );
+}
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // FLOATING BACKGROUND BLOBS
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -264,9 +273,27 @@ function Login() {
             justifyContent: "center",
           }}
         >
-          {/* Logo */}
-          <motion.div variants={itemVariants} style={{ marginBottom: "36px" }}>
-            <Link to="/" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "10px" }}>
+          {/* Back Button & Logo */}
+          <motion.div variants={itemVariants} style={{ marginBottom: "36px", display: "flex", flexDirection: "column", gap: "24px" }}>
+            <Link 
+              to="/" 
+              style={{ 
+                textDecoration: "none", 
+                display: "inline-flex", 
+                alignItems: "center", 
+                gap: "8px",
+                color: COLORS.taupe,
+                fontSize: "14px",
+                fontWeight: 500,
+                transition: "color 0.2s ease"
+              }}
+              onMouseEnter={(e) => e.target.style.color = COLORS.softBrown}
+              onMouseLeave={(e) => e.target.style.color = COLORS.taupe}
+            >
+              <ArrowLeftIcon /> Back to Home
+            </Link>
+            
+            <Link to="/" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "10px", width: "fit-content" }}>
               <div
                 style={{
                   width: "36px",
