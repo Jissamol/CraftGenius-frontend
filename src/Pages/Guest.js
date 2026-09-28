@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Sparkles, Menu, X, ArrowUpRight } from "lucide-react";
 import { FaInstagram, FaPinterestP } from "react-icons/fa";
+import { ArcGalleryHero } from "../components/ui/arc-gallery-hero-component";
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
 
@@ -199,91 +200,50 @@ function Navbar() {
 }
 
 // ─── HERO ─────────────────────────────────────────────────────────────────────
-// Bento-style asymmetric layout: big image, overlapping text, small accent cards
+// Arc Gallery Hero Layout
 
 function Hero() {
-  return (
-    <section className="w-full bg-[#F7F6F2] pt-12 pb-24 px-5 lg:px-10 max-w-screen-2xl mx-auto overflow-hidden">
-      <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-        
-        {/* ── Left Content */}
-        <div className="flex-1 w-full flex flex-col justify-center relative z-10">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#6B5A4B] mb-6 flex items-center gap-3">
-              <span className="w-8 h-[2px] bg-[#6B5A4B]"></span>
-              India's finest marketplace
-            </p>
-            <h1 className="text-[clamp(3.5rem,6vw,6rem)] font-black leading-[1.0] tracking-tight text-[#1F1F1F] mb-6" style={{ fontFamily: "'Georgia', serif" }}>
-              Art <br />
-              Made <br />
-              <span className="italic font-normal text-[#6B5A4B]">by Hand.</span>
-            </h1>
-            <p className="text-base text-gray-500 max-w-md mb-10 leading-relaxed">
-              Every piece on CraftGenius is handmade by a real person, in a real place, using a skill passed down for generations.
-            </p>
-            <div className="flex flex-wrap items-center gap-6">
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                <Link to="/register" className="inline-flex items-center gap-2 bg-[#1F1F1F] text-white text-sm font-bold px-8 py-4 rounded-full shadow-lg shadow-black/10 hover:bg-[#3B2B25] transition-all group">
-                  Start Exploring
-                  <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </Link>
-              </motion.div>
-              <Link to="/about" className="text-sm font-bold text-[#1F1F1F] underline decoration-2 decoration-[#EDE6DC] hover:decoration-[#6B5A4B] underline-offset-4 transition-colors">
-                Our Story
-              </Link>
-            </div>
-            
-            {/* Stats incorporated into left column */}
-            <div className="mt-16 grid grid-cols-3 gap-6 border-t border-gray-200 pt-8">
-              {[
-                { val: "50k+", label: "Pieces sold" },
-                { val: "28", label: "States" },
-                { val: "100%", label: "Handmade" },
-              ].map((s) => (
-                <div key={s.val}>
-                  <p className="text-3xl font-black text-[#1F1F1F]" style={{ fontFamily: "'Georgia', serif" }}>{s.val}</p>
-                  <p className="text-[10px] text-gray-500 mt-2 uppercase tracking-widest font-bold">{s.label}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
+  const existingProductImages = [
+    ...featuredItems.map(item => item.image),
+    ...categories.map(cat => cat.image)
+  ];
 
-        {/* ── Right Image Section */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="flex-1 w-full relative"
+  return (
+    <section className="w-full bg-[#F7F6F2] max-w-screen-2xl mx-auto overflow-hidden">
+      <ArcGalleryHero images={existingProductImages}>
+        <motion.div 
+          initial={{ opacity: 0, y: 24 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.7, delay: 0.5 }}
+          className="flex flex-col items-center"
         >
-          {/* Main Arched Image */}
-          <div className="relative w-full aspect-[4/5] max-h-[700px] rounded-t-[12rem] rounded-b-3xl overflow-hidden shadow-2xl border-4 border-white">
-            <img
-              src="https://images.unsplash.com/photo-1524634126442-357e0eac3c14?w=1400&q=90"
-              alt="Artisan at work"
-              className="w-full h-full object-cover"
-            />
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#6B5A4B] mb-6 flex items-center gap-3">
+            <span className="w-8 h-[2px] bg-[#6B5A4B]"></span>
+            CraftGenius Marketplace
+            <span className="w-8 h-[2px] bg-[#6B5A4B]"></span>
+          </p>
+          <h1 className="text-[clamp(3rem,6vw,5.5rem)] font-black leading-[1.05] tracking-tight text-[#1F1F1F] mb-6" style={{ fontFamily: "'Georgia', serif" }}>
+            Discover the Art <br />
+            Behind Every <span className="italic font-normal text-[#6B5A4B]">Creation.</span>
+          </h1>
+          <p className="text-base md:text-lg text-[#1F1F1F]/75 max-w-xl mb-10 leading-relaxed font-medium bg-white/40 backdrop-blur-sm p-4 rounded-2xl border border-white/50">
+            Explore unique handmade creations from talented artisans and find something truly made for you. Let AI help you discover pieces that match your style.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-6">
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+              <Link to="/register" className="inline-flex items-center gap-2 bg-[#1F1F1F] text-white text-sm font-bold px-8 py-4 rounded-full shadow-xl shadow-black/15 hover:bg-[#3B2B25] transition-all group">
+                Explore Products
+                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              </Link>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+              <a href="#artisans" className="inline-flex items-center gap-2 bg-white text-[#1F1F1F] text-sm font-bold px-8 py-4 rounded-full shadow-lg border border-gray-200 hover:border-gray-300 transition-all">
+                Meet Our Artisans
+              </a>
+            </motion.div>
           </div>
-          
-          {/* Floating stat card */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.8, duration: 0.5 }}
-            className="absolute -bottom-6 -left-6 lg:bottom-12 lg:-left-12 bg-white/95 backdrop-blur-xl px-8 py-6 shadow-2xl rounded-3xl border border-white/40"
-          >
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#EDE6DC] flex items-center justify-center text-[#6B5A4B]">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-3xl font-black text-[#1F1F1F]" style={{ fontFamily: "'Georgia', serif" }}>1,200+</p>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-[#6B5A4B] mt-1">Verified Artisans</p>
-              </div>
-            </div>
-          </motion.div>
         </motion.div>
-      </div>
+      </ArcGalleryHero>
     </section>
   );
 }
