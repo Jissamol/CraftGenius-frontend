@@ -75,255 +75,235 @@ function CustomerProfile() {
   );
 
   return (
-    <div className="py-8 space-y-6 max-w-4xl mx-auto">
-
-      {/* ── Page title row ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-        className="flex items-center justify-between flex-wrap gap-3"
-      >
-        <div>
-          <h1 className="text-2xl font-bold text-[#1F1F1F]" style={{ fontFamily: "'Playfair Display', serif" }}>
-            My Profile
-          </h1>
-          <p className="text-sm text-gray-400 mt-0.5">Manage your personal information</p>
-        </div>
-
-        {!editing && (
-          <motion.button
-            whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-            onClick={() => setEditing(true)}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#1F1F1F] text-white text-sm font-semibold rounded-full hover:bg-[#333] transition-colors shadow-sm"
+    <div className="py-8 max-w-6xl mx-auto">
+      <div className="flex flex-col lg:flex-row gap-8">
+        
+        {/* ── Left Sidebar: Identity & Stats ── */}
+        <div className="w-full lg:w-[340px] flex-shrink-0 flex flex-col gap-6">
+          
+          {/* Identity Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 flex flex-col items-center text-center relative overflow-hidden"
           >
-            <FiEdit3 size={14} /> Edit Profile
-          </motion.button>
-        )}
-      </motion.div>
+            {/* Subtle decorative background top */}
+            <div className="absolute top-0 left-0 right-0 h-24 bg-[#F7F6F2] -z-10" />
 
-      {/* ── Hero / identity card ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 }}
-        className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden"
-      >
-        {/* Warm top strip matching brand */}
-        <div className="h-1.5 w-full bg-gradient-to-r from-[#8A6A55] via-[#C4A882] to-[#8A6A55]" />
-
-        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 p-7">
-          {/* Avatar */}
-          <div className="flex-shrink-0">
-            {editing ? (
-              <label className="relative cursor-pointer block">
-                <input type="file" accept="image/*" hidden onChange={handleChange} name="profile_picture" />
-                <div className="w-24 h-24 rounded-2xl overflow-hidden bg-[#F7F6F2] border-2 border-dashed border-[#8A6A55] flex items-center justify-center">
+            {/* Avatar */}
+            <div className="mb-4">
+              {editing ? (
+                <label className="relative cursor-pointer block">
+                  <input type="file" accept="image/*" hidden onChange={handleChange} name="profile_picture" />
+                  <div className="w-28 h-28 rounded-full overflow-hidden bg-white border-4 border-white shadow-md flex items-center justify-center hover:border-gray-50 transition-colors">
+                    {avatarSrc
+                      ? <img src={avatarSrc} alt="avatar" className="w-full h-full object-cover" />
+                      : <div className="w-full h-full bg-[#F7F6F2] border-2 border-dashed border-[#8A6A55] rounded-full flex items-center justify-center">
+                          <span className="text-3xl font-bold text-[#8A6A55]">{initials}</span>
+                        </div>
+                    }
+                  </div>
+                  <span className="absolute bottom-0 right-0 w-8 h-8 bg-[#1F1F1F] text-white rounded-full flex items-center justify-center shadow-md">
+                    <FiCamera size={14} />
+                  </span>
+                </label>
+              ) : (
+                <div className="w-28 h-28 rounded-full overflow-hidden bg-[#F7F6F2] border-4 border-white shadow-md flex items-center justify-center">
                   {avatarSrc
                     ? <img src={avatarSrc} alt="avatar" className="w-full h-full object-cover" />
                     : <span className="text-4xl font-bold text-[#8A6A55]">{initials}</span>
                   }
                 </div>
-                <span className="absolute -bottom-2 -right-2 w-7 h-7 bg-[#1F1F1F] text-white rounded-full flex items-center justify-center shadow-md">
-                  <FiCamera size={13} />
-                </span>
-              </label>
-            ) : (
-              <div className="w-24 h-24 rounded-2xl overflow-hidden bg-[#F7F6F2] border border-gray-100 flex items-center justify-center">
-                {avatarSrc
-                  ? <img src={avatarSrc} alt="avatar" className="w-full h-full object-cover" />
-                  : <span className="text-4xl font-bold text-[#8A6A55]">{initials}</span>
-                }
-              </div>
-            )}
-          </div>
+              )}
+            </div>
 
-          {/* Name + email */}
-          <div className="flex-1 text-center sm:text-left">
-            <h2 className="text-xl font-bold text-[#1F1F1F]" style={{ fontFamily: "'Playfair Display', serif" }}>
+            {/* Name + email */}
+            <h2 className="text-2xl font-bold text-[#1F1F1F] mb-1">
               {profile?.name}
             </h2>
-            <div className="flex items-center justify-center sm:justify-start gap-1.5 text-sm text-gray-400 mt-1">
-              <FiMail size={13} />
-              <span>{profile?.email}</span>
+            <div className="flex items-center justify-center gap-1.5 text-sm text-gray-500 mb-5">
+              <FiMail size={14} />
+              <span className="truncate max-w-[200px]">{profile?.email}</span>
             </div>
-            <span className="inline-flex items-center gap-1.5 mt-3 px-3 py-1 bg-[#F7F6F2] text-[#8A6A55] text-xs font-semibold rounded-full border border-[#E8DDD4]">
-              🎨 Craft Enthusiast
+            
+            <span className="inline-flex items-center px-4 py-1.5 bg-[#F7F6F2] text-[#8A6A55] text-xs font-bold rounded-full border border-[#E8DDD4] uppercase tracking-wide">
+              Craft Enthusiast
             </span>
-          </div>
-
-          {/* Divider */}
-          <div className="hidden sm:block w-px h-20 bg-gray-100 self-center" />
-
-          {/* Inline stats */}
-          <div className="flex sm:flex-col gap-6 sm:gap-4 text-center sm:text-right flex-shrink-0">
-            <div>
-              <p className="text-2xl font-bold text-[#1F1F1F]">{profile?.total_orders || 0}</p>
-              <p className="text-xs text-gray-400 font-medium uppercase tracking-wide mt-0.5">Orders</p>
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-[#1F1F1F]">₹{profile?.total_spent?.toFixed(0) || 0}</p>
-              <p className="text-xs text-gray-400 font-medium uppercase tracking-wide mt-0.5">Spent</p>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* ── Stat mini-cards ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12 }}
-        className="grid grid-cols-1 sm:grid-cols-3 gap-4"
-      >
-        {[
-          { icon: FiPackage,      label: 'Total Orders', value: profile?.total_orders || 0,            accent: '#8A6A55', bg: '#FBF8F5' },
-          { icon: FiShoppingBag, label: 'Total Spent',  value: `₹${profile?.total_spent?.toFixed(0) || 0}`, accent: '#1F1F1F', bg: '#F4F4F4' },
-          { icon: FiUser,        label: 'Member Since', value: profile?.date_joined
-              ? new Date(profile.date_joined).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })
-              : 'Active',
-            accent: '#6B7280', bg: '#F7F7F7' },
-        ].map(({ icon: Icon, label, value, accent, bg }, i) => (
-          <motion.div
-            key={label}
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.12 + i * 0.06 }}
-            whileHover={{ y: -3 }}
-            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex items-center gap-4"
-          >
-            <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: bg }}>
-              <Icon size={18} style={{ color: accent }} />
-            </div>
-            <div>
-              <p className="text-lg font-bold text-[#1F1F1F]">{value}</p>
-              <p className="text-xs text-gray-400 font-medium">{label}</p>
-            </div>
           </motion.div>
-        ))}
-      </motion.div>
 
-      {/* ── Details / Edit panel ── */}
-      <AnimatePresence mode="wait">
-        {editing ? (
-          /* ── Edit Form ── */
+          {/* Stats Card */}
           <motion.div
-            key="edit"
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            className="bg-white rounded-3xl border border-gray-100 shadow-sm p-7"
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+            className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden"
           >
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-bold text-[#1F1F1F]" style={{ fontFamily: "'Playfair Display', serif" }}>
-                Edit Details
-              </h3>
-              <button
-                onClick={cancelEdit}
-                className="w-8 h-8 rounded-full bg-[#F7F6F2] text-gray-500 hover:bg-red-50 hover:text-red-500 flex items-center justify-center transition-colors"
-              >
-                <FiX size={15} />
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="divide-y divide-gray-100">
               {[
-                { name: 'phone',   label: 'Phone Number',  icon: FiPhone,  placeholder: 'e.g. 9876543210' },
-                { name: 'city',    label: 'City',          icon: FiMapPin, placeholder: 'e.g. Kochi' },
-                { name: 'state',   label: 'State',         icon: FiMap,    placeholder: 'e.g. Kerala' },
-                { name: 'pincode', label: 'Pincode',       icon: FiHash,   placeholder: 'e.g. 682001' },
-              ].map(f => (
-                <div key={f.name}>
-                  <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                    <f.icon size={12} /> {f.label}
-                  </label>
-                  <input
-                    name={f.name}
-                    value={form[f.name] || ''}
-                    onChange={handleChange}
-                    placeholder={f.placeholder}
-                    className="w-full px-4 py-2.5 bg-[#F7F6F2] border border-gray-200 rounded-xl text-sm text-[#1F1F1F] placeholder-gray-400 focus:outline-none focus:border-[#8A6A55] focus:ring-2 focus:ring-[#E8DDD4] transition-all"
-                  />
-                </div>
-              ))}
-
-              <div className="sm:col-span-2">
-                <label className="flex items-center gap-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-                  <FiHome size={12} /> Full Address
-                </label>
-                <textarea
-                  name="address"
-                  value={form.address || ''}
-                  onChange={handleChange}
-                  placeholder="House No, Street, Landmark…"
-                  rows={3}
-                  className="w-full px-4 py-2.5 bg-[#F7F6F2] border border-gray-200 rounded-xl text-sm text-[#1F1F1F] placeholder-gray-400 focus:outline-none focus:border-[#8A6A55] focus:ring-2 focus:ring-[#E8DDD4] transition-all resize-none"
-                />
-              </div>
-            </div>
-
-            <div className="flex gap-3 mt-6">
-              <motion.button
-                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
-                onClick={saveProfile}
-                disabled={saving}
-                className="flex items-center gap-2 px-6 py-2.5 bg-[#1F1F1F] text-white text-sm font-semibold rounded-full hover:bg-[#333] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {saving ? '⏳ Saving…' : <><FiSave size={14} /> Save Changes</>}
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
-                onClick={cancelEdit}
-                className="flex items-center gap-2 px-5 py-2.5 bg-[#F7F6F2] text-gray-600 text-sm font-semibold rounded-full hover:bg-gray-200 transition-colors border border-gray-200"
-              >
-                <FiX size={14} /> Cancel
-              </motion.button>
-            </div>
-          </motion.div>
-        ) : (
-          /* ── View Mode ── */
-          <motion.div
-            key="view"
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ delay: 0.2 }}
-            className="bg-white rounded-3xl border border-gray-100 shadow-sm p-7"
-          >
-            <h3 className="text-lg font-bold text-[#1F1F1F] mb-5" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Contact & Address
-            </h3>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {[
-                { icon: FiPhone,  label: 'Phone',   value: profile?.phone },
-                { icon: FiMapPin, label: 'City',    value: profile?.city },
-                { icon: FiMap,    label: 'State',   value: profile?.state },
-                { icon: FiHash,   label: 'Pincode', value: profile?.pincode },
+                { icon: FiPackage,     label: 'Total Orders', value: profile?.total_orders || 0 },
+                { icon: FiShoppingBag, label: 'Total Spent',  value: `₹${profile?.total_spent?.toFixed(0) || 0}` },
+                { icon: FiUser,        label: 'Member Since', value: profile?.date_joined
+                    ? new Date(profile.date_joined).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' })
+                    : 'Active' },
               ].map(({ icon: Icon, label, value }) => (
-                <motion.div
-                  key={label}
-                  whileHover={{ backgroundColor: '#FDFAF7' }}
-                  className="flex items-center gap-3 p-4 bg-[#F7F6F2] rounded-2xl border border-transparent hover:border-[#E8DDD4] transition-all"
-                >
-                  <div className="w-9 h-9 rounded-xl bg-white border border-[#E8DDD4] flex items-center justify-center flex-shrink-0">
-                    <Icon size={14} className="text-[#8A6A55]" />
+                <div key={label} className="p-5 flex items-center justify-between hover:bg-gray-50/50 transition-colors">
+                  <div className="flex items-center gap-3 text-gray-500">
+                    <div className="w-8 h-8 rounded-full bg-[#F7F6F2] flex items-center justify-center">
+                      <Icon size={14} className="text-[#8A6A55]" />
+                    </div>
+                    <span className="text-sm font-semibold uppercase tracking-wide">{label}</span>
                   </div>
-                  <div>
-                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">{label}</p>
-                    <p className="text-sm font-semibold text-[#1F1F1F] mt-0.5">{value || '—'}</p>
-                  </div>
-                </motion.div>
-              ))}
-
-              {/* Full-width address */}
-              <motion.div
-                whileHover={{ backgroundColor: '#FDFAF7' }}
-                className="sm:col-span-2 flex items-start gap-3 p-4 bg-[#F7F6F2] rounded-2xl border border-transparent hover:border-[#E8DDD4] transition-all"
-              >
-                <div className="w-9 h-9 rounded-xl bg-white border border-[#E8DDD4] flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <FiHome size={14} className="text-[#8A6A55]" />
+                  <span className="text-lg font-bold text-[#1F1F1F]">{value}</span>
                 </div>
-                <div>
-                  <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Address</p>
-                  <p className="text-sm font-semibold text-[#1F1F1F] mt-0.5">{profile?.address || '—'}</p>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+
+        {/* ── Right Main Area ── */}
+        <div className="flex-1 flex flex-col gap-6">
+          
+          {/* Header Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
+            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:px-8 sm:py-6 flex flex-col sm:flex-row items-center justify-between gap-4"
+          >
+            <div className="text-center sm:text-left">
+              <h1 className="text-2xl font-bold text-[#1F1F1F] mb-1">
+                My Profile
+              </h1>
+              <p className="text-sm text-gray-500">Manage your personal information and contact details</p>
+            </div>
+
+            {!editing && (
+              <motion.button
+                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                onClick={() => setEditing(true)}
+                className="flex items-center gap-2 px-5 py-2.5 bg-[#1F1F1F] text-white text-sm font-medium rounded-lg hover:bg-[#333] transition-colors shadow-sm"
+              >
+                <FiEdit3 size={16} /> Edit Profile
+              </motion.button>
+            )}
+          </motion.div>
+
+          {/* Details / Edit panel */}
+          <AnimatePresence mode="wait">
+            {editing ? (
+              /* ── Edit Form ── */
+              <motion.div
+                key="edit"
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8 flex-1"
+              >
+                <div className="flex items-center justify-between mb-8">
+                  <h3 className="text-lg font-bold text-[#1F1F1F]">
+                    Edit Contact Details
+                  </h3>
+                  <button
+                    onClick={cancelEdit}
+                    className="p-2 rounded-lg text-gray-400 hover:bg-gray-50 hover:text-[#1F1F1F] transition-colors"
+                  >
+                    <FiX size={18} />
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {[
+                    { name: 'phone',   label: 'Phone Number',  icon: FiPhone,  placeholder: 'e.g. 9876543210' },
+                    { name: 'city',    label: 'City',          icon: FiMapPin, placeholder: 'e.g. Kochi' },
+                    { name: 'state',   label: 'State',         icon: FiMap,    placeholder: 'e.g. Kerala' },
+                    { name: 'pincode', label: 'Pincode',       icon: FiHash,   placeholder: 'e.g. 682001' },
+                  ].map(f => (
+                    <div key={f.name}>
+                      <label className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">
+                        <f.icon size={14} className="text-[#8A6A55]" /> {f.label}
+                      </label>
+                      <input
+                        name={f.name}
+                        value={form[f.name] || ''}
+                        onChange={handleChange}
+                        placeholder={f.placeholder}
+                        className="w-full px-4 py-3 bg-[#F7F6F2] border border-transparent rounded-xl text-sm text-[#1F1F1F] placeholder-gray-400 focus:outline-none focus:border-[#8A6A55] focus:bg-white transition-all shadow-sm"
+                      />
+                    </div>
+                  ))}
+
+                  <div className="sm:col-span-2">
+                    <label className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">
+                      <FiHome size={14} className="text-[#8A6A55]" /> Full Address
+                    </label>
+                    <textarea
+                      name="address"
+                      value={form.address || ''}
+                      onChange={handleChange}
+                      placeholder="House No, Street, Landmark…"
+                      rows={4}
+                      className="w-full px-4 py-3 bg-[#F7F6F2] border border-transparent rounded-xl text-sm text-[#1F1F1F] placeholder-gray-400 focus:outline-none focus:border-[#8A6A55] focus:bg-white transition-all resize-none shadow-sm"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-100">
+                  <button
+                    onClick={cancelEdit}
+                    className="flex items-center gap-2 px-6 py-2.5 bg-white border border-gray-200 text-gray-600 text-sm font-semibold rounded-lg hover:bg-gray-50 transition-colors shadow-sm"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={saveProfile}
+                    disabled={saving}
+                    className="flex items-center gap-2 px-6 py-2.5 bg-[#1F1F1F] text-white text-sm font-semibold rounded-lg hover:bg-[#333] transition-colors shadow-sm disabled:opacity-50"
+                  >
+                    {saving ? 'Saving…' : <><FiSave size={16} /> Save Changes</>}
+                  </button>
                 </div>
               </motion.div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            ) : (
+              /* ── View Mode ── */
+              <motion.div
+                key="view"
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ delay: 0.2 }}
+                className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8 flex-1"
+              >
+                <h3 className="text-lg font-bold text-[#1F1F1F] mb-6 pb-4 border-b border-gray-100">
+                  Contact Information
+                </h3>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {[
+                    { icon: FiPhone,  label: 'Phone',   value: profile?.phone },
+                    { icon: FiMapPin, label: 'City',    value: profile?.city },
+                    { icon: FiMap,    label: 'State',   value: profile?.state },
+                    { icon: FiHash,   label: 'Pincode', value: profile?.pincode },
+                  ].map(({ icon: Icon, label, value }) => (
+                    <div
+                      key={label}
+                      className="p-5 rounded-2xl bg-[#F7F6F2] flex flex-col gap-1 border border-transparent"
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <Icon size={16} className="text-[#8A6A55]" />
+                        <p className="text-xs font-bold uppercase tracking-widest text-gray-500">{label}</p>
+                      </div>
+                      <p className="text-sm font-bold text-[#1F1F1F]">{value || '—'}</p>
+                    </div>
+                  ))}
+
+                  {/* Full-width address */}
+                  <div className="sm:col-span-2 p-5 rounded-2xl bg-[#F7F6F2] flex flex-col gap-1 border border-transparent">
+                    <div className="flex items-center gap-2 mb-2">
+                      <FiHome size={16} className="text-[#8A6A55]" />
+                      <p className="text-xs font-bold uppercase tracking-widest text-gray-500">Full Address</p>
+                    </div>
+                    <p className="text-sm font-bold text-[#1F1F1F] leading-relaxed max-w-2xl">{profile?.address || '—'}</p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+        </div>
+      </div>
 
       {/* ── Toast (portal) ── */}
       {ReactDOM.createPortal(

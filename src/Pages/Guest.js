@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Sparkles, Menu, X, ArrowUpRight } from "lucide-react";
 import { FaInstagram, FaPinterestP } from "react-icons/fa";
 import { ArcGalleryHero } from "../components/ui/arc-gallery-hero-component";
+import Api from "../services/Api";
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
 
@@ -64,11 +65,11 @@ const featuredItems = [
 ];
 
 const categories = [
-  { name: "Pottery", image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=85" },
-  { name: "Jewelry", image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=700&q=85" },
-  { name: "Textiles", image: "https://images.unsplash.com/photo-1581783342308-f792dbdd27c5?w=700&q=85" },
-  { name: "Woodwork", image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=700&q=85" },
-  { name: "Paintings", image: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=700&q=85" },
+  { name: "Pottery", image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=700&q=85" },
+  { name: "Jewelry", image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=700&q=85" },
+  { name: "Textiles", image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=700&q=85" },
+  { name: "Woodwork", image: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=700&q=85" },
+  { name: "Paintings", image: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=700&q=85" },
 ];
 
 // ─── MARQUEE ─────────────────────────────────────────────────────────────────
@@ -352,6 +353,25 @@ function TextDivider() {
 
 function Categories() {
   const scrollRef = useRef(null);
+  const [dbCategories, setDbCategories] = useState([]);
+
+  useEffect(() => {
+    Api.get('categories/')
+      .then(res => {
+        setDbCategories(res.data.slice(0, 5)); // Show up to 5 categories
+      })
+      .catch(() => {});
+  }, []);
+
+  // Merge API categories with fallback images if API image is missing.
+  // If API fails or returns 0, we still fall back to the hardcoded ones.
+  const displayCats = dbCategories.length > 0 
+    ? dbCategories.map((c, i) => ({
+        name: c.name,
+        // use API image if present; else try to match by index to our curated unsplash images
+        image: c.image || (categories[i] ? categories[i].image : "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=700&q=85")
+      }))
+    : categories;
 
   return (
     <section className="py-24 bg-[#F7F6F2]">
@@ -379,34 +399,34 @@ function Categories() {
         className="flex gap-6 overflow-x-auto pb-8 px-5 lg:px-10 scrollbar-none lg:grid lg:grid-cols-5 lg:overflow-visible"
         style={{ scrollSnapType: "x mandatory" }}
       >
-        {categories.map((cat, i) => (
+        {displayCats.map((cat, i) => (
           <motion.div
             key={cat.name}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: i * 0.1 }}
-            className="relative group cursor-pointer shrink-0 w-64 lg:w-auto overflow-hidden rounded-[2rem] shadow-sm hover:shadow-2xl transition-all duration-500"
+            className="group cursor-pointer shrink-0 w-64 lg:w-auto bg-white rounded-[2rem] shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 flex flex-col overflow-hidden"
             style={{ scrollSnapAlign: "start" }}
           >
             {/* Image container */}
-            <div className="aspect-[3/4] w-full bg-gray-200">
+            <div className="aspect-[4/3] w-full bg-gray-100 overflow-hidden">
               <img
                 src={cat.image}
                 alt={cat.name}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
               />
             </div>
             
-            {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500"></div>
-
             {/* Text & Icon Content */}
-            <div className="absolute inset-x-0 bottom-0 p-6 flex flex-col justify-end translate-y-3 group-hover:translate-y-0 transition-transform duration-500 ease-out">
-              <h3 className="text-lg lg:text-xl font-bold uppercase tracking-widest text-white mb-1">{cat.name}</h3>
-              <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-75">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-[#EDE6DC]">Explore</span>
-                <ArrowUpRight className="w-3 h-3 text-[#EDE6DC]" />
+            <div className="p-6 flex flex-col flex-1">
+              <h3 className="text-base lg:text-lg font-bold text-[#1F1F1F] leading-snug mb-3">
+                {cat.name}
+              </h3>
+              
+              <div className="mt-auto flex items-center gap-2 text-[#8A6A55] group-hover:text-[#6B5A4B] transition-colors">
+                <span className="text-[10px] font-bold uppercase tracking-widest">Explore</span>
+                <ArrowUpRight className="w-3 h-3 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </div>
             </div>
           </motion.div>
