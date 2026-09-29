@@ -248,7 +248,7 @@ function Hero() {
   );
 }
 
-// ─── FEATURED PICKS (Staggered mosaic) ─────────────────────────────────────
+// ─── FEATURED PICKS (Premium Layout) ─────────────────────────────────────────
 
 function FeaturedPicks() {
   return (
@@ -256,69 +256,81 @@ function FeaturedPicks() {
       <Reveal className="flex items-baseline justify-between mb-12">
         <div>
           <h2 className="text-3xl font-black text-[#1F1F1F]" style={{ fontFamily: "'Georgia', serif" }}>
-            Featured Picks
+            Curated For You
           </h2>
-          <p className="text-gray-500 mt-1 text-sm">Handpicked by our curators this week</p>
+          <p className="text-gray-500 mt-1 text-sm">Handpicked by our experts this week</p>
         </div>
         <Link to="/login" className="text-xs font-bold uppercase tracking-widest text-[#1F1F1F] border-b border-[#1F1F1F] pb-0.5 hover:text-[#6B5A4B] hover:border-[#6B5A4B] transition-colors">
-          See all
+          View Collection
         </Link>
       </Reveal>
 
-      {/* Asymmetric 3-column mosaic */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {/* Large item */}
+      <div className="flex flex-col lg:flex-row gap-6">
+        {/* Main Large Featured Item */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="md:row-span-2 group cursor-pointer bg-white p-4 rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 flex flex-col"
+          transition={{ duration: 0.8 }}
+          className="lg:w-2/3 group cursor-pointer relative overflow-hidden rounded-[2.5rem] shadow-xl border border-gray-100 min-h-[500px] lg:min-h-[700px] flex flex-col justify-end"
         >
-          <div className="overflow-hidden rounded-2xl" style={{ height: "clamp(380px,60vh,700px)" }}>
-            <img
-              src={featuredItems[0].image}
-              alt={featuredItems[0].name}
-              className="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-700 ease-out"
-            />
-          </div>
-          <div className="mt-6 flex justify-between items-start px-2">
-            <div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-[#6B5A4B] bg-[#F7F6F2] px-3 py-1.5 rounded-full mr-2">{featuredItems[0].tag}</span>
-              <h3 className="text-2xl font-bold text-[#1F1F1F] mt-3">{featuredItems[0].name}</h3>
-              <p className="text-sm text-gray-500 font-medium mt-1.5">{featuredItems[0].artisan} <span className="mx-1.5 text-gray-300">•</span> {featuredItems[0].location}</p>
+          <img
+            src={featuredItems[0].image}
+            alt={featuredItems[0].name}
+            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
+          
+          <div className="relative z-10 p-8 lg:p-12">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#1F1F1F] bg-white px-4 py-2 rounded-full mb-4 inline-block shadow-lg">
+              {featuredItems[0].tag}
+            </span>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mt-2">
+              <div>
+                <h3 className="text-3xl md:text-5xl font-bold text-white mb-2 leading-tight drop-shadow-md">
+                  {featuredItems[0].name}
+                </h3>
+                <p className="text-white/90 font-medium text-lg flex items-center gap-2 drop-shadow">
+                  <Sparkles className="w-4 h-4 text-yellow-300" />
+                  {featuredItems[0].artisan} <span className="text-white/50">•</span> {featuredItems[0].location}
+                </p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-md border border-white/30 shadow-2xl px-6 py-3 rounded-2xl shrink-0">
+                <span className="text-2xl font-bold text-white drop-shadow-md">{featuredItems[0].price}</span>
+              </div>
             </div>
-            <span className="text-xl font-bold text-[#1F1F1F] ml-4 shrink-0 bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100">{featuredItems[0].price}</span>
           </div>
         </motion.div>
 
-        {/* Supporting pieces in a balanced two-row grid */}
-        {featuredItems.slice(1).map((item, i) => (
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: (i + 1) * 0.12 }}
-            className="group cursor-pointer bg-white p-3.5 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 flex flex-col"
-          >
-            <div className="overflow-hidden rounded-2xl" style={{ height: "clamp(200px,28vh,340px)" }}>
-              <img
-                src={item.image}
-                alt={item.name}
-                className="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-700 ease-out"
-              />
-            </div>
-            <div className="mt-5 flex justify-between items-start px-2 flex-grow">
-              <div>
-                <span className="text-[10px] font-bold uppercase tracking-widest text-[#6B5A4B] bg-[#F7F6F2] px-3 py-1.5 rounded-full">{item.tag}</span>
-                <h3 className="text-lg font-bold text-[#1F1F1F] mt-3">{item.name}</h3>
-                <p className="text-sm text-gray-500 font-medium mt-1.5">{item.artisan}</p>
+        {/* Right side: List of horizontal cards */}
+        <div className="lg:w-1/3 flex flex-col gap-4">
+          {featuredItems.slice(1).map((item, i) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.15 }}
+              className="group cursor-pointer bg-white rounded-3xl p-3 shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 flex items-center gap-5 flex-1"
+            >
+              <div className="w-28 h-28 md:w-32 md:h-32 shrink-0 rounded-2xl overflow-hidden bg-gray-100 shadow-inner">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                />
               </div>
-              <span className="text-lg font-bold text-[#1F1F1F] ml-4 shrink-0 bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100">{item.price}</span>
-            </div>
-          </motion.div>
-        ))}
+              <div className="flex-1 min-w-0 pr-2">
+                <span className="text-[9px] font-bold uppercase tracking-widest text-[#6B5A4B] bg-[#F7F6F2] px-2 py-1 rounded-full">
+                  {item.tag}
+                </span>
+                <h4 className="text-lg font-bold text-[#1F1F1F] truncate mt-2">{item.name}</h4>
+                <p className="text-sm text-gray-500 font-medium truncate mt-0.5">{item.artisan}</p>
+                <div className="mt-2 font-bold text-[#1F1F1F]">{item.price}</div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -503,8 +515,7 @@ function Footer() {
 
 export default function Guest() {
   return (
-    <div className="min-h-screen my-6 mx-4 md:mx-8 lg:mx-12 bg-[#F7F6F2] text-[#1F1F1F]">
-      <Marquee />
+    <div className="min-h-screen bg-[#F7F6F2] text-[#1F1F1F]">
       <Navbar />
       <Hero />
       <FeaturedPicks />
