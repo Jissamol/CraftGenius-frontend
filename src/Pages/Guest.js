@@ -5,6 +5,7 @@ import { Sparkles, Menu, X, ArrowUpRight } from "lucide-react";
 import { FaInstagram, FaPinterestP } from "react-icons/fa";
 import { ArcGalleryHero } from "../components/ui/arc-gallery-hero-component";
 import Api from "../services/Api";
+import LuxuryFooter from "../Customer/HomeComponents/LuxuryFooter";
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
 
@@ -148,7 +149,7 @@ function Navbar() {
               <Link to="/login" className="text-xs font-semibold uppercase tracking-widest text-gray-600 hover:text-[#1F1F1F] transition-colors">
                 Sign in
               </Link>
-              
+
             </div>
             <button
               className="md:hidden text-[#1F1F1F]"
@@ -165,35 +166,35 @@ function Navbar() {
       {/* Mobile Drawer */}
       <AnimatePresence>
         {open && (
-        <div className="fixed inset-0 z-[60] flex">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="flex-1 bg-black/30"
-            onClick={() => setOpen(false)}
-          />
-          <motion.div
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "tween", duration: 0.25 }}
-            className="w-72 bg-[#F7F6F2] h-full flex flex-col p-8"
-          >
-            <button onClick={() => setOpen(false)} className="mb-10 self-end text-gray-500" aria-label="Close navigation menu">
-              <X className="w-5 h-5" />
-            </button>
-            <nav className="flex flex-col gap-6 text-2xl font-black tracking-tight text-[#1F1F1F]" style={{ fontFamily: "'Georgia', serif" }}>
-              <a href="#featured" className="text-left" onClick={() => setOpen(false)}>Shop</a>
-              <a href="#artisans" className="text-left" onClick={() => setOpen(false)}>Artisans</a>
-              <a href="#about" className="text-left" onClick={() => setOpen(false)}>About</a>
-            </nav>
-            <div className="mt-auto flex flex-col gap-3">
-              <Link to="/login" className="text-center border border-[#1F1F1F] py-3 text-sm font-semibold">Sign In</Link>
-              <Link to="/register" className="text-center bg-[#1F1F1F] text-white py-3 text-sm font-semibold">Join Free</Link>
-            </div>
-          </motion.div>
-        </div>
+          <div className="fixed inset-0 z-[60] flex">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex-1 bg-black/30"
+              onClick={() => setOpen(false)}
+            />
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "tween", duration: 0.25 }}
+              className="w-72 bg-[#F7F6F2] h-full flex flex-col p-8"
+            >
+              <button onClick={() => setOpen(false)} className="mb-10 self-end text-gray-500" aria-label="Close navigation menu">
+                <X className="w-5 h-5" />
+              </button>
+              <nav className="flex flex-col gap-6 text-2xl font-black tracking-tight text-[#1F1F1F]" style={{ fontFamily: "'Georgia', serif" }}>
+                <a href="#featured" className="text-left" onClick={() => setOpen(false)}>Shop</a>
+                <a href="#artisans" className="text-left" onClick={() => setOpen(false)}>Artisans</a>
+                <a href="#about" className="text-left" onClick={() => setOpen(false)}>About</a>
+              </nav>
+              <div className="mt-auto flex flex-col gap-3">
+                <Link to="/login" className="text-center border border-[#1F1F1F] py-3 text-sm font-semibold">Sign In</Link>
+                <Link to="/register" className="text-center bg-[#1F1F1F] text-white py-3 text-sm font-semibold">Join Free</Link>
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </>
@@ -212,9 +213,9 @@ function Hero() {
   return (
     <section className="w-full bg-[#F7F6F2] max-w-screen-2xl mx-auto overflow-hidden">
       <ArcGalleryHero images={existingProductImages}>
-        <motion.div 
-          initial={{ opacity: 0, y: 24 }} 
-          animate={{ opacity: 1, y: 0 }} 
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.5 }}
           className="flex flex-col items-center"
         >
@@ -223,7 +224,7 @@ function Hero() {
             CraftGenius Marketplace
             <span className="w-8 h-[2px] bg-[#6B5A4B]"></span>
           </p>
-          <h1 className="text-[clamp(3rem,6vw,5.5rem)] font-black leading-[1.05] tracking-tight text-[#1F1F1F] mb-6" style={{ fontFamily: "'Georgia', serif" }}>
+          <h1 className="text-[clamp(2.5rem,4.5vw,4rem)] font-black leading-[1.05] tracking-tight text-[#1F1F1F] mb-6" style={{ fontFamily: "'Georgia', serif" }}>
             Discover the Art <br />
             Behind Every <span className="italic font-normal text-[#6B5A4B]">Creation.</span>
           </h1>
@@ -253,7 +254,7 @@ function Hero() {
 
 function FeaturedPicks() {
   return (
-    <section id="featured" className="py-24 px-5 lg:px-10 max-w-screen-2xl mx-auto scroll-mt-20">
+    <section id="featured" className="pt-24 pb-0 px-5 lg:px-10 max-w-screen-2xl mx-auto scroll-mt-20">
       <Reveal className="flex items-baseline justify-between mb-12">
         <div>
           <h2 className="text-3xl font-black text-[#1F1F1F]" style={{ fontFamily: "'Georgia', serif" }}>
@@ -266,72 +267,33 @@ function FeaturedPicks() {
         </Link>
       </Reveal>
 
-      <div className="flex flex-col lg:flex-row gap-6">
-        {/* Main Large Featured Item */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="lg:w-2/3 group cursor-pointer relative overflow-hidden rounded-[2.5rem] shadow-xl border border-gray-100 min-h-[500px] lg:min-h-[700px] flex flex-col justify-end"
-        >
-          <img
-            src={featuredItems[0].image}
-            alt={featuredItems[0].name}
-            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-out"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
-          
-          <div className="relative z-10 p-8 lg:p-12">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#1F1F1F] bg-white px-4 py-2 rounded-full mb-4 inline-block shadow-lg">
-              {featuredItems[0].tag}
-            </span>
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mt-2">
-              <div>
-                <h3 className="text-3xl md:text-5xl font-bold text-white mb-2 leading-tight drop-shadow-md">
-                  {featuredItems[0].name}
-                </h3>
-                <p className="text-white/90 font-medium text-lg flex items-center gap-2 drop-shadow">
-                  <Sparkles className="w-4 h-4 text-yellow-300" />
-                  {featuredItems[0].artisan} <span className="text-white/50">•</span> {featuredItems[0].location}
-                </p>
-              </div>
-              <div className="bg-white/10 backdrop-blur-md border border-white/30 shadow-2xl px-6 py-3 rounded-2xl shrink-0">
-                <span className="text-2xl font-bold text-white drop-shadow-md">{featuredItems[0].price}</span>
-              </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {featuredItems.slice(0, 4).map((item, i) => (
+          <motion.div
+            key={item.id}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: i * 0.1 }}
+            className="group cursor-pointer bg-white rounded-3xl p-4 shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 flex items-center gap-5"
+          >
+            <div className="w-32 h-32 md:w-40 md:h-40 shrink-0 rounded-2xl overflow-hidden bg-gray-100 shadow-inner">
+              <img
+                src={item.image}
+                alt={item.name}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+              />
             </div>
-          </div>
-        </motion.div>
-
-        {/* Right side: List of horizontal cards */}
-        <div className="lg:w-1/3 flex flex-col gap-4">
-          {featuredItems.slice(1).map((item, i) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.15 }}
-              className="group cursor-pointer bg-white rounded-3xl p-3 shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 flex items-center gap-5 flex-1"
-            >
-              <div className="w-28 h-28 md:w-32 md:h-32 shrink-0 rounded-2xl overflow-hidden bg-gray-100 shadow-inner">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                />
-              </div>
-              <div className="flex-1 min-w-0 pr-2">
-                <span className="text-[9px] font-bold uppercase tracking-widest text-[#6B5A4B] bg-[#F7F6F2] px-2 py-1 rounded-full">
-                  {item.tag}
-                </span>
-                <h4 className="text-lg font-bold text-[#1F1F1F] truncate mt-2">{item.name}</h4>
-                <p className="text-sm text-gray-500 font-medium truncate mt-0.5">{item.artisan}</p>
-                <div className="mt-2 font-bold text-[#1F1F1F]">{item.price}</div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+            <div className="flex-1 min-w-0 pr-2">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-[#6B5A4B] bg-[#F7F6F2] px-3 py-1 rounded-full">
+                {item.tag}
+              </span>
+              <h4 className="text-xl font-bold text-[#1F1F1F] truncate mt-3">{item.name}</h4>
+              <p className="text-sm text-gray-500 font-medium truncate mt-1">{item.artisan} • {item.location}</p>
+              <div className="mt-3 font-bold text-lg text-[#1F1F1F]">{item.price}</div>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </section>
   );
@@ -341,7 +303,7 @@ function FeaturedPicks() {
 
 function TextDivider() {
   return (
-    <div className="bg-[#EDE6DC] py-16 px-5 lg:px-10 overflow-hidden">
+    <div className="bg-[#EDE6DC] py-8 px-5 lg:px-10 overflow-hidden">
       <p className="text-center text-2xl md:text-4xl font-black text-[#1F1F1F] leading-snug max-w-3xl mx-auto" style={{ fontFamily: "'Georgia', serif" }}>
         "Supporting a CraftGenius artisan means supporting a <span className="italic font-normal">family, a tradition,</span> and an entire community."
       </p>
@@ -360,17 +322,17 @@ function Categories() {
       .then(res => {
         setDbCategories(res.data.slice(0, 5)); // Show up to 5 categories
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   // Merge API categories with fallback images if API image is missing.
   // If API fails or returns 0, we still fall back to the hardcoded ones.
-  const displayCats = dbCategories.length > 0 
+  const displayCats = dbCategories.length > 0
     ? dbCategories.map((c, i) => ({
-        name: c.name,
-        // use API image if present; else try to match by index to our curated unsplash images
-        image: c.image || (categories[i] ? categories[i].image : "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=700&q=85")
-      }))
+      name: c.name,
+      // use API image if present; else try to match by index to our curated unsplash images
+      image: c.image || (categories[i] ? categories[i].image : "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=700&q=85")
+    }))
     : categories;
 
   return (
@@ -417,13 +379,13 @@ function Categories() {
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
               />
             </div>
-            
+
             {/* Text & Icon Content */}
             <div className="p-6 flex flex-col flex-1">
               <h3 className="text-base lg:text-lg font-bold text-[#1F1F1F] leading-snug mb-3">
                 {cat.name}
               </h3>
-              
+
               <div className="mt-auto flex items-center gap-2 text-[#8A6A55] group-hover:text-[#6B5A4B] transition-colors">
                 <span className="text-[10px] font-bold uppercase tracking-widest">Explore</span>
                 <ArrowUpRight className="w-3 h-3 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -440,11 +402,11 @@ function Categories() {
 
 function ArtisanBanner() {
   return (
-    <section id="artisans" className="w-full bg-[#F7F6F2] py-24 px-5 lg:px-10 scroll-mt-20">
+    <section id="artisans" className="w-full bg-[#F7F6F2] py-12 px-5 lg:px-10 scroll-mt-20">
       <div className="max-w-screen-2xl mx-auto bg-[#EDE6DC] rounded-[3rem] overflow-hidden shadow-sm flex flex-col md:flex-row">
-        
+
         {/* Text */}
-        <div className="flex-1 flex flex-col justify-center px-10 py-16 lg:px-24">
+        <div className="flex-1 flex flex-col justify-center px-10 py-12 lg:px-20">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#6B5A4B] mb-4 flex items-center gap-3">
             <span className="w-8 h-[2px] bg-[#6B5A4B]"></span>
             Artisan Spotlight
@@ -464,11 +426,11 @@ function ArtisanBanner() {
         </div>
 
         {/* Image */}
-        <div className="flex-1 relative min-h-[400px] lg:min-h-[600px] p-6 lg:p-10 flex items-center justify-center">
+        <div className="flex-1 relative min-h-[350px] lg:min-h-[450px] p-6 lg:p-8 flex items-center justify-center">
           <div className="w-full h-full rounded-[2.5rem] overflow-hidden shadow-2xl">
             <img
-              src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=900&q=85"
-              alt="Artisan painting"
+              src="https://images.unsplash.com/photo-1506806732259-39c2d0268443?w=900&q=85"
+              alt="Artisan working on pottery"
               className="w-full h-full object-cover"
             />
           </div>
@@ -481,55 +443,7 @@ function ArtisanBanner() {
 
 // ─── FOOTER ──────────────────────────────────────────────────────────────────
 
-function Footer() {
-  return (
-    <footer id="about" className="bg-[#F7F6F2] border-t border-gray-200 scroll-mt-20">
-      <div className="max-w-screen-2xl mx-auto px-5 lg:px-10 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
-        {/* Brand */}
-        <div className="col-span-2">
-          <div className="flex items-center gap-1.5 mb-4">
-            <Sparkles className="w-4 h-4 text-[#1F1F1F]" />
-            <span className="text-xl font-black tracking-tight text-[#1F1F1F]" style={{ fontFamily: "'Georgia', serif" }}>CraftGenius</span>
-          </div>
-          <p className="text-sm text-gray-500 max-w-xs leading-relaxed mb-6">
-            India's home for authentic handmade goods. Direct from the artisan, to your door.
-          </p>
-          <div className="flex gap-4 text-gray-400">
-            <FaInstagram className="w-5 h-5 hover:text-[#1F1F1F] cursor-pointer transition-colors" />
-            <FaPinterestP className="w-5 h-5 hover:text-[#1F1F1F] cursor-pointer transition-colors" />
-          </div>
-        </div>
 
-        <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">Shop</p>
-          <ul className="space-y-3 text-sm text-gray-600">
-            <li><button className="hover:text-[#1F1F1F] transition-colors">All Products</button></li>
-            <li><button className="hover:text-[#1F1F1F] transition-colors">Artisans</button></li>
-            <li><button className="hover:text-[#1F1F1F] transition-colors">New Arrivals</button></li>
-            <li><button className="hover:text-[#1F1F1F] transition-colors">Gift Cards</button></li>
-          </ul>
-        </div>
-
-        <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">Help</p>
-          <ul className="space-y-3 text-sm text-gray-600">
-            <li><button className="hover:text-[#1F1F1F] transition-colors">About Us</button></li>
-            <li><button className="hover:text-[#1F1F1F] transition-colors">Contact</button></li>
-            <li><button className="hover:text-[#1F1F1F] transition-colors">Shipping Info</button></li>
-            <li><button className="hover:text-[#1F1F1F] transition-colors">Returns</button></li>
-          </ul>
-        </div>
-      </div>
-      <div className="border-t border-gray-200 px-5 lg:px-10 py-6 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-gray-400">
-        <p>© 2026 CraftGenius Pvt. Ltd. — Made in India 🇮🇳</p>
-        <div className="flex gap-6">
-          <button className="hover:text-[#1F1F1F] transition-colors">Privacy</button>
-          <button className="hover:text-[#1F1F1F] transition-colors">Terms</button>
-        </div>
-      </div>
-    </footer>
-  );
-}
 
 // ─── ROOT ─────────────────────────────────────────────────────────────────────
 
@@ -542,7 +456,7 @@ export default function Guest() {
       <TextDivider />
       <Categories />
       <ArtisanBanner />
-      <Footer />
+      <LuxuryFooter />
     </div>
   );
 }
