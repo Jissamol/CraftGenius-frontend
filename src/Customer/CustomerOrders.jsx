@@ -10,6 +10,11 @@ const STATUS_CONFIG = {
   SHIPPED:    { label: 'Shipped',    color: 'bg-purple-50 text-purple-700 border-purple-200', dot: 'bg-purple-400', icon: FiTruck },
   DELIVERED:  { label: 'Delivered',  color: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-400', icon: FiCheck },
   CANCELLED:  { label: 'Cancelled',  color: 'bg-red-50 text-red-600 border-red-200',        dot: 'bg-red-400',    icon: FiAlertCircle },
+  FAILED:     { label: 'Failed Payment', color: 'bg-red-50 text-red-700 border-red-200', dot: 'bg-red-500', icon: FiAlertCircle },
+  REFUNDED:   { label: 'Refunded', color: 'bg-gray-50 text-gray-700 border-gray-200', dot: 'bg-gray-400', icon: FiCheck },
+  RETURN_REQUESTED: { label: 'Return Requested', color: 'bg-orange-50 text-orange-700 border-orange-200', dot: 'bg-orange-400', icon: FiPackage },
+  RETURNED:   { label: 'Returned', color: 'bg-gray-100 text-gray-600 border-gray-300', dot: 'bg-gray-500', icon: FiPackage },
+  DISPUTED:   { label: 'Disputed', color: 'bg-pink-50 text-pink-700 border-pink-200', dot: 'bg-pink-400', icon: FiAlertCircle },
 };
 
 const TABS = [
@@ -19,6 +24,11 @@ const TABS = [
   { value: 'SHIPPED',    label: 'Shipped' },
   { value: 'DELIVERED',  label: 'Delivered' },
   { value: 'CANCELLED',  label: 'Cancelled' },
+  { value: 'FAILED',     label: 'Failed' },
+  { value: 'REFUNDED',   label: 'Refunded' },
+  { value: 'RETURN_REQUESTED', label: 'Returns' },
+  { value: 'RETURNED',   label: 'Returned' },
+  { value: 'DISPUTED',   label: 'Disputed' },
 ];
 
 function StarPicker({ value, onChange }) {
@@ -184,7 +194,7 @@ function CustomerOrders() {
             ))}
           </div>
 
-          {!['SHIPPED', 'DELIVERED', 'CANCELLED'].includes(selected.status) && !reviewForm && (
+          {['PENDING', 'PROCESSING'].includes(selected.status) && !reviewForm && (
             <motion.button
               whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}
               onClick={() => cancelOrder(selected.id)}

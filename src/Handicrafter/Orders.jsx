@@ -55,6 +55,7 @@ function Orders() {
       case 'PENDING': return ['PROCESSING', 'CANCELLED'];
       case 'PROCESSING': return ['SHIPPED', 'CANCELLED'];
       case 'SHIPPED': return ['DELIVERED'];
+      case 'RETURN_REQUESTED': return ['RETURNED', 'DISPUTED'];
       default: return [];
     }
   };
@@ -66,6 +67,11 @@ function Orders() {
       SHIPPED:    { bg: 'bg-purple-50', text: 'text-purple-600', border: 'border-purple-100', icon: Truck },
       DELIVERED:  { bg: 'bg-emerald-50', text: 'text-emerald-600', border: 'border-emerald-100', icon: CheckCircle2 },
       CANCELLED:  { bg: 'bg-red-50', text: 'text-red-500', border: 'border-red-100', icon: X },
+      FAILED:     { bg: 'bg-red-50', text: 'text-red-500', border: 'border-red-100', icon: AlertCircle },
+      REFUNDED:   { bg: 'bg-gray-50', text: 'text-gray-600', border: 'border-gray-200', icon: CheckCircle2 },
+      RETURN_REQUESTED: { bg: 'bg-orange-50', text: 'text-orange-600', border: 'border-orange-200', icon: Package },
+      RETURNED:   { bg: 'bg-gray-100', text: 'text-gray-500', border: 'border-gray-300', icon: Package },
+      DISPUTED:   { bg: 'bg-pink-50', text: 'text-pink-600', border: 'border-pink-200', icon: AlertCircle },
     };
     return map[status] || map.PENDING;
   };
@@ -103,7 +109,7 @@ function Orders() {
 
       {/* ── Status Tabs ── */}
       <div className="flex flex-wrap gap-2">
-        {['', 'PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED'].map(status => (
+        {['', 'PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED', 'FAILED', 'REFUNDED', 'RETURN_REQUESTED', 'RETURNED', 'DISPUTED'].map(status => (
           <button
             key={status}
             onClick={() => setStatusFilter(status)}
@@ -350,6 +356,8 @@ function Orders() {
                         {action === 'SHIPPED' && <Truck size={16} />}
                         {action === 'DELIVERED' && <CheckCircle2 size={16} />}
                         {action === 'CANCELLED' && <X size={16} />}
+                        {action === 'RETURNED' && <Package size={16} />}
+                        {action === 'DISPUTED' && <AlertCircle size={16} />}
                         Mark as {action}
                       </button>
                     ))}

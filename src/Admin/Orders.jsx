@@ -35,7 +35,7 @@ function Orders() {
         }
     };
 
-    const statuses = ['', 'PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED'];
+    const statuses = ['', 'PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED', 'FAILED', 'REFUNDED', 'RETURN_REQUESTED', 'RETURNED', 'DISPUTED'];
 
     return (
         <div>
@@ -133,7 +133,7 @@ function Orders() {
                         <div className="admin-form-group">
                             <label>Status</label>
                             <select className="admin-select" value={newStatus} onChange={e => setNewStatus(e.target.value)}>
-                                {['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED'].map(s => (
+                                {['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED', 'FAILED', 'REFUNDED', 'RETURN_REQUESTED', 'RETURNED', 'DISPUTED'].map(s => (
                                     <option key={s} value={s}>{s}</option>
                                 ))}
                             </select>
