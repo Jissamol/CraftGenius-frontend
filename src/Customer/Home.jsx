@@ -158,7 +158,7 @@ const CustomerHomePage = () => {
         }}
       />
 
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="w-full pb-6">
 
         <div className="w-full bg-white/40 backdrop-blur-3xl rounded-[40px] shadow-[0_20px_60px_rgba(0,0,0,0.02)] border border-white/80 p-4 sm:p-8 relative">
 

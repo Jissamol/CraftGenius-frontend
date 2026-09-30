@@ -108,17 +108,17 @@ function CustomerReviews() {
   return (
     <div className="min-h-[80vh] py-4">
       {/* Page Header */}
-      <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-gray-100 pb-6">
         <div>
-          <h1 className="text-3xl font-bold text-[#1F1F1F] mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <h1 className="text-3xl font-bold text-[#1F1F1F] mb-1">
             My Reviews
           </h1>
-          {/* <p className="text-gray-500">Manage feedback for your purchased items</p> */}
+          <p className="text-gray-500">Manage feedback for your purchased items</p>
         </div>
         {!loading && reviews.length > 0 && (
-          <div className="px-4 py-2 bg-gray-50 rounded-xl border border-gray-100 text-sm font-semibold text-gray-600 inline-flex items-center gap-2">
-            <FiMessageCircle className="text-[#8A6A55]" />
-            {reviews.length} {reviews.length === 1 ? 'Review' : 'Reviews'} Written
+          <div className="px-4 py-2 bg-gray-50 rounded-lg border border-gray-100 text-sm font-medium text-gray-600 inline-flex items-center gap-2">
+            <FiMessageCircle size={16} />
+            {reviews.length} {reviews.length === 1 ? 'Review' : 'Reviews'}
           </div>
         )}
       </div>
@@ -138,17 +138,17 @@ function CustomerReviews() {
           </p>
         </motion.div>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-5 max-w-4xl">
           <AnimatePresence mode="popLayout">
             {reviews.map((review, idx) => (
               <motion.div
                 key={review.id}
                 layout
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.3, delay: idx * 0.05 }}
-                className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-shadow"
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.2, delay: idx * 0.03 }}
+                className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
               >
                 {editing === review.id ? (
                   <motion.div
@@ -164,7 +164,7 @@ function CustomerReviews() {
                         )}
                       </div>
                       <div>
-                        <h4 className="font-bold text-[#1F1F1F] text-lg mb-1">Edit Review</h4>
+                        <h4 className="font-bold text-[#1F1F1F] text-lg mb-0.5">Edit Review</h4>
                         <p className="text-gray-500 text-sm">for {review.product_name}</p>
                       </div>
                     </div>
@@ -181,7 +181,7 @@ function CustomerReviews() {
                         onChange={e => setEditForm(f => ({ ...f, comment: e.target.value }))}
                         rows={4}
                         placeholder="What did you like or dislike about this product?"
-                        className="w-full bg-[#F7F6F2] border border-gray-200 rounded-2xl p-4 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#8A6A55]/30 focus:border-[#8A6A55] transition-all resize-none"
+                        className="w-full bg-white border border-gray-200 rounded-xl p-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#1F1F1F] transition-all resize-none"
                       />
                     </div>
 
@@ -189,13 +189,13 @@ function CustomerReviews() {
                       <button
                         onClick={() => saveEdit(review.id)}
                         disabled={saving}
-                        className="px-6 py-2.5 bg-[#1F1F1F] text-white rounded-xl text-sm font-bold hover:bg-[#333] transition-colors disabled:opacity-50"
+                        className="px-5 py-2.5 bg-[#1F1F1F] text-white rounded-lg text-sm font-semibold hover:bg-[#333] transition-colors disabled:opacity-50"
                       >
                         {saving ? 'Saving...' : 'Save Changes'}
                       </button>
                       <button
                         onClick={() => setEditing(null)}
-                        className="px-6 py-2.5 bg-white border border-gray-200 text-gray-600 rounded-xl text-sm font-semibold hover:bg-gray-50 transition-colors"
+                        className="px-5 py-2.5 bg-white border border-gray-200 text-gray-600 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-colors"
                       >
                         Cancel
                       </button>
@@ -203,52 +203,52 @@ function CustomerReviews() {
                   </motion.div>
                 ) : (
                   <div className="flex flex-col h-full">
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2 border-b border-gray-100 pb-4">
+                    {/* Header: Product Info & Date */}
+                    <div className="flex justify-between items-start mb-4 gap-4">
                       <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 rounded-xl bg-[#F7F6F2] overflow-hidden flex-shrink-0">
+                        <div className="w-14 h-14 rounded-lg bg-[#F7F6F2] overflow-hidden flex-shrink-0 border border-gray-50">
                           {review.product_image ? (
                             <img src={review.product_image} alt="" className="w-full h-full object-cover" />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-2xl">🎨</div>
+                            <div className="w-full h-full flex items-center justify-center text-xl">🎨</div>
                           )}
                         </div>
                         <div>
-                          <h4 className="font-bold text-lg text-[#1F1F1F] mb-1">{review.product_name}</h4>
+                          <h4 className="font-semibold text-lg text-[#1F1F1F] mb-1">{review.product_name}</h4>
                           <StarPicker value={review.rating} />
                         </div>
                       </div>
-                      <span className="text-sm font-medium text-gray-400 bg-gray-50 px-3 py-1 rounded-lg mt-2 sm:mt-0">
-                        {new Date(review.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
+                      <span className="text-sm text-gray-500 whitespace-nowrap">
+                        {new Date(review.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                       </span>
                     </div>
 
-                    <p className="text-gray-700 leading-relaxed mb-6 text-[15px]">
-                      "{review.comment || 'No written feedback provided.'}"
+                    {/* Comment Body */}
+                    <p className="text-gray-700 text-sm leading-relaxed mb-5 whitespace-pre-wrap">
+                      {review.comment || 'No written feedback provided.'}
                     </p>
 
+                    {/* Seller Reply */}
                     {review.seller_reply && (
-                      <div className="mb-6 bg-amber-50/50 border border-amber-100 rounded-2xl p-5 relative">
-                        <div className="absolute top-0 left-6 -translate-y-1/2">
-                          <span className="bg-amber-100 text-amber-800 text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded-md">
-                            Seller Reply
-                          </span>
-                        </div>
-                        <p className="text-sm text-amber-900/80 italic mt-1">
+                      <div className="mb-5 bg-gray-50 border border-gray-100 rounded-xl p-4">
+                        <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">Seller Reply</p>
+                        <p className="text-sm text-gray-700">
                           {review.seller_reply}
                         </p>
                       </div>
                     )}
 
-                    <div className="mt-auto pt-4 border-t border-gray-100 flex gap-3">
+                    {/* Footer Actions */}
+                    <div className="flex gap-4">
                       <button
                         onClick={() => startEdit(review)}
-                        className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-gray-600 hover:bg-gray-100 hover:text-[#1F1F1F] transition-colors"
+                        className="flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-[#1F1F1F] transition-colors"
                       >
                         <FiEdit2 size={14} /> Edit
                       </button>
                       <button
                         onClick={() => deleteReview(review.id)}
-                        className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold text-red-500 hover:bg-red-50 transition-colors"
+                        className="flex items-center gap-1.5 text-sm font-medium text-red-400 hover:text-red-600 transition-colors"
                       >
                         <FiTrash2 size={14} /> Delete
                       </button>
