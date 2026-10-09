@@ -69,7 +69,8 @@ const CustomerHomePage = () => {
         ]);
 
         const trending = shuffle(Array.isArray(trendingProducts) ? trendingProducts : []);
-        const recs = shuffle(Array.isArray(recommendations) ? recommendations : []);
+        // Preserve AI personalized ranking order (do not shuffle)
+        const recs = Array.isArray(recommendations) ? recommendations : [];
 
         // Pick a random product from trending as the hero featured product on each load
         const heroProduct = trending.length > 0
