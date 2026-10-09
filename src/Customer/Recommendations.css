@@ -151,6 +151,37 @@
 
 .cust-rec-card-body {
     padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cust-rec-reason {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 8px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    background: rgba(138, 106, 85, 0.08);
+    border: 1px solid rgba(138, 106, 85, 0.18);
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #8A6A55;
+    line-height: 1.35;
+}
+
+.cust-rec-sparkle {
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.cust-rec-reason-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .cust-rec-card-body h4 {
@@ -173,6 +204,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: auto;
 }
 
 .cust-rec-price {
@@ -191,3 +223,56 @@
     font-size: 14px;
     padding: 40px;
 }
+
+/* Category Interests Tuning Section */
+.cust-rec-interests-bar {
+    margin-bottom: 28px;
+    padding: 18px 22px;
+    border-radius: 18px;
+}
+
+.cust-rec-interests-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cust-rec-interests-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.cust-rec-interest-chip {
+    padding: 7px 16px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 500;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cust-rec-interest-chip:hover {
+    border-color: var(--accent);
+    background: rgba(138, 106, 85, 0.08);
+    transform: translateY(-2px);
+}
+
+.cust-rec-interest-chip.active {
+    background: #8A6A55;
+    color: #ffffff;
+    border-color: #8A6A55;
+    box-shadow: 0 4px 12px rgba(138, 106, 85, 0.25);
+}

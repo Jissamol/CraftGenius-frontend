@@ -12,10 +12,13 @@ const RecommendationSection = ({ recommendations }) => {
     <div className="w-full mb-16 relative">
       <div className="flex flex-col items-center justify-center mb-10 text-center">
         <div className="w-12 h-1 bg-[#1F1F1F] rounded-full mb-6" />
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#8A6A55]/10 text-[#8A6A55] text-xs font-semibold uppercase tracking-wider mb-3">
+          <span>✨</span> Intelligent AI Match
+        </div>
         <h2 className="text-3xl font-bold text-[#1F1F1F] mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
           Chosen For You
         </h2>
-        <p className="text-gray-500 font-medium">Personalized recommendations based on your taste</p>
+        <p className="text-gray-500 font-medium">Personalized recommendations powered by semantic vector matching</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -29,7 +32,7 @@ const RecommendationSection = ({ recommendations }) => {
             className="group relative"
           >
             {/* Card Container */}
-            <div className="w-full bg-[#F7F6F2] rounded-[24px] p-3 shadow-sm border border-white/60 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(0,0,0,0.06)] hover:bg-white overflow-hidden">
+            <div className="w-full bg-[#F7F6F2] rounded-[24px] p-3 shadow-sm border border-white/60 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(0,0,0,0.06)] hover:bg-white overflow-hidden flex flex-col justify-between">
               
               {/* Image Area */}
               <div className="w-full h-48 md:h-56 rounded-[16px] overflow-hidden relative mb-4">
@@ -54,20 +57,29 @@ const RecommendationSection = ({ recommendations }) => {
               </div>
 
               {/* Info Area */}
-              <div className="px-2 pb-2 text-center">
-                <Link to={`/customer/product/${product.id}`}>
-                  <h3 className="text-base font-bold text-[#1F1F1F] mb-1 hover:text-[#8A6A55] transition-colors truncate">
-                    {product.name}
-                  </h3>
-                </Link>
-                <div className="flex items-center justify-center gap-2">
-                  <span className="text-sm font-bold text-[#8A6A55]">₹{parseFloat(product.price).toLocaleString('en-IN')}</span>
-                  <span className="w-1 h-1 bg-gray-300 rounded-full" />
-                  <div className="flex items-center gap-1 text-xs font-semibold text-gray-500">
-                    <FiStar className="fill-yellow-400 text-yellow-400" />
-                    {product.average_rating ? parseFloat(product.average_rating).toFixed(1) : "New"}
+              <div className="px-2 pb-2 text-center flex-1 flex flex-col justify-between">
+                <div>
+                  <Link to={`/customer/product/${product.id}`}>
+                    <h3 className="text-base font-bold text-[#1F1F1F] mb-1 hover:text-[#8A6A55] transition-colors truncate">
+                      {product.name}
+                    </h3>
+                  </Link>
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <span className="text-sm font-bold text-[#8A6A55]">₹{parseFloat(product.price).toLocaleString('en-IN')}</span>
+                    <span className="w-1 h-1 bg-gray-300 rounded-full" />
+                    <div className="flex items-center gap-1 text-xs font-semibold text-gray-500">
+                      <FiStar className="fill-yellow-400 text-yellow-400" />
+                      {product.average_rating ? parseFloat(product.average_rating).toFixed(1) : "New"}
+                    </div>
                   </div>
                 </div>
+
+                {product.recommendation_reason && (
+                  <div className="mt-1 pt-2 border-t border-gray-200/50 flex items-center justify-center gap-1 text-[11px] font-medium text-[#8A6A55] bg-[#8A6A55]/5 py-1 px-2 rounded-lg" title={product.recommendation_reason}>
+                    <span className="text-xs">💡</span>
+                    <span className="truncate">{product.recommendation_reason}</span>
+                  </div>
+                )}
               </div>
 
             </div>
