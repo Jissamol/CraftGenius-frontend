@@ -35,13 +35,18 @@ function Orders() {
     try {
       const payload = { status: newStatus };
       if (trackingNumber) payload.tracking_number = trackingNumber;
+      if (newStatus === 'CANCELLED') {
+        const reason = window.prompt('Enter reason for cancellation:', 'Unable to fulfill / inventory issue');
+        if (reason === null) return;
+        payload.reason = reason;
+      }
       const res = await Api.patch(`orders/${orderId}/status/`, payload);
       setOrders(prev => prev.map(o => (o.id === orderId ? res.data : o)));
-      setSelectedOrder(null);
+      setSelectedOrder(res.data);
       setTrackingNumber('');
       showToast(`Order #${orderId} updated to ${newStatus}`, 'success');
     } catch (err) {
-      showToast('Failed to update order', 'error');
+      showToast(err.response?.data?.detail || 'Failed to update order', 'error');
     }
   };
 
@@ -321,6 +326,40 @@ function Orders() {
                     </div>
                    </div>
                 )}
+
+                {/* Cancellation details */}
+                {selectedOrder.cancellation_reason && (
+                  <div className="p-4 bg-red-50 border border-red-100 rounded-2xl">
+                    <h3 className="text-xs font-bold text-red-600 uppercase tracking-wider mb-1">Cancellation Reason</h3>
+                    <p className="text-xs text-gray-700">{selectedOrder.cancellation_reason}</p>
+                    {selectedOrder.stock_restored && (
+                      <p className="text-[11px] text-emerald-600 font-semibold mt-1">✓ Stock has been restored back to inventory.</p>
+                    )}
+                  </div>
+                )}
+
+                {/* Timeline */}
+                <div>
+                  <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Order History Timeline</h3>
+                  <div className="space-y-2 bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                    {selectedOrder.timeline && selectedOrder.timeline.length > 0 ? (
+                      selectedOrder.timeline.map((evt) => (
+                        <div key={evt.id} className="flex items-start gap-2.5 text-xs">
+                          <span className="w-2 h-2 rounded-full bg-violet-400 mt-1.5 shrink-0" />
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between">
+                              <span className="font-bold text-gray-900">{evt.title}</span>
+                              <span className="text-[10px] text-gray-400">{new Date(evt.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
+                            </div>
+                            {evt.notes && <p className="text-gray-500 text-[11px] mt-0.5">{evt.notes}</p>}
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-xs text-gray-400">Order created on {new Date(selectedOrder.created_at).toLocaleDateString()}.</p>
+                    )}
+                  </div>
+                </div>
               </div>
 
               {/* Status Update Actions */}
