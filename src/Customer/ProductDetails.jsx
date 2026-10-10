@@ -109,7 +109,17 @@ function ProductDetails() {
                 <div className="cust-pd-info">
                     <span className="cust-pd-category">{product.category_name}</span>
                     <h1 className="cust-pd-title">{product.name}</h1>
-                    <p className="cust-pd-seller">by <strong>{product.seller_name}</strong></p>
+                    <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-sm text-gray-500">Crafted by</span>
+                        <button 
+                            type="button"
+                            onClick={() => navigate(`/customer/artisan/${product.seller}`)}
+                            className="inline-flex items-center gap-1.5 text-sm font-bold text-amber-900 hover:text-amber-700 bg-amber-50 hover:bg-amber-100/80 px-2.5 py-1 rounded-full border border-amber-200 transition-colors"
+                        >
+                            <span>{product.seller_name}</span>
+                            <span className="text-[11px] text-amber-800 font-semibold underline">Visit Storefront →</span>
+                        </button>
+                    </div>
                     <div className="cust-pd-meta">
                         <span className="cust-pd-rating">⭐ {product.average_rating || 'No ratings'}</span>
                         <span className="cust-pd-orders">{product.total_orders} sold</span>
@@ -184,9 +194,24 @@ function ProductDetails() {
                         </div>
                     )}
                     {activeTab === 'seller' && (
-                        <div className="cust-pd-seller-info">
-                            <p><strong>Name:</strong> {product.seller_name}</p>
-                            <p><strong>Total Products:</strong> View on marketplace</p>
+                        <div className="cust-pd-seller-info space-y-4">
+                            <div className="p-5 rounded-2xl bg-amber-50/70 border border-amber-200/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                                <div>
+                                    <span className="text-xs font-bold uppercase tracking-wider text-amber-800">Master Artisan</span>
+                                    <h4 className="text-xl font-bold text-gray-900 mt-0.5">{product.seller_name}</h4>
+                                    <p className="text-sm text-gray-600 mt-1">
+                                        Explore this artisan's craft journey, studio workshop photos, materials, and complete collection.
+                                    </p>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => navigate(`/customer/artisan/${product.seller}`)}
+                                    className="px-5 py-2.5 rounded-xl bg-[#2A201C] hover:bg-amber-900 text-white text-sm font-semibold transition-all shadow-md shrink-0 flex items-center gap-2"
+                                >
+                                    <span>Visit Artisan Storefront</span>
+                                    <span>→</span>
+                                </button>
+                            </div>
                         </div>
                     )}
                 </div>

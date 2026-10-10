@@ -48,6 +48,7 @@ import CustomerProfile from './Customer/CustomerProfile';
 import Recommendations from './Customer/Recommendations';
 import PaymentSuccess from './Customer/PaymentSuccess';
 import PaymentCancel from './Customer/PaymentCancel';
+import ArtisanStorefront from './Customer/ArtisanStorefront';
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
             <Route path="/" element={<Guest />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/artisan/:id" element={<ArtisanStorefront />} />
 
             {/* Admin Panel — Protected + Nested Layout */}
             <Route
@@ -124,6 +126,7 @@ function App() {
               <Route path="reviews" element={<CustomerReviews />} />
               <Route path="profile" element={<CustomerProfile />} />
               <Route path="recommendations" element={<Recommendations />} />
+              <Route path="artisan/:id" element={<ArtisanStorefront />} />
               <Route path="payment-success" element={<PaymentSuccess />} />
               <Route path="payment-cancel" element={<PaymentCancel />} />
             </Route>
