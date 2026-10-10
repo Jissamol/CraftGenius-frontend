@@ -4,7 +4,8 @@ import { useTheme } from '../context/ThemeContext';
 import { 
   LayoutDashboard, Palette, PackageSearch, ShoppingCart, 
   Users, Tags, Star, Scale, DollarSign, TrendingUp, 
-  Settings, ChevronLeft, ChevronRight, LogOut, Sun, Moon, Bell 
+  Settings, ChevronLeft, ChevronRight, LogOut, Sun, Moon, Bell,
+  ShieldAlert 
 } from 'lucide-react';
 import './AdminLayout.css';
 
@@ -43,6 +44,7 @@ function AdminLayout() {
         { path: 'reviews', icon: <Star size={20} />, label: 'Reviews' },
         { path: 'disputes', icon: <Scale size={20} />, label: 'Disputes' },
         { path: 'commission', icon: <DollarSign size={20} />, label: 'Commission Control' },
+        { path: 'audit-logs', icon: <ShieldAlert size={20} />, label: 'Audit & Monitoring' },
         { path: 'analytics', icon: <TrendingUp size={20} />, label: 'Analytics' },
         { path: 'settings', icon: <Settings size={20} />, label: 'Settings' },
     ];

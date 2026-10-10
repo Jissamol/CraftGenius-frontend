@@ -18,6 +18,7 @@ import AdminCategories from './Admin/Categories';
 import AdminReviews from './Admin/Reviews';
 import AdminDisputes from './Admin/Disputes';
 import AdminCommission from './Admin/Commission';
+import AdminAuditLogs from './Admin/AuditLogs';
 import AdminAnalytics from './Admin/Analytics';
 import AdminSettings from './Admin/Settings';
 
@@ -81,6 +82,7 @@ function App() {
               <Route path="reviews" element={<AdminReviews />} />
               <Route path="disputes" element={<AdminDisputes />} />
               <Route path="commission" element={<AdminCommission />} />
+              <Route path="audit-logs" element={<AdminAuditLogs />} />
               <Route path="analytics" element={<AdminAnalytics />} />
               <Route path="settings" element={<AdminSettings />} />
             </Route>
