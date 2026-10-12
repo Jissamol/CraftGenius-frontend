@@ -1,0 +1,342 @@
+/* Audit Logs & Platform Monitoring CSS */
+
+.audit-logs-container {
+    padding-bottom: 2rem;
+}
+
+.audit-tabs-nav {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--admin-border);
+    padding-bottom: 0.5rem;
+}
+
+.audit-nav-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--admin-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.audit-nav-tab:hover {
+    color: var(--admin-text);
+    background: var(--admin-primary-light);
+}
+
+.audit-nav-tab.active {
+    color: var(--admin-primary);
+    background: var(--admin-primary-light);
+    border-bottom: 2px solid var(--admin-primary);
+}
+
+/* Health Cards Grid */
+.health-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.health-stat-card {
+    background: var(--admin-surface);
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius);
+    padding: 1.25rem;
+    box-shadow: var(--admin-shadow);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.health-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+}
+
+.health-stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+.health-stat-icon.healthy { background: rgba(39, 174, 96, 0.15); color: #27ae60; }
+.health-stat-icon.degraded { background: rgba(231, 76, 60, 0.15); color: #e74c3c; }
+.health-stat-icon.warning { background: rgba(243, 156, 18, 0.15); color: #f39c12; }
+.health-stat-icon.info { background: rgba(52, 152, 219, 0.15); color: #3498db; }
+.health-stat-icon.purple { background: rgba(142, 68, 173, 0.15); color: #8e44ad; }
+
+.health-stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.health-stat-title {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--admin-text-secondary);
+    font-weight: 600;
+}
+
+.health-stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--admin-text);
+    margin-top: 0.25rem;
+}
+
+.health-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    width: fit-content;
+}
+
+.health-status-badge.healthy {
+    background: rgba(39, 174, 96, 0.15);
+    color: #27ae60;
+}
+
+.health-status-badge.degraded {
+    background: rgba(231, 76, 60, 0.15);
+    color: #e74c3c;
+    animation: pulseDegraded 1.5s infinite;
+}
+
+@keyframes pulseDegraded {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+/* Filter Controls Bar */
+.audit-controls-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.audit-filters-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.audit-filter-select {
+    padding: 0.5rem 0.85rem;
+    border-radius: 8px;
+    border: 1px solid var(--admin-border);
+    background: var(--admin-surface);
+    color: var(--admin-text);
+    font-size: 0.88rem;
+    outline: none;
+    cursor: pointer;
+}
+
+.audit-search-input {
+    padding: 0.55rem 1rem 0.55rem 2.2rem;
+    border-radius: 8px;
+    border: 1px solid var(--admin-border);
+    background: var(--admin-surface);
+    color: var(--admin-text);
+    font-size: 0.88rem;
+    min-width: 260px;
+    outline: none;
+}
+
+.audit-search-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.audit-search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--admin-text-secondary);
+    pointer-events: none;
+}
+
+/* Severity & Action Badges */
+.severity-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.severity-badge.critical {
+    background: rgba(231, 76, 60, 0.2);
+    color: #e74c3c;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+}
+
+.severity-badge.error {
+    background: rgba(230, 126, 34, 0.2);
+    color: #d35400;
+    border: 1px solid rgba(230, 126, 34, 0.3);
+}
+
+.severity-badge.warning {
+    background: rgba(243, 156, 18, 0.2);
+    color: #b7791f;
+    border: 1px solid rgba(243, 156, 18, 0.3);
+}
+
+.severity-badge.info {
+    background: rgba(52, 152, 219, 0.2);
+    color: #2980b9;
+    border: 1px solid rgba(52, 152, 219, 0.3);
+}
+
+.action-type-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.action-type-pill.moderation { background: #ede7f6; color: #5e35b1; }
+.action-type-pill.approval { background: #e8f5e9; color: #2e7d32; }
+.action-type-pill.commission { background: #fff8e1; color: #f57f17; }
+.action-type-pill.dispute { background: #e3f2fd; color: #1565c0; }
+.action-type-pill.payout { background: #e0f2f1; color: #00695c; }
+.action-type-pill.refund { background: #ffebee; color: #c62828; }
+.action-type-pill.other { background: #f5f5f5; color: #616161; }
+
+.admin-layout.dark .action-type-pill.moderation { background: #311b92; color: #d1c4e9; }
+.admin-layout.dark .action-type-pill.approval { background: #1b5e20; color: #c8e6c9; }
+.admin-layout.dark .action-type-pill.commission { background: #4a3800; color: #ffecb3; }
+.admin-layout.dark .action-type-pill.dispute { background: #0d47a1; color: #bbdefb; }
+.admin-layout.dark .action-type-pill.payout { background: #004d40; color: #b2dfdb; }
+.admin-layout.dark .action-type-pill.refund { background: #4a1515; color: #ffcdd2; }
+.admin-layout.dark .action-type-pill.other { background: #373737; color: #e0e0e0; }
+
+.user-avatar-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--admin-primary);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+/* Modals */
+.audit-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+    padding: 1.5rem;
+}
+
+.audit-modal-card {
+    background: var(--admin-surface);
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 650px;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.audit-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--admin-border);
+    padding-bottom: 0.75rem;
+}
+
+.audit-modal-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--admin-text);
+}
+
+.audit-modal-close {
+    background: transparent;
+    border: none;
+    font-size: 1.25rem;
+    color: var(--admin-text-secondary);
+    cursor: pointer;
+}
+
+.audit-json-box {
+    background: #1e1e1e;
+    color: #9cdcfe;
+    border-radius: 8px;
+    padding: 1rem;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.85rem;
+    overflow-x: auto;
+    max-height: 250px;
+}
+
+.audit-detail-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    padding: 0.35rem 0;
+    border-bottom: 1px dashed var(--admin-border);
+}
+
+.audit-detail-label {
+    color: var(--admin-text-secondary);
+    font-weight: 500;
+}
+
+.audit-detail-val {
+    font-weight: 600;
+    color: var(--admin-text);
+}

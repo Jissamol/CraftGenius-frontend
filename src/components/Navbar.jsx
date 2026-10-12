@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
-import { Sun, Moon, Bell, Search, ChevronDown, LogOut, ShoppingCart, Star, Package, User } from 'lucide-react';
+import { Sun, Moon, Search, ChevronDown, LogOut, User } from 'lucide-react';
+import NotificationBell from './NotificationBell';
 
 function Navbar({ onMenuToggle }) {
   const navigate = useNavigate();
   const { darkMode, toggleTheme } = useTheme();
   const userName = localStorage.getItem('name') || 'Handicrafter';
   const [searchFocused, setSearchFocused] = useState(false);
-  const [notifOpen, setNotifOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [searchVal, setSearchVal] = useState('');
 
@@ -19,7 +19,7 @@ function Navbar({ onMenuToggle }) {
 
   // Close dropdowns on outside click
   useEffect(() => {
-    const close = () => { setNotifOpen(false); setProfileOpen(false); };
+    const close = () => { setProfileOpen(false); };
     document.addEventListener('click', close);
     return () => document.removeEventListener('click', close);
   }, []);
@@ -75,52 +75,12 @@ function Navbar({ onMenuToggle }) {
       </button>
 
       {/* Notifications */}
-      <div className="relative" onClick={e => e.stopPropagation()}>
-        <button
-          onClick={() => { setNotifOpen(p => !p); setProfileOpen(false); }}
-          className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors text-gray-500 relative"
-        >
-          <Bell size={16} />
-          {/* Unread dot */}
-          <span className="absolute top-2 right-2 w-2 h-2 bg-[#8A6A55] rounded-full border-2 border-white" />
-        </button>
-
-        {notifOpen && (
-          <div className="absolute right-0 top-12 w-80 bg-white rounded-xl shadow-lg border border-gray-200 z-50 overflow-hidden">
-            <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
-              <span className="text-sm font-semibold text-gray-900">Notifications</span>
-              <span className="text-[10px] bg-[#F3ECE6] text-[#6B5140] font-bold px-2 py-0.5 rounded">2 New</span>
-            </div>
-            <div className="p-2 space-y-1">
-              {[
-                { icon: ShoppingCart, color: 'text-emerald-500', bg: 'bg-emerald-50', text: 'New order received (#1042)', time: 'Just now' },
-                { icon: Star, color: 'text-amber-500', bg: 'bg-amber-50', text: '5-star review on Leather Journal', time: '2 hours ago' },
-                { icon: Package, color: 'text-[#8A6A55]', bg: 'bg-[#F3ECE6]', text: 'Order #1041 marked as shipped', time: '5 hours ago' },
-              ].map((n, i) => (
-                <div key={i} className="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
-                  <div className={`w-8 h-8 rounded flex items-center justify-center flex-shrink-0 ${n.bg}`}>
-                    <n.icon size={14} className={n.color} />
-                  </div>
-                  <div className="flex-1 min-w-0 pt-0.5">
-                    <p className="text-sm text-gray-800 font-medium leading-snug">{n.text}</p>
-                    <p className="text-xs text-gray-500 mt-0.5">{n.time}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="px-4 py-3 border-t border-gray-100 bg-gray-50">
-              <button className="text-xs font-semibold text-[#8A6A55] hover:text-[#6B5140] transition-colors w-full text-center">
-                View all notifications
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
+      <NotificationBell />
 
       {/* Profile avatar dropdown */}
       <div className="relative" onClick={e => e.stopPropagation()}>
         <button
-          onClick={() => { setProfileOpen(p => !p); setNotifOpen(false); }}
+          onClick={() => setProfileOpen(p => !p)}
           className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors"
         >
           <div className="w-7 h-7 rounded bg-[#1F1F1F] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">

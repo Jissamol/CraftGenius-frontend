@@ -18,6 +18,7 @@ import AdminCategories from './Admin/Categories';
 import AdminReviews from './Admin/Reviews';
 import AdminDisputes from './Admin/Disputes';
 import AdminCommission from './Admin/Commission';
+import AdminAuditLogs from './Admin/AuditLogs';
 import AdminAnalytics from './Admin/Analytics';
 import AdminSettings from './Admin/Settings';
 
@@ -48,6 +49,7 @@ import CustomerProfile from './Customer/CustomerProfile';
 import Recommendations from './Customer/Recommendations';
 import PaymentSuccess from './Customer/PaymentSuccess';
 import PaymentCancel from './Customer/PaymentCancel';
+import ArtisanStorefront from './Customer/ArtisanStorefront';
 
 function App() {
   return (
@@ -59,6 +61,7 @@ function App() {
             <Route path="/" element={<Guest />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/artisan/:id" element={<ArtisanStorefront />} />
 
             {/* Admin Panel — Protected + Nested Layout */}
             <Route
@@ -79,6 +82,7 @@ function App() {
               <Route path="reviews" element={<AdminReviews />} />
               <Route path="disputes" element={<AdminDisputes />} />
               <Route path="commission" element={<AdminCommission />} />
+              <Route path="audit-logs" element={<AdminAuditLogs />} />
               <Route path="analytics" element={<AdminAnalytics />} />
               <Route path="settings" element={<AdminSettings />} />
             </Route>
@@ -124,6 +128,7 @@ function App() {
               <Route path="reviews" element={<CustomerReviews />} />
               <Route path="profile" element={<CustomerProfile />} />
               <Route path="recommendations" element={<Recommendations />} />
+              <Route path="artisan/:id" element={<ArtisanStorefront />} />
               <Route path="payment-success" element={<PaymentSuccess />} />
               <Route path="payment-cancel" element={<PaymentCancel />} />
             </Route>

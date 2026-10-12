@@ -132,8 +132,142 @@ function Commission() {
                     </div>
                 )}
             </div>
+
+            {/* Seller Payout Requests & Ledger Reconciliation */}
+            <AdminPayoutSection onPayoutProcessed={fetchData} />
+        </div>
+    );
+}
+
+function AdminPayoutSection({ onPayoutProcessed }) {
+    const [payouts, setPayouts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [processingId, setProcessingId] = useState(null);
+
+    const fetchPayouts = () => {
+        setLoading(true);
+        Api.get('admin/payouts/')
+            .then(res => setPayouts(res.data))
+            .catch(() => {})
+            .finally(() => setLoading(false));
+    };
+
+    useEffect(() => {
+        fetchPayouts();
+    }, []);
+
+    const handleProcess = async (payoutId, action) => {
+        let referenceId = '';
+        let notes = '';
+
+        if (action === 'APPROVE') {
+            referenceId = window.prompt('Enter Bank UTR / Transfer Reference ID (leave blank to auto-generate):', '') || '';
+        } else {
+            notes = window.prompt('Enter reason for rejecting this payout request:', '');
+            if (!notes) return;
+        }
+
+        setProcessingId(payoutId);
+        try {
+            const res = await Api.post(`admin/payouts/${payoutId}/process/`, {
+                action,
+                reference_id: referenceId,
+                notes
+            });
+            alert(res.data.detail || 'Payout updated successfully!');
+            fetchPayouts();
+            if (onPayoutProcessed) onPayoutProcessed();
+        } catch (err) {
+            alert(err.response?.data?.detail || 'Failed to process payout.');
+        } finally {
+            setProcessingId(null);
+        }
+    };
+
+    return (
+        <div className="admin-glass-card" style={{ marginTop: 24 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                <div>
+                    <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700 }}>Seller Payout Disbursements</h3>
+                    <p style={{ margin: '4px 0 0', fontSize: 13, color: 'var(--admin-text-secondary)' }}>
+                        Approve or reject seller payout requests and record them directly in the financial ledger
+                    </p>
+                </div>
+                <button className="admin-btn secondary" onClick={fetchPayouts} disabled={loading} style={{ fontSize: 12 }}>
+                    {loading ? 'Refreshing...' : '🔄 Refresh Payouts'}
+                </button>
+            </div>
+
+            {payouts.length === 0 ? (
+                <p style={{ color: 'var(--admin-text-secondary)', margin: '16px 0' }}>No payout requests found.</p>
+            ) : (
+                <div className="admin-table-wrapper">
+                    <table className="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Seller</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Account Details</th>
+                                <th>Status</th>
+                                <th>Requested</th>
+                                <th>Reference / Notes</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {payouts.map(p => (
+                                <tr key={p.id}>
+                                    <td><strong>{p.seller_name}</strong></td>
+                                    <td><strong style={{ color: '#27ae60' }}>₹{Number(p.amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong></td>
+                                    <td>{p.payout_method_display || p.payout_method}</td>
+                                    <td style={{ fontFamily: 'monospace', fontSize: 12 }}>{p.account_details}</td>
+                                    <td>
+                                        <span className={`admin-badge ${p.status === 'PAID' ? 'active' : p.status === 'REJECTED' ? 'inactive' : 'warning'}`}>
+                                            {p.status_display || p.status}
+                                        </span>
+                                    </td>
+                                    <td style={{ fontSize: 12, color: 'var(--admin-text-secondary)' }}>
+                                        {new Date(p.requested_at).toLocaleDateString()}
+                                    </td>
+                                    <td style={{ fontSize: 12 }}>
+                                        {p.reference_id && <div><strong>Ref:</strong> {p.reference_id}</div>}
+                                        {p.notes && <div style={{ color: 'var(--admin-text-secondary)' }}>{p.notes}</div>}
+                                        {!p.reference_id && !p.notes && <span style={{ color: 'var(--admin-text-secondary)' }}>—</span>}
+                                    </td>
+                                    <td>
+                                        {p.status === 'PENDING' ? (
+                                            <div style={{ display: 'flex', gap: 6 }}>
+                                                <button
+                                                    className="admin-btn primary"
+                                                    style={{ padding: '4px 10px', fontSize: 11, background: '#27ae60' }}
+                                                    onClick={() => handleProcess(p.id, 'APPROVE')}
+                                                    disabled={processingId === p.id}
+                                                >
+                                                    {processingId === p.id ? '...' : 'Approve & Pay'}
+                                                </button>
+                                                <button
+                                                    className="admin-btn danger"
+                                                    style={{ padding: '4px 10px', fontSize: 11 }}
+                                                    onClick={() => handleProcess(p.id, 'REJECT')}
+                                                    disabled={processingId === p.id}
+                                                >
+                                                    Reject
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <span style={{ fontSize: 12, color: 'var(--admin-text-secondary)' }}>Reconciled</span>
+                                        )}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
         </div>
     );
 }
 
 export default Commission;
+

@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FiSearch, FiShoppingCart, FiLogOut } from 'react-icons/fi';
 import { Link, useNavigate } from 'react-router-dom';
+import NotificationBell from '../../components/NotificationBell';
 
 const HomeNavbar = ({ cartCount }) => {
   const navigate = useNavigate();
@@ -71,6 +72,8 @@ const HomeNavbar = ({ cartCount }) => {
               </span>
             )}
           </Link>
+
+          <NotificationBell />
 
           <div className="w-px h-6 bg-gray-200 mx-1 hidden sm:block" />
 
