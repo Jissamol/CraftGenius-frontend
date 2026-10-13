@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Api from '../services/Api';
+import './Orders.css';
 
 function Orders() {
     const [viewTab, setViewTab] = useState('orders'); // 'orders' | 'refunds'
@@ -154,7 +155,7 @@ function Orders() {
     const pendingRefundCount = refundRequests.filter(r => r.status === 'PENDING').length;
 
     return (
-        <div style={{ paddingBottom: 40 }}>
+        <div className="admin-orders-page">
             <div className="admin-dashboard-header">
                 <div>
                     <h1>Order & Refund Management</h1>
@@ -175,7 +176,7 @@ function Orders() {
             </div>
 
             {/* View Mode Tabs */}
-            <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
+            <div className="admin-orders-tabs">
                 <button
                     className={`admin-btn ${viewTab === 'orders' ? 'primary' : 'outline'}`}
                     onClick={() => { setViewTab('orders'); setFilter(''); }}
@@ -199,136 +200,122 @@ function Orders() {
             {/* ════════════════ ORDERS VIEW ════════════════ */}
             {viewTab === 'orders' && (
                 <>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginBottom: 16 }}>
-                        <div className="admin-filter-tabs" style={{ marginBottom: 0 }}>
-                            {statuses.map(s => (
-                                <button
-                                    key={s}
-                                    className={`admin-filter-tab ${filter === s ? 'active' : ''}`}
-                                    onClick={() => setFilter(s)}
-                                >
-                                    {s ? s.replace('_', ' ') : 'All Orders'}
-                                </button>
-                            ))}
-                        </div>
-
+                    <div className="admin-orders-toolbar">
+                        <label className="admin-orders-filter">
+                            <span>Status</span>
+                            <select value={filter} onChange={e => setFilter(e.target.value)}>
+                                {statuses.map(s => (
+                                    <option key={s} value={s}>
+                                        {s ? s.replaceAll('_', ' ') : 'All orders'}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
                         <input
+                            className="admin-orders-search"
                             type="text"
                             placeholder="Search orders, customers, items..."
                             value={search}
                             onChange={e => setSearch(e.target.value)}
-                            style={{
-                                padding: '8px 14px',
-                                borderRadius: 10,
-                                border: '1px solid var(--admin-border)',
-                                background: 'var(--admin-surface)',
-                                color: 'var(--admin-text)',
-                                fontSize: 13,
-                                minWidth: 240
-                            }}
                         />
                     </div>
 
-                    <div className="admin-glass-card">
+                    <div className="admin-orders-results">
+                        <p className="admin-orders-result-count">
+                            {loading ? 'Loading orders…' : `${filteredOrders.length} ${filteredOrders.length === 1 ? 'order' : 'orders'}`}
+                        </p>
                         {loading ? (
-                            <div className="admin-loading">Loading orders...</div>
+                            <div className="admin-orders-empty">Loading orders…</div>
                         ) : filteredOrders.length === 0 ? (
-                            <div className="admin-loading">No orders matching current filter.</div>
+                            <div className="admin-orders-empty">No orders match these filters.</div>
                         ) : (
-                            <div className="admin-table-wrapper">
-                                <table className="admin-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Order #</th>
-                                            <th>Product</th>
-                                            <th>Customer</th>
-                                            <th>Seller</th>
-                                            <th>Qty</th>
-                                            <th>Amount</th>
-                                            <th>Status</th>
-                                            <th>Stock / Payment</th>
-                                            <th>Date</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {filteredOrders.map(o => (
-                                            <tr key={o.id}>
-                                                <td><strong>#{o.id}</strong></td>
-                                                <td>
-                                                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                                                        {o.product_image ? (
-                                                            <img src={o.product_image} alt="" style={{ width: 40, height: 40, borderRadius: 8, objectFit: 'cover' }} />
-                                                        ) : (
-                                                            <div style={{ width: 40, height: 40, borderRadius: 8, background: '#f0ece6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>🎨</div>
-                                                        )}
-                                                        <div>
-                                                            <div style={{ fontWeight: 600 }}>{o.product_name}</div>
-                                                            {o.tracking_number && <small style={{ color: 'var(--admin-primary)' }}>Trk: {o.tracking_number}</small>}
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>{o.customer_name}</div>
-                                                    <small style={{ color: 'var(--admin-text-secondary)' }}>{o.customer_email}</small>
-                                                </td>
-                                                <td>{o.seller_name}</td>
-                                                <td>{o.quantity}</td>
-                                                <td style={{ fontWeight: 700 }}>₹{parseFloat(o.total_amount).toLocaleString('en-IN')}</td>
-                                                <td>
-                                                    <span className={`admin-badge ${o.status.toLowerCase().replace('_', '-')}`}>
-                                                        {o.status.replace('_', ' ')}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                                                        <span style={{ fontSize: 11, fontWeight: 700, color: o.is_paid ? '#16a34a' : '#d97706' }}>
-                                                            {o.is_paid ? '● Paid' : '○ Pending'}
-                                                        </span>
-                                                        {o.stock_restored && (
-                                                            <span style={{ fontSize: 10, color: '#64748b' }}>Restored</span>
-                                                        )}
-                                                    </div>
-                                                </td>
-                                                <td>{new Date(o.created_at).toLocaleDateString()}</td>
-                                                <td>
-                                                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                                                        <button
-                                                            className="admin-btn outline sm"
-                                                            onClick={() => setTimelineOrder(o)}
-                                                            title="View order history & reconciliation"
-                                                        >
-                                                            Timeline
-                                                        </button>
-                                                        <button
-                                                            className="admin-btn outline sm"
-                                                            onClick={() => {
-                                                                setStatusOrder(o);
-                                                                setNewStatus(o.status);
-                                                                setStatusNotes('');
-                                                            }}
-                                                        >
-                                                            Status
-                                                        </button>
-                                                        {o.is_paid && o.status !== 'REFUNDED' && (
-                                                            <button
-                                                                className="admin-btn danger sm"
-                                                                onClick={() => {
-                                                                    setDirectRefundOrder(o);
-                                                                    setRefundAmount(o.total_amount);
-                                                                    setRestoreStockDirect(true);
-                                                                    setRefundNotes('');
-                                                                }}
-                                                            >
-                                                                Refund
-                                                            </button>
-                                                        )}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                            <div className="admin-order-list">
+                                {filteredOrders.map(o => (
+                                    <article className="admin-order-card" key={o.id}>
+                                        <div className="admin-order-card-top">
+                                            <div className="admin-order-product">
+                                                {o.product_image ? (
+                                                    <img src={o.product_image} alt="" />
+                                                ) : (
+                                                    <div className="admin-order-image-placeholder" aria-hidden="true">🎨</div>
+                                                )}
+                                                <div className="admin-order-product-copy">
+                                                    <div className="admin-order-eyebrow">Order #{o.id}</div>
+                                                    <h2>{o.product_name}</h2>
+                                                    {o.tracking_number && (
+                                                        <span className="admin-order-tracking">Tracking: {o.tracking_number}</span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className="admin-order-summary">
+                                                <span className={`admin-badge ${o.status.toLowerCase().replace('_', '-')}`}>
+                                                    {o.status.replaceAll('_', ' ')}
+                                                </span>
+                                                <strong>₹{parseFloat(o.total_amount).toLocaleString('en-IN')}</strong>
+                                            </div>
+                                        </div>
+
+                                        <div className="admin-order-details">
+                                            <div>
+                                                <span>Customer</span>
+                                                <strong>{o.customer_name || '—'}</strong>
+                                                <small>{o.customer_email}</small>
+                                            </div>
+                                            <div>
+                                                <span>Seller</span>
+                                                <strong>{o.seller_name || '—'}</strong>
+                                            </div>
+                                            <div>
+                                                <span>Quantity</span>
+                                                <strong>{o.quantity}</strong>
+                                            </div>
+                                            <div>
+                                                <span>Payment</span>
+                                                <strong className={o.is_paid ? 'is-paid' : 'is-unpaid'}>
+                                                    {o.is_paid ? 'Paid' : 'Pending'}
+                                                </strong>
+                                                {o.stock_restored && <small>Stock restored</small>}
+                                            </div>
+                                            <div>
+                                                <span>Order date</span>
+                                                <strong>{new Date(o.created_at).toLocaleDateString()}</strong>
+                                            </div>
+                                        </div>
+
+                                        <div className="admin-order-actions">
+                                            <button
+                                                className="admin-btn outline sm"
+                                                onClick={() => setTimelineOrder(o)}
+                                                title="View order history and reconciliation"
+                                            >
+                                                View timeline
+                                            </button>
+                                            <button
+                                                className="admin-btn outline sm"
+                                                onClick={() => {
+                                                    setStatusOrder(o);
+                                                    setNewStatus(o.status);
+                                                    setStatusNotes('');
+                                                }}
+                                            >
+                                                Update status
+                                            </button>
+                                            {o.is_paid && o.status !== 'REFUNDED' && (
+                                                <button
+                                                    className="admin-btn danger sm"
+                                                    onClick={() => {
+                                                        setDirectRefundOrder(o);
+                                                        setRefundAmount(o.total_amount);
+                                                        setRestoreStockDirect(true);
+                                                        setRefundNotes('');
+                                                    }}
+                                                >
+                                                    Issue refund
+                                                </button>
+                                            )}
+                                        </div>
+                                    </article>
+                                ))}
                             </div>
                         )}
                     </div>
