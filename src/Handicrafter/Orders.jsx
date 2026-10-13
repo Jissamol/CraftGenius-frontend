@@ -156,7 +156,6 @@ function Orders() {
             <table className="w-full text-sm text-left">
               <thead>
                 <tr className="border-b border-gray-50 bg-gray-50/50">
-                  <th className="px-6 py-4 text-[11px] font-semibold text-gray-400 uppercase tracking-wide whitespace-nowrap">Order ID</th>
                   <th className="px-6 py-4 text-[11px] font-semibold text-gray-400 uppercase tracking-wide whitespace-nowrap">Customer</th>
                   <th className="px-6 py-4 text-[11px] font-semibold text-gray-400 uppercase tracking-wide whitespace-nowrap">Product</th>
                   <th className="px-6 py-4 text-[11px] font-semibold text-gray-400 uppercase tracking-wide whitespace-nowrap">Qty</th>
@@ -172,9 +171,6 @@ function Orders() {
                   const Icon = s.icon;
                   return (
                     <tr key={order.id} className="hover:bg-gray-50/50 transition-colors group">
-                      <td className="px-6 py-4 font-bold text-violet-600">
-                        #{String(order.id).padStart(4, '0')}
-                      </td>
                       <td className="px-6 py-4">
                         <p className="font-semibold text-gray-900">{order.customer_name || '—'}</p>
                         <p className="text-xs text-gray-400">{order.customer_email || '—'}</p>
@@ -228,22 +224,22 @@ function Orders() {
       {/* ── Order Detail Modal ── */}
       <AnimatePresence>
         {selectedOrder && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50"
-              onClick={() => setSelectedOrder(null)}
-            />
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+            onClick={() => setSelectedOrder(null)}
+          >
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white rounded-3xl shadow-2xl z-50 overflow-hidden flex flex-col max-h-[90vh]"
+              className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+              onClick={e => e.stopPropagation()}
             >
               <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
                 <div>
                   <h2 className="text-xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
-                    Order #{String(selectedOrder.id).padStart(4, '0')}
+                    {selectedOrder.product_name}
                   </h2>
                   <p className="text-xs text-gray-400 mt-1">
                     Placed on {new Date(selectedOrder.created_at).toLocaleString()}
@@ -404,7 +400,7 @@ function Orders() {
                 </div>
               )}
             </motion.div>
-          </>
+          </motion.div>
         )}
       </AnimatePresence>
 
