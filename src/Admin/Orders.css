@@ -1,0 +1,300 @@
+.admin-orders-page {
+    padding-bottom: 40px;
+    min-width: 0;
+}
+
+.admin-orders-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 0 20px;
+}
+
+.admin-orders-toolbar {
+    display: flex;
+    align-items: end;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 16px;
+    margin-bottom: 18px;
+    border: 1px solid var(--admin-border);
+    border-radius: var(--admin-radius);
+    background: var(--admin-surface);
+}
+
+.admin-orders-filter {
+    display: grid;
+    gap: 6px;
+    min-width: 190px;
+    color: var(--admin-text-secondary);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.admin-orders-filter select,
+.admin-orders-search {
+    min-height: 42px;
+    border: 1px solid var(--admin-border);
+    border-radius: 9px;
+    background: var(--admin-surface);
+    color: var(--admin-text);
+    font: inherit;
+    font-size: 14px;
+}
+
+.admin-orders-filter select {
+    padding: 0 34px 0 12px;
+}
+
+.admin-orders-search {
+    flex: 1;
+    min-width: min(260px, 100%);
+    padding: 0 14px;
+}
+
+.admin-orders-filter select:focus,
+.admin-orders-search:focus {
+    outline: 2px solid color-mix(in srgb, var(--admin-primary) 30%, transparent);
+    border-color: var(--admin-primary);
+}
+
+.admin-orders-results {
+    min-width: 0;
+}
+
+.admin-orders-result-count {
+    margin: 0 0 10px;
+    color: var(--admin-text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.admin-order-list {
+    display: grid;
+    gap: 14px;
+}
+
+.admin-order-card {
+    min-width: 0;
+    padding: 20px 22px 16px;
+    border: 1px solid var(--admin-border);
+    border-radius: 14px;
+    background: var(--admin-surface);
+    box-shadow: var(--admin-shadow);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-order-card:hover {
+    border-color: color-mix(in srgb, var(--admin-primary) 45%, var(--admin-border));
+    box-shadow: 0 10px 28px rgba(52, 43, 35, 0.09);
+}
+
+.admin-order-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-order-product {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.admin-order-product > img,
+.admin-order-image-placeholder {
+    width: 58px;
+    height: 58px;
+    flex: 0 0 58px;
+    border-radius: 11px;
+    object-fit: cover;
+    background: var(--admin-primary-light);
+}
+
+.admin-order-image-placeholder {
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+}
+
+.admin-order-product-copy {
+    min-width: 0;
+}
+
+.admin-order-eyebrow {
+    margin-bottom: 4px;
+    color: var(--admin-text-secondary);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.admin-order-product h2 {
+    overflow: hidden;
+    margin: 0;
+    color: var(--admin-text);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-overflow: ellipsis;
+}
+
+.admin-order-tracking {
+    display: block;
+    margin-top: 4px;
+    color: var(--admin-primary);
+    font-size: 12px;
+}
+
+.admin-order-summary {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.admin-order-summary > strong {
+    color: var(--admin-text);
+    font-size: 18px;
+    white-space: nowrap;
+}
+
+.admin-order-details {
+    display: grid;
+    grid-template-columns: minmax(180px, 1.5fr) repeat(4, minmax(90px, 1fr));
+    gap: 16px;
+    padding: 17px 0;
+}
+
+.admin-order-details > div {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.admin-order-details > div > span {
+    color: var(--admin-text-secondary);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.admin-order-details strong {
+    overflow: hidden;
+    color: var(--admin-text);
+    font-size: 13px;
+    font-weight: 650;
+    text-overflow: ellipsis;
+}
+
+.admin-order-details small {
+    overflow: hidden;
+    color: var(--admin-text-secondary);
+    font-size: 12px;
+    text-overflow: ellipsis;
+}
+
+.admin-order-details .is-paid {
+    color: #16834c;
+}
+
+.admin-order-details .is-unpaid {
+    color: #b7791f;
+}
+
+.admin-order-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 13px;
+    border-top: 1px solid var(--admin-border);
+}
+
+.admin-orders-empty {
+    display: grid;
+    min-height: 150px;
+    place-items: center;
+    padding: 24px;
+    border: 1px dashed var(--admin-border);
+    border-radius: 14px;
+    color: var(--admin-text-secondary);
+    text-align: center;
+}
+
+@media (max-width: 1000px) {
+    .admin-order-details {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .admin-orders-toolbar {
+        align-items: stretch;
+        padding: 13px;
+    }
+
+    .admin-orders-filter,
+    .admin-orders-search {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .admin-order-card {
+        padding: 15px;
+    }
+
+    .admin-order-card-top {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .admin-order-product {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .admin-order-product > img,
+    .admin-order-image-placeholder {
+        width: 46px;
+        height: 46px;
+        flex-basis: 46px;
+    }
+
+    .admin-order-product h2 {
+        font-size: 14px;
+        white-space: normal;
+    }
+
+    .admin-order-summary > strong {
+        font-size: 15px;
+    }
+
+    .admin-order-summary .admin-badge {
+        max-width: 110px;
+        padding: 4px 7px;
+        font-size: 10px;
+        text-align: center;
+    }
+
+    .admin-order-details {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px 10px;
+    }
+
+    .admin-order-details > div:first-child {
+        grid-column: 1 / -1;
+    }
+
+    .admin-order-actions > button {
+        flex: 1 1 auto;
+        justify-content: center;
+    }
+}
