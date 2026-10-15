@@ -67,6 +67,45 @@ function NotificationBell() {
         if (notification.url) navigate(notification.url);
     };
 
+    const getDisplayTitle = (notification) => {
+        if (!notification) return '';
+        const title = notification.title || '';
+        const message = notification.message || '';
+
+        if (/^order\s*#\d+/i.test(title)) {
+            let productName = '';
+            const matchFor = message.match(/order for\s+(?:the\s+)?(.+?)\s+(?:is now|has been|was|is)\b/i);
+            const matchOf = message.match(/order of\s+(?:the\s+)?(.+?)(?:\.|$)/i);
+            const matchQty = message.match(/Order\s*#\d+:\s*(?:\d+\s*x\s*)?(.+?)(?:\.|$)/i);
+
+            if (matchFor && matchFor[1]) {
+                productName = matchFor[1].trim();
+            } else if (matchOf && matchOf[1]) {
+                productName = matchOf[1].trim();
+            } else if (matchQty && matchQty[1]) {
+                productName = matchQty[1].trim();
+            }
+
+            const actionMatch = title.match(/^order\s*#\d+\s*(.*)$/i);
+            const action = actionMatch && actionMatch[1] ? actionMatch[1].trim() : '';
+
+            if (productName) {
+                return action ? `${productName} ${action}` : productName;
+            }
+
+            if (action) {
+                return action.charAt(0).toUpperCase() + action.slice(1);
+            }
+        }
+
+        return title;
+    };
+
+    const getDisplayMessage = (notification) => {
+        if (!notification?.message) return '';
+        return notification.message.replace(/^Order\s*#\d+:\s*/i, '');
+    };
+
     return (
         <div className="relative" ref={containerRef}>
             <button
@@ -119,8 +158,8 @@ function NotificationBell() {
                                 <span className="flex items-start gap-2">
                                     {!notification.is_read && <span className="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-[#8A6A55]" />}
                                     <span className="min-w-0 flex-1">
-                                        <span className="block text-sm font-semibold text-gray-900">{notification.title}</span>
-                                        <span className="mt-1 block text-xs leading-relaxed text-gray-600">{notification.message}</span>
+                                        <span className="block text-sm font-semibold text-gray-900">{getDisplayTitle(notification)}</span>
+                                        <span className="mt-1 block text-xs leading-relaxed text-gray-600">{getDisplayMessage(notification)}</span>
                                         <time className="mt-1 block text-[11px] text-gray-400">
                                             {new Date(notification.created_at).toLocaleString()}
                                         </time>

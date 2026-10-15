@@ -381,7 +381,7 @@ function CustomerOrders() {
                 )}
               </div>
               <h2 className="font-bold text-[#1F1F1F] text-lg sm:text-xl truncate">{selected.product_name}</h2>
-              <p className="text-gray-400 text-xs font-semibold">Order #{selected.id} • {selected.seller_name || 'Handicrafter'}</p>
+              <p className="text-gray-400 text-xs font-semibold">{selected.seller_name || 'Handicrafter'}</p>
             </div>
           </div>
           {isModal && (
@@ -615,7 +615,6 @@ function CustomerOrders() {
                         <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border tracking-wider uppercase ${cfg.color}`}>
                           {cfg.label}
                         </span>
-                        <span className="text-[11px] text-gray-400 font-bold uppercase">#{order.id}</span>
                       </div>
                       <h3 className="font-bold text-[#1F1F1F] text-base truncate mb-1">
                         {order.product_name}
@@ -683,7 +682,7 @@ function CustomerOrders() {
                     <FiAlertCircle size={20} />
                   </div>
                   <div>
-                    <h3 className="font-bold text-[#1F1F1F] text-base">Cancel Order #{cancelModalOrder.id}</h3>
+                    <h3 className="font-bold text-[#1F1F1F] text-base">Cancel Order</h3>
                     <p className="text-gray-400 text-xs">Confirm your cancellation request</p>
                   </div>
                 </div>
@@ -763,7 +762,7 @@ function CustomerOrders() {
                   </div>
                   <div>
                     <h3 className="font-bold text-[#1F1F1F] text-base">Request Refund / Return</h3>
-                    <p className="text-gray-400 text-xs">Order #{refundModalOrder.id} • {refundModalOrder.product_name}</p>
+                    <p className="text-gray-400 text-xs">{refundModalOrder.product_name}</p>
                   </div>
                 </div>
                 <button onClick={() => setRefundModalOrder(null)} className="text-gray-400 hover:text-gray-600">
